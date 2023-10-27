@@ -14,6 +14,10 @@ def view_list():
 def reg_item():
     return render_template("reg_item.html")
 
+@application.route("/mypage")
+def mypage():
+    return render_template("mypage.html")
+
 @application.route("/submit_item")
 def reg_item_submit():
     userId=request.args.get("userId")
