@@ -56,6 +56,12 @@ keywordInputs.forEach((input) => {
   input.addEventListener("change", updateKeywordColors);
 });
 
+//뒤로가기
+document.querySelector("header a").addEventListener("click", function (event) {
+  event.preventDefault(); // 기본 동작(링크로 이동) 방지
+  history.back(); // 이전 페이지로 이동
+});
+
 // 초기 색상 설정
 updateStarColors();
 updateKeywordColors();
