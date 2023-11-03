@@ -9,7 +9,8 @@
 @import "components/img_btn_style.css";
 
 /*Screens*/
-@import "screens/reg_item_style.css";
+@import "screens/reg_item_style.css"; /*반드시 reg_item_style.css 파일이 reg_review_style.css 파일 보다 먼저와야 한다.*/
+@import "screens/reg_review_style.css";
 
 
 body{

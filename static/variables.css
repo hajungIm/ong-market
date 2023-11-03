@@ -1,6 +1,9 @@
 :root {
     --black : #242424;
-    --button-box-shadow:0px 5px 5px 0px rgba(48, 48, 48, 0.20);
     --light-gray : #F5F5F5;
     --gray: #808080;
+    --black-3 : #606060;
+    --star-red: #BF190E;
+    --button-box-shadow:0px 5px 5px 0px rgba(48, 48, 48, 0.20);
+    --review-item-box-shadow: 0px 3px 5px 0px rgba(138, 149, 158, 0.30);
 }

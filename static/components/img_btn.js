@@ -1,3 +1,5 @@
+//코드 수정해야 함
+/*
 const fileInput = document.getElementById("imageInput");
 const imagePreviews = document.getElementById("imagePreviews");
 const imagecnt = document.getElementById("upload-container__cnt");
@@ -20,3 +22,6 @@ function previewImages() {
 }
 
 fileInput.addEventListener("change", previewImages);
+
+
+*/
