@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>리뷰 상세 화면</title>
-    <link rel="stylesheet" href="../static/review_detail.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='review_detail.css') }}">
 
     <!--아이콘 집어넣기 위한 코드-->
     <script src="https://kit.fontawesome.com/a1969e7b61.js" crossorigin="anonymous"></script>
@@ -21,7 +21,7 @@
     </script>
     
     <div id="item">
-        <img src="../images/table.png" alt="item image" width="110px" style="float:left">
+        <img src="../static/images/table.png" alt="item image" width="110px" style="float:left">
         <p class="item" style="line-height: 210%;">
             <span style="font-weight:bold; color:rgb(110, 109, 109);">원형 테이블<br></span>
             <span style="font-weight: bold; font-size:18px;">40,000원<br></span>
@@ -38,7 +38,7 @@
     <br>
     <div>
         <button id="left" class="btn" type="button" onclick="">&lt;</button>
-        <img src="../images/table_detail.png" width="342px">
+        <img src="../static/images/table_detail.png" width="342px">
         <button id="right" class="btn" type="button" onclick="">&gt;</button>
     </div>
 
