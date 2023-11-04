@@ -4,7 +4,6 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Home</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
         
     </head>
     <body>
@@ -12,9 +11,18 @@
         <nav class="navbar">
             <div class="navbar__logo"></div>
             <ul class="navbar__menu">
-                <li><a href="/list">List</a></li>
-                <li><a href="/reg_item">Register Items</a></li>
-                <li><a href="/mypage">My Page</a></li>
+                <li><a href="/find_id">find_id</a></li>
+                <li><a href="/find_id_success">find_id_success</a></li>
+                <li><a href="/find_id_fail">find_id_fail</a></li>
+                <li><a href="/find_password">find_password</a></li>
+                <li><a href="/find_password_success">find_password_success</a></li>
+                <li><a href="/find_password_fail">find_password_fail</a></li>
+                <li><a href="/item_detail">item_detail</a></li>
+                <li><a href="/login"></a>login</li>
+                <li><a href="/mem_register">mem_register</a></li>
+                <li><a href="/review_detail">review_detail</a></li>
+                <li><a href="/student_check">student_check</a></li>
+                <li><a href="/student_check_fail">student_check_fail</a></li>
             </ul>
             <a href="#" class="navbar__toogleBtn">
                 <i class="fas fa-bars"></i>
@@ -22,7 +30,7 @@
         </nav>
         <section>
             {% block section %} 
-               수정중입니다
+               
             {% endblock section %}
         </section>
     </body>
