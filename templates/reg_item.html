@@ -11,70 +11,109 @@
   </head>
   <body>
     <header class="base_header">
-        <a href="/" class="base_header__icon">
-          <i class="fa-solid fa-chevron-left fa-xl" style="color: #242424"></i>
-        </a>
-        <div>
-          <h2 class="base_header__title"> 상품 등록</h2>
-        </div>
-        <div class="base_header__icon">
-          <!--레이아웃 배치용-->
-        </div>
-      </header>
+      <a href="/" class="base_header__icon">
+        <i class="fa-solid fa-chevron-left fa-xl" style="color: #242424"></i>
+      </a>
+      <div>
+        <h2 class="base_header__title">상품 등록</h2>
+      </div>
+      <div class="base_header__icon">
+        <!--레이아웃 배치용-->
+      </div>
+    </header>
 
     <form class="reg_item_form" action="/submit_item_post" method="post">
-        <div class="reg_item_form__section">
-            <label class="reg_item-form__label" for="userId">아이디</label>
-            <input class="reg_item-form__input" id="userId" name="userId" type="text" value="사용자 아이디(자동입력)" readonly/>
+      <div class="reg_item_form__section">
+        <label class="reg_item-form__label" for="userId">아이디</label>
+        <input
+          class="reg_item-form__input"
+          id="userId"
+          name="userId"
+          type="text"
+          value="사용자 아이디(자동입력)"
+          readonly
+        />
+      </div>
+      <div class="reg_item_form__section">
+        <label class="reg_item-form__label" for="itemName">상품 이름</label>
+        <input
+          class="reg_item-form__input"
+          id="itemName"
+          name="itemName"
+          type="text"
+          required
+          placeholder="상품 이름을 입력해주세요."
+        />
+      </div>
+      <div class="reg_item_form__section">
+        <label class="reg_item-form__label" for="price">₩ 가격</label>
+        <input
+          class="reg_item-form__input"
+          id="price"
+          name="price"
+          type="text"
+          required
+          placeholder="가격을 입력해주세요."
+        />
+      </div>
+      <div class="reg_item_form__section">
+        <p class="reg_item-form__label">상태</p>
+        <div class="reg_item-form__radio">
+          <input id="good" type="radio" name="status" value="good" required />
+          <label for="good">좋음</label>
         </div>
-        <div class="reg_item_form__section">
-            <label class="reg_item-form__label" for="itemName">상품 이름</label>
-            <input class="reg_item-form__input" id="itemName" name="itemName" type="text" required placeholder="상품 이름을 입력해주세요." />
+        <div class="reg_item-form__radio">
+          <input
+            id="common"
+            type="radio"
+            name="status"
+            value="common"
+            required
+          />
+          <label for="common">보통</label>
+        </div>
+        <div class="reg_item-form__radio">
+          <input id="bad" type="radio" name="status" value="bad" />
+          <label for="bad">나쁨</label>
+        </div>
+      </div>
 
-        </div>
-        <div class="reg_item_form__section">
-            <label class="reg_item-form__label" for "price">₩ 가격</label>
-            <input class="reg_item-form__input" id="price" name="price" type="text" required placeholder="가격을 입력해주세요." />
-        </div>
-        <div class="reg_item_form__section">
-            <p class="reg_item-form__label">상태</p>
-            <div class="reg_item-form__radio">
-                <input id="good" type="radio" name="status" value="good" required />
-                <label for="good">좋음</label>
-            </div>
-            <div class="reg_item-form__radio">
-                <input id="common" type="radio" name="status" value="common" required/>
-                <label  for="common">보통</label>
-            </div>
-            <div class="reg_item-form__radio">
-                <input id="bad" type="radio" name="status" value="bad" />
-                <label for="bad">나쁨</label>
-            </div>
-        </div>
+      <div class="reg_item_form__section">
+        <label class="reg_item-form__label" for="description">설명</label>
+        <textarea
+          class="reg_item-form__textarea"
+          id="description"
+          name="description"
+          placeholder="상품 및 거래에 대한 내용을 자세히 작성해주세요. 상품 구입 시기, 사용 횟수, 상품 상태 등 구매자에게 필요한 정보를 적어주세요. (10자 이상)"
+          required
+        ></textarea>
+      </div>
 
-        <div class="reg_item_form__section">
-            <label class="reg_item-form__label" for="description">설명</label>
-            <textarea class="reg_item-form__textarea"
-              id="description"
-              name="description"
-              placeholder="상품 및 거래에 대한 내용을 자세히 작성해주세요. 상품 구입 시기, 사용 횟수, 상품 상태 등 구매자에게 필요한 정보를 적어주세요. (10자 이상)"
-              required
-            ></textarea>
+      <div class="reg_item_form__section">
+        <p class="reg_item-form__label">거래방식</p>
+        <div class="reg_item-form__radio">
+          <input
+            id="f2f"
+            type="radio"
+            name="transaction"
+            value="f2f"
+            required
+          />
+          <label class="right-padding" for="f2f">대면</label>
+          <input id="no-f2f" type="radio" name="transaction" value="no-f2f" />
+          <label class="right-padding" for="no-f2f">비대면 (택배, 우편) </label>
         </div>
-    
-        <div class="reg_item_form__section">
-            <p class="reg_item-form__label">거래방식</p>
-            <div class="reg_item-form__radio">
-                <input id="f2f" type="radio" name="transaction" value="f2f" required/>
-                <label class="right-padding" for="f2f">대면</label>
-                <input id="no-f2f" type="radio" name="transaction" value="no-f2f" />
-                <label class="right-padding" for="no-f2f">비대면 (택배, 우편) </label>
-            </div>
-        </div>
-      
-    <div class="reg_item_form__section">
+      </div>
+
+      <div class="reg_item_form__section">
         <p class="reg_item-form__label">거래 희망 장소</p>
-        <select class="reg_item-form__select" id="location" name="location" required disabled>
+        <select
+          class="reg_item-form__select"
+          id="location"
+          name="location"
+          required
+          disabled
+        >
           <option value="" disabled selected>장소 선택</option>
           <option value="학관">학관</option>
           <option value="아산공학관">아산공학관</option>
@@ -83,28 +122,37 @@
           <option value="종합과학관">종합과학관</option>
           <!-- 다른 장소 옵션들 추가 -->
         </select>
+      </div>
 
-    </div>
-
-    <div>
+      <div>
         <label class="upload-container" for="imgInput">
-            <div class="upload-container__icon">
-                <i class="fas fa-camera fa-2x"></i>
-            </div>
-            <p class="upload-container__cnt">0/10</p>
+          <div class="upload-container__icon">
+            <i class="fas fa-camera fa-2x"></i>
+          </div>
+          <p class="upload-container__cnt">0/10</p>
         </label>
-        <input class="input-hidden"  id="imgInput" type="file" name="itemImg" accept="image/*" multiple>
-    </div>
+        <input
+          class="input-hidden"
+          id="imgInput"
+          type="file"
+          name="itemImg"
+          accept="image/*"
+          multiple
+        />
+      </div>
 
-    <div id="imagePreviews"></div>
-    <div class="enroll_container" >
-        <button class="enroll_btn" id="submit_btn" type="submit">등록하기</button>
-    </div>
-
+      <div id="imagePreviews"></div>
+      <div class="enroll_container">
+        <button class="enroll_btn" id="submit_btn" type="submit">
+          등록하기
+        </button>
+      </div>
     </form>
   </body>
   <script src="../static/screens/reg_item_select.js"></script>
-  <script src="https://kit.fontawesome.com/afee348a73.js" crossorigin="anonymous"></script>
+  <script
+    src="https://kit.fontawesome.com/afee348a73.js"
+    crossorigin="anonymous"
+  ></script>
   <script src="../static/components/img_btn.js"></script>
-  
 </html>
