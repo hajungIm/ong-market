@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>재학생 인증 화면</title>
+    <link rel="stylesheet" href="../static/student_check.css">
+
+</head>
+<body>
+    <header class="header">
+        
+    </header>
+    <img src="../images/logo.png" alt="logo image" width="375px;">
+    <h1>재학생 인증</h1>
+    <p><br><br></p>
+
+    <div id="box">
+    <div id="student_check">
+    <form action="">
+        <br><br>
+        <input id="number" type="text" name="number" >
+        <br><hr>
+        <h5>이메일로 받은 인증 번호를 입력하세요</h5>
+    </form>
+
+    <!--타이머 만들어야함-->
+   <button class="retx_button" id="retx_button" type="button" onclick="">재전송</button>
+    
+
+    <br><br>
+    <button id="check_button" type="submit" onclick=""><b>인증하기</b></button>
+    
+    <button id="cancel_button" onclick="cancel()"><b>cancel</b></button>
+    <script>
+        function cancel(){
+            window.history.go(-1)
+        }
+    </script>
+    
+    </div>
+    </div>
+    <br><br><br>
+</body>
+</html>
