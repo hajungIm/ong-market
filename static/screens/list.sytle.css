@@ -1,0 +1,122 @@
+main.list_page_box {
+    box-sizing: border-box;
+    width: 100%;
+    margin-top: 70px;
+    margin-bottom: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background-color: white;
+}
+
+
+
+div.item_box1 {
+    width: 100%;
+    padding: 12px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--blur-gray);
+}
+
+div.item_selection {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 25px;
+}
+
+div.item_box1__img {
+    width: 90px;
+    height: 90px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 10px;
+}
+
+div.item_box1__img img {
+    width: 100%;
+    height: auto;
+}
+
+div.item_box1__info {
+    box-sizing: border-box;
+    padding: 5px 0px;
+    width: 40vw;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+p.item_box1__title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--black-3);
+    margin-bottom: 5px;
+}
+div.item_box1__upload {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 18px;
+    
+}
+.item_box1__seller {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--black);
+
+}
+
+.item_box1__date{
+    color: var(--gray);
+    font-size: 12px;
+    font-weight: 400;
+
+}
+
+.item_box1__price {
+color: var(--black-2);
+font-size: 18px;
+font-weight: 700;
+}
+
+.item_box1__icon {
+    box-sizing: border-box;
+    height: 80px;
+    padding: 5px 0px;
+    width: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.item_box1_like {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.like_icon_box {
+    width: 34px;
+    height: 31px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--like-gray);
+    border-radius: 10px;
+}
+
+.like_icon_box i {
+    color: var(--black-3);
+}
+
+.item_like_num {
+    color: var(--gray);
+    font-size: 15px;
+    font-weight: 400;
+}

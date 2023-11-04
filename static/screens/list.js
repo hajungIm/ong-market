@@ -2,6 +2,9 @@ const selectPlace = document.getElementById("select_place");
 const f2fBtn = document.getElementById("item_option_btn");
 const icon = f2fBtn.querySelector("i");
 const text = f2fBtn.querySelector("p");
+const currentPageIcon = document.getElementById("nav_list").firstChild;
+
+currentPageIcon.style.color = "#242424";
 
 function toogleButtonText() {
   if (text.textContent == "대면") {

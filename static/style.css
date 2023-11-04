@@ -15,7 +15,7 @@
 /*Screens*/
 @import "screens/reg_item_style.css"; /*반드시 reg_item_style.css 파일이 reg_review_style.css 파일 보다 먼저와야 한다.*/
 @import "screens/reg_review_style.css";
-
+@import "screens/list.sytle.css";
 
 body{
     font-family: 'Nunito Sans', sans-serif;
