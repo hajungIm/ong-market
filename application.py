@@ -10,6 +10,11 @@ def hello():
 def view_list():
     return render_template("list.html")
 
+@application.route("/list_review")
+def list_review():
+    return render_template("list_review.html")
+
+
 @application.route("/reg_item")
 def reg_item():
     return render_template("reg_item.html")

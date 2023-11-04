@@ -14,10 +14,17 @@
     align-items: center;
 }
 
-.review_item__img {
+
+.review_img__box {
     width: 70px;
     height: 70px;
-    margin-right: 20px;
+    margin-right: 30px;
+    overflow: hidden;
+    border-radius: 8px;
+}
+.review_item__img {
+    width: 100%;
+    height: auto;
 }
 
 .review_item__content {

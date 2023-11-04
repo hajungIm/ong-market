@@ -8,8 +8,11 @@
     --ewha-green:#013309;
     --like-gray: #e0e0e0;
     --blur-gray: #F0F0F0;
+    --star-gray: #B3B3B3;
+    --star-yellow: #F2C94C;
     --button-box-shadow:0px 5px 5px 0px rgba(48, 48, 48, 0.20);
     --nav-box-shadow: 0px -2px 50px 0px rgba(0, 0, 0, 0.05);
     --disable-gray :#DFE3E8;
     --review-item-box-shadow: 0px 3px 5px 0px rgba(138, 149, 158, 0.30);
+    --review-list-box-shadow : 0px 8px 40px 0px rgba(138, 149, 158, 0.20);
 }

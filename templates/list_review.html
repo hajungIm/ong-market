@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="kr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='screens/list_review_style.css') }}"
+    />
+    <title>판매 리뷰 전체 조회</title>
+  </head>
+
+  <body>
+    <header class="base_header">
+      <a href="/" class="base_header__icon">
+        <i class="fa-solid fa-chevron-left fa-xl" style="color: #242424"></i>
+      </a>
+      <div>
+        <h2 class="base_header__title">EwhaSeller님의 판매 리뷰</h2>
+      </div>
+      <div class="base_header__icon">
+        <!--레이아웃 배치용-->
+      </div>
+    </header>
+
+    <main class="list_review__page">
+      <!--서버 연동시 동일 코드 삭제하고 반복문으로 해결할 예정 -->
+      <div class="list_review__box">
+        <p class="list_review__title">테이블 너무너무 예뻐요!!</p>
+        <div class="review_item">
+          <div class="review_img__box">
+            <img
+              class="review_item__img"
+              src="static/images/item1_image.jpeg"
+              alt="상품 이미지"
+            />
+          </div>
+          <div class="review_item__content">
+            <p class="review_item__title">원형 테이블</p>
+            <p class="review_item__price">15,000원</p>
+          </div>
+        </div>
+        <div class="review_rate">
+          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
+          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
+          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
+          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
+          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
+        </div>
+        <p class="list_review__date">2023.09.14</p>
+      </div>
+      <div class="list_review__box">
+        <p class="list_review__title">운동화 상태 괜찮습니다.</p>
+        <div class="review_item">
+          <div class="review_img__box">
+            <img
+              class="review_item__img"
+              src="static/images/item2_image.jpeg"
+              alt="상품 이미지"
+            />
+          </div>
+          <div class="review_item__content">
+            <p class="review_item__title">운동화</p>
+            <p class="review_item__price">35,000원</p>
+          </div>
+        </div>
+        <div class="review_rate">
+          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
+          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
+          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
+          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
+          <i class="fa-solid fa-star" style="color: var(--star-gray)"></i>
+        </div>
+        <p class="list_review__date">2023.03.23</p>
+      </div>
+      <div class="list_review__box">
+        <p class="list_review__title">가성비 갑</p>
+        <div class="review_item">
+          <div class="review_img__box">
+            <img
+              class="review_item__img"
+              src="static/images/item6_image.jpeg"
+              alt="상품 이미지"
+            />
+          </div>
+          <div class="review_item__content">
+            <p class="review_item__title">심플 의자</p>
+            <p class="review_item__price">15,000원</p>
+          </div>
+        </div>
+        <div class="review_rate">
+          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
+          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
+          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
+          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
+          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
+        </div>
+        <p class="list_review__date">2023.01.27</p>
+      </div>
+      <div class="list_review__box">
+        <p class="list_review__title">생각보다 좀 꼬질꼬질하네요...</p>
+        <div class="review_item">
+          <div class="review_img__box">
+            <img
+              class="review_item__img"
+              src="static/images/item5_image.png"
+              alt="상품 이미지"
+            />
+          </div>
+          <div class="review_item__content">
+            <p class="review_item__title">미니 인형 키링</p>
+            <p class="review_item__price">5,000원</p>
+          </div>
+        </div>
+        <div class="review_rate">
+          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
+          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
+          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
+          <i class="fa-solid fa-star" style="color: var(--star-gray)"></i>
+          <i class="fa-solid fa-star" style="color: var(--star-gray)"></i>
+        </div>
+        <p class="list_review__date">2022.09.18</p>
+      </div>
+      {% include 'pagination.html' %}
+    </main>
+  </body>
+  <script
+    src="https://kit.fontawesome.com/afee348a73.js"
+    crossorigin="anonymous"
+  ></script>
+  <script src="../static/screens/list.js"></script>
+</html>
