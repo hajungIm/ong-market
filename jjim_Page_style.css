@@ -1,0 +1,212 @@
+body{
+    width: 100%; 
+    height: 100%; 
+    background: white;
+    font-family: "Nunito Sans";
+    align-items: center;
+  }
+  
+  .main_1{
+    width: 336px; 
+    height: 1px; 
+    left: 20px; 
+    position: absolute; 
+    background: #F0F0F0; 
+    border-radius: 10px;
+  }
+  
+  .image{
+    width: 90%;
+    height: 90%;
+    flex-shrink: 0;
+    border-radius: 10px;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 5;
+  }
+  
+  .clicked{
+    left: 150px; 
+    top: 114px; 
+    position: absolute; 
+    color: #242424; 
+    font-size: 18px; 
+    font-family: Nunito Sans; 
+    font-weight: 700; 
+    word-wrap: break-word;
+    border: none;
+    border-bottom: #242424 solid 3px;
+    background: transparent; /* 배경 색상을 투명으로 설정 */
+    box-shadow: none; /* 그림자를 없애기 */
+    color: inherit; /* 기본 텍스트 색상 사용 */
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  .non_clicked{
+    left: 425px; 
+    top: 114px; 
+    position: absolute; 
+    text-align: center; 
+    color: #999999; 
+    font-size: 18px; 
+    font-family: Nunito Sans; 
+    font-weight: 400; 
+    word-wrap: break-word;
+    background: transparent; /* 배경 색상을 투명으로 설정 */
+    box-shadow: none; /* 그림자를 없애기 */
+    border: none; /* 테두리 제거 */
+    color: inherit; /* 기본 텍스트 색상 사용 */
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  .tableSetting{
+    width: 100%;
+    height: 100%;
+    left: 18px;
+    padding-left: 120px;
+    top: 180px;
+    justify-content: center; 
+    align-items: center;
+    margin-bottom: 180px;
+    border: 1px solid black;
+  }
+  
+  .line {
+    width: 336px;
+    height: 116px;
+    display:grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    align-items: center;
+    background: none;
+    border: none;
+    text-decoration: none;
+    background: transparent; /* 배경 색상을 투명으로 설정 */
+    box-shadow: none;
+  }
+  
+  .objectName {
+    color: #606060;
+    font-size: 14px;
+    font-family: "Nunito Sans";
+    font-weight: 600;
+    word-wrap: break-word;
+    grid-column-start: 3;
+    grid-column-end: 5; /* Adjusted columns */
+    grid-row-start: 1;
+    grid-row-end: 2;
+  }
+  
+  .sellerName {
+    color: #242424;
+    font-size: 15px;
+    font-family: "Nunito Sans";
+    font-weight: 700;
+    word-wrap: break-word;
+    grid-column-start: 3;
+    grid-column-end: 5; /* Adjusted columns */
+    grid-row-start: 2;
+    grid-row-end: 3;
+  }
+  
+  .price{
+    color: #303030;
+    font-size: 16px;
+    font-family: Nunito Sans;
+    font-weight: 700;
+    word-wrap: break-word;
+    grid-column-start: 3;
+    grid-column-end: 5; /* Adjusted columns */
+    grid-row-start: 4;
+    grid-row-end: 5;
+  }
+  
+  .date{
+    color: #808080;
+    font-size: 10px;
+    font-family: Nunito Sans;
+    font-weight: 400;
+    word-wrap: break-word;
+    grid-column-start: 5;
+    grid-column-end: 6; /* Adjusted columns */
+    grid-row-start: 2;
+    grid-row-end: 3;
+  }
+  
+  .bottom_line{
+    border: 1px solid #F0F0F0;
+    width: 336px;
+  }
+  
+  .jjim {
+    display: flex; /* Flexbox 사용 */
+    grid-column-start: 6;
+    grid-column-end: 7; /* Adjusted columns */
+    grid-row-start: 4;
+    grid-row-end: 5;
+    align-items: center; /* 수직 가운데 정렬 */
+  }
+  
+  .jjim img {
+    width: 34px;
+    height: 32px;
+    margin-right: 5px; /* 아이콘 간격을 조절 */
+  }
+  
+  .jjim_1 {
+    color: #808080;
+    font-size: 15px;
+    font-family: "Nunito Sans";
+    font-weight: 400;
+    word-wrap: break-word;
+  }
+  
+  .sell-head{
+  color: #303030;
+   font-size: 16px;
+   font-family: "Merriweather";
+   font-weight: 700;
+   word-wrap: break-word;
+   width: 375px; 
+   height: 44px; 
+   justify-content: center; 
+   align-items: center; 
+   gap: 24px; 
+   display: inline-flex;
+  }
+  
+  .sell_body{
+    width: 255px;
+    height: 20px;
+    padding-left: 50px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    text-align: center;
+    color: #303030; 
+    font-size: 16px; 
+    font-weight: 700; 
+    word-wrap: break-word;
+  }
+  
+  .sell_btn{
+    width: 336px;
+    height: 116px;
+    display:grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    align-items: center;
+    padding-left: 300px;
+    background: none;
+    border: none;
+    margin: 0;
+    text-decoration: none;
+    background: transparent; /* 배경 색상을 투명으로 설정 */
+    box-shadow: none;
+  }
