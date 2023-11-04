@@ -3,10 +3,14 @@
 @import "variables.css";
 
 /*Compoents*/
+@import "components/nav_bar_style.css";
 @import "components/base_header_style.css";
 @import "components/radio_style.css";
 @import "components/enroll_btn_style.css";
 @import "components/img_btn_style.css";
+@import "components/list_header_style.css";
+@import "components/pagination.style.css";
+
 
 /*Screens*/
 @import "screens/reg_item_style.css"; /*반드시 reg_item_style.css 파일이 reg_review_style.css 파일 보다 먼저와야 한다.*/
