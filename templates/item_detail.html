@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>상품 상세 화면</title>
-    <link rel="stylesheet" href="../static/item_detail.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='item_detail.css') }}">
 
     <!--아이콘 집어넣기 위한 코드-->
     <script src="https://kit.fontawesome.com/a1969e7b61.js" crossorigin="anonymous"></script>
@@ -12,7 +12,7 @@
 </head>
 <body>
    
-    <img src="../images/item.png" alt="item image" width="375px;">
+    <img src="../static/images/item.png" alt="item image" width="375px;">
     <button id="return_btn" type="button" onclick="return_btn()">&lt; </button>
     <!--뒤로 가기 버튼 함수-->
     <script>
