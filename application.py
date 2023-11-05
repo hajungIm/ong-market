@@ -33,7 +33,7 @@ def reg_item_submit_post():
     return render_template("result.html", data=data)
 
 @application.route("/mypage")
-def hello():
+def mypage():
     return render_template("mypage.html")
 
 if __name__ == "__main__":
