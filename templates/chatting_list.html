@@ -1,7 +1,83 @@
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="user_Page_style.css"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='chatting_list_style.css') }}">
 </head>
 <body>
-    
-</body>
+    <table class="tableSetting">
+      <tr>
+        <td>
+          <div class="sell_head">
+            <div class="sell_body">채팅</div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button class="line">
+              <img class="image" src="{{ url_for('static', filename='1111.png') }}"/>
+              <div class="profile">
+                    <div style="width: 50px; height: 50px; left: 0px; top: 0px; position: absolute; background: rgba(125.99, 134.42, 158.31, 0.50); border-radius: 52px"></div>
+                    <div style="width: 22.22px; height: 22.22px; left: 13.89px; top: 8.33px; position: absolute; background: white; border-radius: 9999px"></div>
+                    <img style="width: 36.86px; height: 16.67px; left: 6.57px; top: 33.33px; position: absolute; border-radius: 0.25px" src="https://via.placeholder.com/37x17" />
+                </div>
+              <div class="objectName">안녕하세요</div>
+              <div class="sellerName">EwhaSeller1</div>
+              <div class="date">2일 전</div>
+          </button>
+          <div class="bottom_line"></div>
+        </td>
+      </tr>
+  
+      <tr>
+        <td>
+          <button class="line">
+              <img class="image" src="{{ url_for('static', filename='2222.png') }}" />
+              <div class="profile">
+                    <div style="width: 50px; height: 50px; left: 0px; top: 0px; position: absolute; background: rgba(125.99, 134.42, 158.31, 0.50); border-radius: 52px"></div>
+                    <div style="width: 22.22px; height: 22.22px; left: 13.89px; top: 8.33px; position: absolute; background: white; border-radius: 9999px"></div>
+                    <img style="width: 36.86px; height: 16.67px; left: 6.57px; top: 33.33px; position: absolute; border-radius: 0.25px" src="https://via.placeholder.com/37x17" />
+                </div>
+              <div class="objectName">감사합니다</div>
+              <div class="sellerName">EwhaSeller2</div>
+              <div class="date">6일 전</div>
+          </button>
+          <div class="bottom_line"></div>
+        </td>
+      </tr>
+  
+      <tr>
+        <td>
+          <button class="line">
+              <img class="image" src="{{ url_for('static', filename='3333.png') }}" />
+              <div class="profile">
+                    <div style="width: 50px; height: 50px; left: 0px; top: 0px; position: absolute; background: rgba(125.99, 134.42, 158.31, 0.50); border-radius: 52px"></div>
+                    <div style="width: 22.22px; height: 22.22px; left: 13.89px; top: 8.33px; position: absolute; background: white; border-radius: 9999px"></div>
+                    <img style="width: 36.86px; height: 16.67px; left: 6.57px; top: 33.33px; position: absolute; border-radius: 0.25px" src="https://via.placeholder.com/37x17" />
+                </div>
+              <div class="objectName">좋은 하루 되세요~</div>
+              <div class="sellerName">EwhaSeller3</div>
+              <div class="date">1달 전</div>
+          </button>
+          <div class="bottom_line"></div>
+        </td>
+      </tr>
+  
+      <tr>
+        <td>
+          <button class="line">
+              <img class="image" src="{{ url_for('static', filename='4444.png') }}" />
+              <div class="profile">
+                    <div style="width: 50px; height: 50px; left: 0px; top: 0px; position: absolute; background: rgba(125.99, 134.42, 158.31, 0.50); border-radius: 52px"></div>
+                    <div style="width: 22.22px; height: 22.22px; left: 13.89px; top: 8.33px; position: absolute; background: white; border-radius: 9999px"></div>
+                    <img style="width: 36.86px; height: 16.67px; left: 6.57px; top: 33.33px; position: absolute; border-radius: 0.25px" src="https://via.placeholder.com/37x17" />
+                </div>
+              <div class="objectName">네 저도 너무 감사합니다. 좋은 하루 되세...</div>
+              <div class="sellerName">EwhaSeller4</div>
+              <div class="date">4달 전</div>
+          </button>
+          <div class="bottom_line"></div>
+        </td>
+      </tr>
+    </table>
+  </body>
+  
