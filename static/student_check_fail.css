@@ -82,3 +82,7 @@ h5{
     color:black;
     font-size: small;
 }
+
+input{
+    padding: 5px;
+}
