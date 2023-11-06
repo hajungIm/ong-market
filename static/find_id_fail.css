@@ -65,3 +65,7 @@ hr{
     text-decoration-line: none;
     text-align: center;
 }
+
+input{
+    padding: 5px;
+}
