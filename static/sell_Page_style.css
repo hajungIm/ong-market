@@ -1,11 +1,13 @@
 @import "reset.css";
-@import "components/base_header_style.css"
+@import "components/base_header_style.css";
+@import "font.css";
+
 body{
   width: 100%; 
   height: 100%; 
   background: white;
-  font-family: "Nunito Sans";
   align-items: center;
+  margin-top: 55px;
 }
 
 .line{

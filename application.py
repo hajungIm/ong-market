@@ -102,6 +102,19 @@ def student_check():
 def student_check_fail():
     return render_template("student_check_fail.html")
 
+
+@application.route("/sell_Page")
+def sellPage():
+    return render_template("sell_Page.html")
+
+
+@application.route("/selling")
+def sellingPage():
+    return render_template("sell_Page_selling.html")
+
+
+
+
 if __name__ == "__main__":
     application.run(host='0.0.0.0', debug=True)
     
