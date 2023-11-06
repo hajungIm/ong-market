@@ -1,0 +1,120 @@
+.review_item{
+    box-sizing: border-box;
+    margin: 70px 50px 0px 50px;
+    padding: 15px;
+    height: 100px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: white;
+    box-shadow: var(--review-item-box-shadow);
+
+    /*레이아웃 배치*/
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+
+.review_img__box {
+    width: 70px;
+    height: 70px;
+    margin-right: 30px;
+    overflow: hidden;
+    border-radius: 8px;
+}
+.review_item__img {
+    width: 100%;
+    height: auto;
+}
+
+.review_item__content {
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+}
+
+.review_item__title {
+    font-size: 16px;
+    color: var(--black-3);
+    font-weight: 600;
+}
+
+.review_item__price {
+    color: var(--black);
+    font-size: 16px;
+    font-weight: 800;
+}
+
+
+.reg_review_form{
+    margin-top: 25px;
+}
+
+.reg_review_form_section{
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 50px;
+    
+}
+
+
+.reg_review_form__rating{
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    
+}
+.checkbox_hidden {
+    display: none;
+}
+
+.star {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.star i {
+    color: black;
+}
+
+.keyword_list {
+    padding: 12px;
+    font-size: 12px;
+    font-weight: 400;
+    text-align: center;
+    background-color: var(--light-gray);
+    color: var(--black);
+    border-radius: 4px;
+}
+
+.keyword_seller, .keyword_item, .keyword_no{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.reg_review-form__label{
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.keyword_layout {
+    padding: 15px;
+    width: 100%;
+    display: flex;
+    gap: 25px;
+    flex-wrap: nowrap;
+    overflow: auto; /* 스크롤 가능한 컨텐츠가 너비를 벗어날 때 스크롤 바가 나타납니다. */
+    white-space: nowrap;
+    
+}

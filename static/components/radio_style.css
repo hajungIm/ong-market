@@ -1,0 +1,16 @@
+[type="radio"]{
+    appearance: none;
+    border: max(2px, 0.1em) solid var(--black);
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    transition: border 0.2s ease-in-out;
+}
+[type="radio"]:checked {
+    border: 0.45em solid var(--black);
+}
+
+[type="radio"]:hover {
+    cursor: pointer;
+}
+

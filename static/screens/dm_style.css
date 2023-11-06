@@ -1,0 +1,227 @@
+.base_header__dm{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.base_header__dm img {
+    margin-right: 15px;
+}
+
+.dm_section {
+    margin: 15px 0px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.dm_section__date {
+    font-size: 12px;
+    font-weight: 400;
+    margin: 10px 0px;
+    text-align: center;
+    width: 100%;
+
+}
+
+.dm_msg {
+    border-radius: 0.7em;
+    padding: 8px 10px;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.dm_section__line {
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+    width: 100%;
+    margin: 5px 0px;
+}
+
+.dm_section__me {
+    flex-direction: row-reverse;
+}
+
+.dm_section__me .dm_msg {
+    background-color: black;
+    color: white;
+    text-align: center;
+}
+
+.dm_section__you .dm_msg {
+    background-color: var(--blur-gray);
+    color: var(--black);
+    text-align: center;
+}
+
+.dm_time {
+    color: #707070;
+    font-size: 8px;
+    font-weight: 300;
+}
+
+.dm_info {
+    margin: 15px 0px;
+    padding: 20px 25px;
+    width: 100%;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--light-blue);
+    border-radius: 10px;
+}
+
+.dm_info__content {
+    padding: 5px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--blue);
+    width: 100%;
+
+}
+.dm_info__content-title {
+    font-weight: 700;
+    font-size: 17px;
+}
+
+.dm_info__btn {
+    text-align: center;
+    width: 100%;
+    padding: 15px 0px;
+    font-size: 16px;
+    color: white;
+    background-color: var(--blue);
+    border-radius: 0.5em;
+    font-weight: 600;
+}
+
+.dm_footer {
+    width: 100%;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    z-index: 10;
+    
+}
+.dm_reply {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+}
+.dm_reply__column:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: auto;
+    cursor: pointer;
+    transition: all ease-in-out 0.3s;
+    
+}
+.dm_reply__column:nth-child(2){
+
+    margin: 0px 10px;
+    width: 100%;
+
+}
+.dm_reply__column:last-child {
+    margin-left: auto;
+    cursor: pointer;
+}
+
+#dm_reply__plus {
+    font-size: 27px;
+}
+#dm_reply__send {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: white;
+}
+#dm_reply__send img {
+    width: 27px;
+    height: 24px;
+}
+#dm_reply__input {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 40px;
+    border-style: none;
+    border:none;
+    background-color: var(--input-gray);
+    padding: 10px 15px;
+    border-radius: 25px;
+    font-size: 15px;
+    resize: none;
+
+}
+
+.dm_function{
+    height: 0px;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0px 35px;
+    transition: all ease-in-out 0.2s;
+    visibility: hidden;
+}
+
+.dm_function__icon {
+    width: 25%;
+    padding: 20px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+}
+.dm_function__icon span {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.dm_icon__box {
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 24px;
+
+}
+#dm_function_emoji {
+    background-color: #FFD940;
+}
+#dm_function_img {
+    background-color: #FF6492;
+}
+#dm_function_camera {
+    background-color: #FF7919;
+}
+#dm_function_place {
+    background-color: #25C040;
+}
+#dm_function_complete {
+    background-color: var(--blue);
+}
+
+.rotate-45 {
+    transform: rotate(45deg);
+}

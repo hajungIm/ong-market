@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>리뷰 등록 화면</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <header class="base_header">
+      <a href="#" class="base_header__icon">
+        <!--뒤로 가기 링크 추후 수정 필요(dm창으로 이동해야 함)-->
+        <i class="fa-solid fa-chevron-left fa-xl" style="color: #242424"></i>
+      </a>
+      <div>
+        <h2 class="base_header__title">리뷰 등록</h2>
+      </div>
+      <div class="base_header__icon">
+        <!--레이아웃 배치용-->
+      </div>
+    </header>
+
+    <div class="review_item">
+      <div class="review_img__box">
+        <img
+          class="review_item__img"
+          src="static/images/item1_image.jpeg"
+          alt="상품 이미지"
+        />
+      </div>
+      <div class="review_item__content">
+        <p class="review_item__title">원형 테이블</p>
+        <p class="review_item__price">15,000원</p>
+      </div>
+    </div>
+
+    <form
+      class="reg_review_form reg_item_form"
+      action="/submit_review_post"
+      method="post"
+    >
+      <div class="reg_review_form_section">
+        <p class="reg_item-form__label">거래가 어떠셨나요?</p>
+        <div class="reg_review_form__rating">
+          <input
+            class="checkbox_hidden checkbox_rate"
+            type="checkbox"
+            name="rating1"
+            id="star1"
+          />
+          <label for="star1" class="star"
+            ><i
+              class="fa-sharp fa-solid fa-star fa-2xl"
+              style="color: #d9d9d9"
+            ></i
+          ></label>
+          <input
+            class="checkbox_hidden checkbox_rate"
+            type="checkbox"
+            name="rating2"
+            id="star2"
+          />
+          <label for="star2" class="star"
+            ><i
+              class="fa-sharp fa-solid fa-star fa-2xl"
+              style="color: #d9d9d9"
+            ></i
+          ></label>
+          <input
+            class="checkbox_hidden checkbox_rate"
+            type="checkbox"
+            name="rating3"
+            id="star3"
+          />
+          <label for="star3" class="star"
+            ><i
+              class="fa-sharp fa-solid fa-star fa-2xl"
+              style="color: #d9d9d9"
+            ></i
+          ></label>
+          <input
+            class="checkbox_hidden checkbox_rate"
+            type="checkbox"
+            name="rating4"
+            id="star4"
+          />
+          <label for="star4" class="star"
+            ><i
+              class="fa-sharp fa-solid fa-star fa-2xl"
+              style="color: #d9d9d9"
+            ></i
+          ></label>
+          <input
+            class="checkbox_hidden checkbox_rate"
+            type="checkbox"
+            name="rating5"
+            id="star5"
+          />
+          <label for="star5" class="star"
+            ><i
+              class="fa-sharp fa-solid fa-star fa-2xl"
+              style="color: #d9d9d9"
+            ></i
+          ></label>
+        </div>
+      </div>
+
+      <div class="reg_review_form_section">
+        <p class="reg_item-form__label">어떤 점이 좋았나요?</p>
+        <div class="keyword_layout">
+          <div class="keyword_seller">
+            <p class="reg_review-form__label">판매자</p>
+            <input
+              class="checkbox_hidden checkbox_keyword"
+              type="checkbox"
+              name="keywordSeller1"
+              id="time"
+            />
+            <label for="time" class="keyword_list"
+              >시간 약속을 잘 지켜요.</label
+            >
+
+            <input
+              class="checkbox_hidden checkbox_keyword"
+              type="checkbox"
+              name="keywordSeller2"
+              id="response"
+            />
+            <label for="response" class="keyword_list">응답이 빨라요.</label>
+
+            <input
+              class="checkbox_hidden checkbox_keyword"
+              type="checkbox"
+              name="keywordSeller3"
+              id="kind"
+            />
+            <label for="kind" class="keyword_list"
+              >친절하고 매너가 좋아요.</label
+            >
+            <input
+              class="checkbox_hidden checkbox_keyword"
+              type="checkbox"
+              name="keywordSeller4"
+              id="come"
+            />
+            <label for="come" class="keyword_list"
+              >제가 있는 곳까지 와서 거래했어요.</label
+            >
+
+            <input
+              class="checkbox_hidden checkbox_keyword"
+              type="checkbox"
+              name="keywordSeller5"
+              id="give"
+            />
+            <label for="give" class="keyword_list">나눔을 해주셨어요.</label>
+          </div>
+          <div class="keyword_item">
+            <p class="reg_review-form__label">상품</p>
+            <input
+              class="checkbox_hidden checkbox_keyword"
+              type="checkbox"
+              name="keywordItem1"
+              id="condition"
+            />
+            <label for="condition" class="keyword_list"
+              >상품상태가 설명한 것과 같아요.</label
+            >
+
+            <input
+              class="checkbox_hidden checkbox_keyword"
+              type="checkbox"
+              name="keywordItem2"
+              id="detail"
+            />
+            <label for="detail" class="keyword_list"
+              >상품 설명이 자세해요.</label
+            >
+
+            <input
+              class="checkbox_hidden checkbox_keyword"
+              type="checkbox"
+              name="keywordItem1"
+              id="resonable"
+            />
+            <label for="resonable" class="keyword_list"
+              >가격이 합리적이에요.</label
+            >
+          </div>
+          <div class="keyword_no">
+            <p class="reg_review-form__label">키워드 없음</p>
+
+            <input
+              class="checkbox_hidden checkbox_keyword"
+              type="checkbox"
+              name="keywordNo"
+              id="no_keyword"
+            />
+            <label for="no_keyword" class="keyword_list"
+              >선택할 키워드가 없어요.</label
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="reg_item_form__section">
+        <label class="reg_item-form__label" for="itemName">제목</label>
+        <input
+          class="reg_item-form__input"
+          id="reveiw_title"
+          name="reviewTitle"
+          type="text"
+          required
+          placeholder="제목을 입력해주세요."
+        />
+      </div>
+
+      <div class="reg_item_form__section">
+        <label class="reg_item-form__label" for="userId">아이디</label>
+        <input
+          class="reg_item-form__input"
+          id="userId"
+          name="userId"
+          type="text"
+          value="사용자 아이디(자동입력)"
+          readonly
+        />
+      </div>
+
+      <div class="reg_item_form__section">
+        <label class="upload-container" for="review_imgInput">
+          <div class="upload-container__icon">
+            <i class="fas fa-camera fa-2x"></i>
+          </div>
+          <p class="upload-container__cnt">0/10</p>
+        </label>
+        <input
+          class="input-hidden"
+          id="review_imgInput"
+          type="file"
+          name="reveiwItemImg"
+          accept="image/*"
+          multiple
+        />
+      </div>
+      <div id="imagePreviews"></div>
+
+      <div class="reg_item_form__section">
+        <label class="reg_item-form__label" for="reveiw_content"
+          >리뷰를 남겨주세요</label
+        >
+
+        <textarea
+          class="reg_item-form__textarea"
+          id="review_content"
+          name="reviewContent"
+          placeholder="거래에 대한 리뷰를 남겨주세요.(선택사항)"
+        ></textarea>
+      </div>
+
+      <div class="enroll_container">
+        <button class="enroll_btn" id="submit_btn" type="submit">
+          등록하기
+        </button>
+      </div>
+    </form>
+  </body>
+  <script src="../static/screens/reg_review.js"></script>
+  <script
+    src="https://kit.fontawesome.com/afee348a73.js"
+    crossorigin="anonymous"
+  ></script>
+  <script src="../static/components/img_btn.js"></script>
+</html>

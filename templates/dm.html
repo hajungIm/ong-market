@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="kr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <title>DM-EwhaStudent1</title>
+  </head>
+
+  <body>
+    <header class="base_header">
+      <!-- 뒤로가는 경우 class에 base_header__back 포함시키기 -->
+      <a href="#" class="base_header__icon base_header__back">
+        <i class="fa-solid fa-chevron-left fa-xl" style="color: #242424"></i>
+      </a>
+      <div class="base_header__dm">
+        <img
+          class="dm_profile__img"
+          src="static/images/ewhastudent1_profile.jpeg"
+          alt="프로필 사진"
+        />
+        <h2 class="base_header__title">EwhaStudent1</h2>
+      </div>
+      <div class="base_header__icon">
+        <!--레이아웃 배치용-->
+      </div>
+    </header>
+    <div class="review_item">
+      <div class="review_img__box">
+        <img
+          class="review_item__img"
+          src="static/images/item1_image.jpeg"
+          alt="상품 이미지"
+        />
+      </div>
+      <div class="review_item__content">
+        <p class="review_item__title">원형 테이블</p>
+        <p class="review_item__price">15,000원</p>
+      </div>
+    </div>
+
+    <main class="dm_section">
+      <div class="dm_section__date">2023년 10월 12일</div>
+      <div class="dm_section__line dm_section__me">
+        <!-- <img class="dm_profile__img" src="" alt="프로필 사진"> -->
+        <span class="dm_msg">안녕하세요</span>
+        <!-- <span class="dm_time">오후 8:10</span> -->
+      </div>
+      <div class="dm_section__line dm_section__me">
+        <!-- <img class="dm_profile__img" src="" alt="프로필 사진"> -->
+        <span class="dm_msg">원형 테이블 구매하고 싶습니다.</span>
+        <span class="dm_time">오후 8:10</span>
+      </div>
+      <div class="dm_section__line dm_section__you">
+        <img
+          class="dm_profile__img"
+          src="static/images/ewhastudent1_profile.jpeg"
+          alt="프로필 사진"
+        />
+        <span class="dm_msg">안녕하세요</span>
+        <span class="dm_time">오후 8:11</span>
+      </div>
+
+      <div class="dm_info">
+        <div class="dm_info__content">
+          <p class="dm_info__content-title">안내</p>
+          <p class="dm_info__contenttxt">
+            거래가 완료되었어요! 리뷰를 남겨주세요.
+          </p>
+        </div>
+        <a class="dm_info__btn" href="/reg_review">리뷰 작성하기</a>
+      </div>
+    </main>
+
+    <footer class="dm_footer">
+      <form class="dm_reply" action="">
+        <div class="dm_reply__column" id="dm__plus_btn">
+          <i
+            id="dm_reply__plus"
+            class="fa-solid fa-circle-plus fa-lg"
+            style="color: #7a7a7a"
+          ></i>
+        </div>
+        <div class="dm_reply__column">
+          <textarea
+            id="dm_reply__input"
+            type="text"
+            placeholder="메시지를 입력하세요."
+          ></textarea>
+        </div>
+        <div class="dm_reply__column">
+          <button id="dm_reply__send">
+            <img src="static/images/send-arrow.png" alt="버튼" />
+          </button>
+        </div>
+      </form>
+      <div class="dm_function" id="dm_function__menu">
+        <div class="dm_function__icon">
+          <div class="dm_icon__box" id="dm_function_emoji">
+            <i class="fa-regular fa-face-smile"></i>
+          </div>
+          <span>이모티콘</span>
+        </div>
+        <div class="dm_function__icon">
+          <div class="dm_icon__box" id="dm_function_img">
+            <i class="fa-regular fa-image"></i>
+          </div>
+          <span>사진</span>
+        </div>
+        <div class="dm_function__icon">
+          <div class="dm_icon__box" id="dm_function_camera">
+            <i class="fa-solid fa-camera"></i>
+          </div>
+          <span>카메라</span>
+        </div>
+        <div class="dm_function__icon">
+          <div class="dm_icon__box" id="dm_function_place">
+            <i class="fa-solid fa-location-dot"></i>
+          </div>
+          <span>장소</span>
+        </div>
+        <div class="dm_function__icon">
+          <div class="dm_icon__box" id="dm_function_complete">
+            <i class="fa-solid fa-circle-check"></i>
+          </div>
+          <span>거래완료</span>
+        </div>
+        <div class="dm_function__icon"></div>
+        <div class="dm_function__icon"></div>
+        <div class="dm_function__icon"></div>
+      </div>
+    </footer>
+  </body>
+  <script
+    src="https://kit.fontawesome.com/afee348a73.js"
+    crossorigin="anonymous"
+  ></script>
+  <script src="../static/screens/dm.js"></script>
+  <script src="../static/components/base_header.js"></script>
+</html>

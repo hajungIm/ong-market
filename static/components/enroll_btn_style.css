@@ -1,0 +1,25 @@
+.enroll_btn{
+    box-sizing: border-box;
+    border-radius: 8px;
+    background: var(--black);
+    box-shadow: var(--button-box-shadow);
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    padding: 15px 0px;
+    width: 100%;
+    border-style: none;
+
+}
+
+.enroll_container {
+    box-sizing: border-box;
+    padding: 20px 20px 35px 20px;
+    background-color: white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    left: 0;
+}

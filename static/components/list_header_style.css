@@ -1,0 +1,74 @@
+.reg_item_btn {
+    box-sizing: border-box;
+    text-align: center;
+    padding: 10px 20px;
+    flex-shrink: 0;
+    background-color: var(--black);
+    color: white;
+    border-radius: 20px;
+    border-style: none;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0.1px;
+}
+
+.base_header {
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.item_option {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 15px;
+
+    
+}
+
+
+.item_option__btn {
+    box-sizing: border-box;
+    text-align: center;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    flex-shrink: 0;
+    background-color: var(--gray);
+    color: white;
+    border-radius: 20px;
+    border-style: none;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0.1px;
+    gap: 8px;
+
+}
+.item_option__btn:hover, .reg_item_btn:hover{
+    cursor: pointer;
+}
+
+.item_option__select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    font-size: 15px;
+    padding: 4px 12px;
+    height: 32px;
+    width: 230px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    border: 1px solid #DBDBDB;
+    background: url('../images/arrow-down.png') no-repeat 97% 50%/15px auto;
+    
+}
+
+
+.item_option__select:valid{
+    border-color: var(--black);
+    outline: none;
+}
+
+

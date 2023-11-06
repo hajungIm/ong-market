@@ -1,0 +1,7 @@
+.dm_profile__img {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 5px;
+}

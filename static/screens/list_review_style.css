@@ -1,0 +1,53 @@
+@import "../style.css";
+
+/*pagination postion 위치 덮어쓰기*/
+.pagination {
+    bottom: 0px;
+    left: 0px;
+    padding-bottom: 20px;
+}
+
+.list_review__page{
+    margin-top: 70px;
+    display: flex;
+    flex-direction: column;
+}
+.list_review__box {
+    position: relative;
+    box-sizing: border-box;
+    margin: 0px 25px 10px 25px;
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border-radius: 8px;
+    box-shadow: var(--review-list-box-shadow);
+
+    background-color: white;
+
+}
+
+.list_review__title {
+    font-size: 15px;
+    color: var(--black-2);
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.review_item {
+    box-shadow: none;
+    margin:0px;
+    margin-bottom: 10px;
+    padding: 0px;
+    height: 70px;
+
+}
+
+.list_review__date {
+    position: absolute;
+    color: var(--gray);
+    font-size: 12px;
+    font-weight: 400;
+    right: 12px;
+    bottom: 18px;
+}
