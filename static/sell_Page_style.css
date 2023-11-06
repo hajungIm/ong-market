@@ -1,4 +1,5 @@
 @import "reset.css";
+@import "components/base_header_style.css"
 body{
   width: 100%; 
   height: 100%; 
