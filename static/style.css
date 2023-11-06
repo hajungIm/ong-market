@@ -1,9 +1,9 @@
+@import "reset.css";
+@import "variables.css";
+
 /*font*/
 @import "font.css";
 
-
-@import "reset.css";
-@import "variables.css";
 
 /*Compoents*/
 @import "components/nav_bar_style.css";
@@ -24,8 +24,4 @@
 /*
 @import "screens/list_review_style.css";
 */
-body{
-    font-family: 'Nunito Sans', sans-serif;
-    color: var(--black);
-    width: 100%;
-}
+

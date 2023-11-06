@@ -1,39 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="{{ url_for('static', filename='mypage_style.css') }}">
-        <title> 마이페이지 </title>    
-	</head>
-    
-	<body>
-        
-        <header class="header">
-            <p>마이페이지</p>
-        </header>
-        
-        <div id="profile_container">
-                <img src="{{ url_for('static', filename='profile.jpg') }}" alt="프로필 사진">
-                <div id="profile_details">
-                    <p2 style="font-size: 20px; font-weight: 700;">이화인</p2>
-                    <p2 style="color: #808080; font-size: 14px;">ewhain123.ewha.ac.kr</p2>
-                    <p2 style="margin-top: 14px; color: #808080; font-size: 15px;">등급 <span style="color: #329142; font-weight: 700">A+</span></p2>
-                </div>
-            <button href="">프로필 보기</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='mypage_style.css') }}"
+    />
+    <title>마이페이지</title>
+  </head>
+
+  <body>
+    <header class="base_header">
+      <div class="base_header__icon">
+        <!--레이아웃 배치용-->
+      </div>
+      <div>
+        <h2 class="base_header__title">마이페이지</h2>
+      </div>
+      <div class="base_header__icon">
+        <!--레이아웃 배치용-->
+      </div>
+    </header>
+
+    <main>
+      <div id="profile_details">
+        <img src="../static/images/profile.jpg" alt="프로필 사진" />
+        <div class="profile_details__info">
+          <div>
+            <span class="profile_name">이화인 </span>
+            <button class="profile_btn" href="">프로필 보기</button>
+          </div>
+
+          <span class="profile_email">ewhain123.ewha.ac.kr</span>
+          <span class="profile_rank">
+            등급
+            <span class="profile_rank_eng">A+</span>
+          </span>
         </div>
-        
-        <div id="menu_buttons">
-            <button href="">회원 정보 수정 <i class="fas fa-angle-right"></i></button>
-            <button href="">판매 상품 <i class="fas fa-angle-right"></i></button>
-            <button href="">찜한 상품 <i class="fas fa-angle-right"></i></button>
-            <button href="">받은 리뷰 <i class="fas fa-angle-right"></i></button>
-        </div>
-        
-        <div id="logout_buttons">
-            <a href="">로그아웃</a>
-            <a href="">회원탈퇴</a>
-        </div>
-        
-	</body>
+        <div class="for_layout"></div>
+      </div>
+
+      <div id="menu_buttons">
+        <button onclick="window.location.href='/user_Page'">
+          회원 정보 수정 <i class="fas fa-angle-right"></i>
+        </button>
+        <button onclick="window.location.href='/selling'">
+          판매 상품 <i class="fas fa-angle-right"></i>
+        </button>
+        <button onclick="window.location.href='/jjim_Page'">
+          찜한 상품 <i class="fas fa-angle-right"></i>
+        </button>
+        <button onclick="window.location.href='/list_review'">
+          받은 리뷰 <i class="fas fa-angle-right"></i>
+        </button>
+      </div>
+
+      <div id="logout_buttons">
+        <a class="mypage_link" href="/login">로그아웃</a>
+        <a
+          class="mypage_link"
+          onclick="alert('회원 탈퇴를 하시겠습니까?\n탈퇴 후에는 회원 정보가 영구적으로 삭제됩니다.')"
+          >회원탈퇴</a
+        >
+      </div>
+    </main>
+    {% include 'nav_bar.html' %}
+  </body>
+  <script
+    src="https://kit.fontawesome.com/afee348a73.js"
+    crossorigin="anonymous"
+  ></script>
 </html>
