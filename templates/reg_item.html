@@ -91,17 +91,27 @@
 
       <div class="reg_item_form__section">
         <p class="reg_item-form__label">거래방식</p>
-        <div class="reg_item-form__radio">
-          <input
-            id="f2f"
-            type="radio"
-            name="transaction"
-            value="f2f"
-            required
-          />
-          <label class="right-padding" for="f2f">대면</label>
-          <input id="no-f2f" type="radio" name="transaction" value="no-f2f" />
-          <label class="right-padding" for="no-f2f">비대면 (택배, 우편) </label>
+        <div id="reg_item-form__radio">
+          <div>
+            <input
+              id="f2f"
+              type="radio"
+              name="transaction"
+              value="f2f"
+              required
+            />
+            <label id="f2f_label" for="f2f">
+              <i class="fa-solid fa-check"></i>
+              대면</label
+            >
+          </div>
+          <div>
+            <input id="no-f2f" type="radio" name="transaction" value="no-f2f" />
+            <label id="no-f2f_label" for="no-f2f">
+              <i class="fa-solid fa-check"></i>
+              비대면 (택배, 우편)
+            </label>
+          </div>
         </div>
       </div>
 
