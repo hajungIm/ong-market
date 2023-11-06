@@ -52,7 +52,7 @@ def reg_item_submit_post():
     image_file=request.files["itemImg"]
     image_file.save("static/images/regItem/{}".format(image_file.filename))
     data=request.form
-    return render_template("result2.html", data=data, img_path="static/images/regItem/{}".format(image_file.filename))
+    return render_template("result.html", data=data, img_path="static/images/regItem/{}".format(image_file.filename))
 
 
 
