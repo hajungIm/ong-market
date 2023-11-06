@@ -1,51 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>상품 상세 화면</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='item_detail.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='item_detail.css') }}"
+    />
 
     <!--아이콘 집어넣기 위한 코드-->
-    <script src="https://kit.fontawesome.com/a1969e7b61.js" crossorigin="anonymous"></script>
-
-</head>
-<body>
-   
-    <img src="../static/images/item.png" alt="item image" width="375px;">
-    <button id="return_btn" type="button" onclick="return_btn()">&lt; </button>
+    <script
+      src="https://kit.fontawesome.com/a1969e7b61.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div class="item_detail__img">
+      <img src="../static/images/item2_image.jpeg" alt="item image" />
+    </div>
+    <button class="return_btn" type="button" onclick="return_btn()">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
     <!--뒤로 가기 버튼 함수-->
     <script>
-        function return_btn(){
-            window.history.go(-1);
-        }
+      function return_btn() {
+        window.history.go(-1);
+      }
     </script>
-   
-    <h2 class="title">미니멀 스탠드</h2>
-   
-    <div id="detail">
-    <p class="use">
-        <i class="fa-solid fa-square-check fa-lg"></i>&nbsp;&nbsp;25,000원<br><br>
-        <i class="fa-solid fa-square-check fa-lg"></i>&nbsp;&nbsp;사용감 있음<br><br>
-        <i class="fa-sharp fa-solid fa-location-dot fa-lg"></i>&nbsp;&nbsp;법학관
-    </p>
 
-    
-    <p style="font-size: 14px;font-weight: bold;">ID : Ewhain34&nbsp;
-        <span style="color:gray; font-size: 12px;" >학점 <span style="color:rgb(15, 200, 15)">A+</span>
-    </p>
-    <p style="color:gray; font-size: 10px;">2달전</p>
-    <p style="font-size: 14px; color:rgb(75, 75, 75);line-height: 150%;">
-        사용한지 반년 정도 된 스탠드 협탁입니다.<br>
-        조만간 인테리어를 바꾸게 되어 판매합니다.
-    </p>
+    <main>
+      <h2 class="title">미니멀 스탠드</h2>
+
+      <div class="detail">
+        <div class="use">
+          <span>
+            <i class="fa-solid fa-won-sign fa-lg"></i>
+            25,000원
+          </span>
+          <span>
+            <i class="fa-solid fa-square-check fa-lg"></i>
+            사용감 있음
+          </span>
+          <span>
+            <i class="fa-sharp fa-solid fa-location-dot fa-lg"></i>
+            법학관
+          </span>
+        </div>
+      </div>
+
+      <div class="detail_info">
+        <div class="detail_info__seller">
+          <span>ID :</span>
+          <span class="seller_id">Ewhain34</span>
+          <span class="seller_rank">
+            학점
+            <span class="rank_eng">A+</span>
+          </span>
+        </div>
+        <p class="detail_info__date">2달전</p>
+        <p class="detail_info__item">
+          사용한지 반년 정도 된 스탠드 협탁입니다.<br />
+          조만간 인테리어를 바꾸게 되어 판매합니다.
+        </p>
+      </div>
+    </main>
+
+    <div class="item_detail__button item_box1_like">
+      <!--bookmark action을 일괄 적용위한 클래스 명 설정-->
+      <button class="bookmark_btn" type="button">
+        <i class="fa-regular fa-bookmark fa-xl"></i>
+      </button>
+      <button
+        class="dm_btn"
+        type="button"
+        onclick="document.location.href='/dm'"
+      >
+        채팅하기
+      </button>
     </div>
-    <br>
-
-    <div id="button">
-        <button id="bookmark_btn" type="button" onclick="bookmark()"><i class="fa-regular fa-bookmark fa-xl"></i>
-        <button id="dm_btn" type="button" onclick="">채팅하기</button>
-        <!--북마크 버튼을 누르면 색깔이 변하도록하는 함수-->
+    <!-- 북마크 버튼을 누르면 색깔이 변하도록하는 함수
         <script>
             function bookmark(){
                 var btn=document.getElementById("bookmark_btn");
@@ -56,9 +90,8 @@
                     btn.style.backgroundColor="rgb(172, 239, 172)";
                 }
             }
-        </script>
-    </div>
-    <br><br><br>
-    
-</body>
+        </script> -->
+  </body>
+  <script src="../static/components/simple_like_press.js"></script>
+  <script src="../static/components/base_header.js"></script>
 </html>
