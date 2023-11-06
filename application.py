@@ -116,6 +116,10 @@ def sellingPage():
 def likePage():
     return render_template("jjim_Page.html")
 
+@application.route("/user_Page")
+def userPage():
+    return render_template("user_Page.html")
+
 if __name__ == "__main__":
     application.run(host='0.0.0.0', debug=True)
     
