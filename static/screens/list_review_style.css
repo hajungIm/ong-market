@@ -2,8 +2,9 @@
 
 /*pagination postion 위치 덮어쓰기*/
 .pagination {
-    bottom: 4px;
+    bottom: 0px;
     left: 0px;
+    padding-bottom: 20px;
 }
 
 .list_review__page{

@@ -5,6 +5,8 @@
     bottom: 75px;
     left: 0px;
     padding: 15px;
+    background-color: white;
+    z-index: 8;
 }
 
 .pagination_list {

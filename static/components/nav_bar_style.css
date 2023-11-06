@@ -10,6 +10,7 @@
     left: 0;
 
     box-shadow: var(--nav-box-shadow);
+    z-index: 10;
 
 }
 

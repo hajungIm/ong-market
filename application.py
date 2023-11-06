@@ -27,6 +27,10 @@ def reg_review():
 def my_page():
     return render_template("mypage.html")
 
+@application.route("/dm")
+def dm():
+    return render_template("dm.html")
+
 
 @application.route("/submit_item")
 def reg_item_submit():
