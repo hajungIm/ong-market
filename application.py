@@ -4,7 +4,7 @@ application = Flask(__name__)
 
 @application.route("/")
 def hello():
-    return render_template("index.html")
+    return render_template("first_page.html")
 
 @application.route("/find_id")
 def find_id():
