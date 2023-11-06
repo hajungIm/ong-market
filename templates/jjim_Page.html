@@ -1,83 +1,147 @@
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="jjim_Page_style.css"/>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>거래완료</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
   </head>
   <body>
-    <table class="tableSetting">
-      <tr>
-        <td>
-          <div class="sell_head">
-            <div class="sell_body">찜한 상품</div>
+    <header class="base_header">
+      <a href="/" class="base_header__icon">
+        <i class="fa-solid fa-chevron-left fa-xl" style="color: #242424"></i>
+      </a>
+      <div>
+        <h2 class="base_header__title">찜한 상품</h2>
+      </div>
+      <div class="base_header__icon">
+        <!--레이아웃 배치용-->
+      </div>
+    </header>
+    <main class="list_page_box">
+      <!--서버 연동시 동일 코드 삭제하고 반복문으로 해결할 예정 -->
+      <div class="item_box1">
+        <div class="item_selection">
+          <div class="item_box1__img">
+            <img src="../static/images/item1_image.jpeg" alt="상품1" />
           </div>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <button class="line">
-              <img class="image" src="/Users/kimmijin/Downloads/그림1111.png"/>
-              <div class="objectName">원형 테이블</div>
-              <div class="sellerName">EwhaSeller1</div>
-              <div class="price">15,000원</div>
-              <div class="date">2일 전</div>
-              <div class="jjim">
-                <img style="width: 34px; height: 32px;"src="/Users/kimmijin/Downloads/찜한상품1.png"/>
-                <div class="jjim_1">5</div>
-              </div>
-          </button>
-          <div class="bottom_line"></div>
-        </td>
-      </tr>
-  
-      <tr>
-        <td>
-          <button class="line">
-              <img class="image" src="/Users/kimmijin/Downloads/그림2222.png" />
-              <div class="objectName">미니멀 스탠드</div>
-              <div class="sellerName">EwhaSeller2</div>
-              <div class="price">25,000원</div>
-              <div class="date">6일 전</div>
-              <div class="jjim">
-                <img style="width: 34px; height: 32px;"src="/Users/kimmijin/Downloads/찜한상품1.png"/>
-                <div class="jjim_1">4</div>
-              </div>
-          </button>
-          <div class="bottom_line"></div>
-        </td>
-      </tr>
-  
-      <tr>
-        <td>
-          <button class="line">
-              <img class="image" src="/Users/kimmijin/Downloads/그림3333.png" />
-              <div class="objectName">운동화</div>
-              <div class="sellerName">EwhaSeller3</div>
-              <div class="price">35,000원</div>
-              <div class="date">1달 전</div>
-              <div class="jjim">
-                <img style="width: 34px; height: 32px;"src="/Users/kimmijin/Downloads/찜한상품1.png"/>
-                <div class="jjim_1">7</div>
-              </div>
-          </button>
-          <div class="bottom_line"></div>
-        </td>
-      </tr>
-  
-      <tr>
-        <td>
-          <button class="line">
-              <img class="image" src="/Users/kimmijin/Downloads/그림4444.png" />
-              <div class="objectName">미니멀 책상</div>
-              <div class="sellerName">EwhaSeller4</div>
-              <div class="price">30,000원</div>
-              <div class="date">4달 전</div>
-              <div class="jjim">
-                <img style="width: 34px; height: 32px;"src="/Users/kimmijin/Downloads/찜한상품1.png"/>
-                <div class="jjim_1">2</div>
-              </div>
-          </button>
-          <div class="bottom_line"></div>
-        </td>
-      </tr>
-    </table>
+          <div class="item_box1__info">
+            <p class="item_box1__title">원형 테이블</p>
+            <div class="item_box1__upload">
+              <p class="item_box1__seller">EwhaSeller1</p>
+              <p class="item_box1__date">2일 전</p>
+            </div>
+            <p class="item_box1__price">15,000원</p>
+          </div>
+        </div>
+        <div class="item_box1__icon">
+          <div class="item_box1_like">
+            <div class="like_icon_box">
+              <i class="fa-regular fa-bookmark fa-lg"></i>
+            </div>
+            <p class="item_like_num">5</p>
+          </div>
+        </div>
+      </div>
+      <div class="item_box1">
+        <div class="item_selection">
+          <div class="item_box1__img">
+            <img src="../static/images/item2_image.jpeg" alt="상품2" />
+          </div>
+          <div class="item_box1__info">
+            <p class="item_box1__title">미니멀 스탠드</p>
+            <div class="item_box1__upload">
+              <p class="item_box1__seller">EwhaSeller2</p>
+              <p class="item_box1__date">6일 전</p>
+            </div>
+            <p class="item_box1__price">25,000원</p>
+          </div>
+        </div>
+        <div class="item_box1__icon">
+          <div class="item_box1_like">
+            <div class="like_icon_box">
+              <i class="fa-regular fa-bookmark fa-lg"></i>
+            </div>
+            <p class="item_like_num">4</p>
+          </div>
+        </div>
+      </div>
+      <div class="item_box1">
+        <div class="item_selection">
+          <div class="item_box1__img">
+            <img src="../static/images/item3_image.png" alt="상품3" />
+          </div>
+          <div class="item_box1__info">
+            <p class="item_box1__title">운동화</p>
+            <div class="item_box1__upload">
+              <p class="item_box1__seller">EwhaSeller3</p>
+              <p class="item_box1__date">1달 전</p>
+            </div>
+            <p class="item_box1__price">35,000원</p>
+          </div>
+        </div>
+        <div class="item_box1__icon">
+          <div class="item_box1_like">
+            <div class="like_icon_box">
+              <i class="fa-regular fa-bookmark fa-lg"></i>
+            </div>
+            <p class="item_like_num">7</p>
+          </div>
+        </div>
+      </div>
+      <div class="item_box1">
+        <div class="item_selection">
+          <div class="item_box1__img">
+            <img src="../static/images/item4_image.jpeg" alt="상품4" />
+          </div>
+          <div class="item_box1__info">
+            <p class="item_box1__title">미니멀 책상</p>
+            <div class="item_box1__upload">
+              <p class="item_box1__seller">EwhaSeller4</p>
+              <p class="item_box1__date">4달 전</p>
+            </div>
+            <p class="item_box1__price">30,000원</p>
+          </div>
+        </div>
+        <div class="item_box1__icon">
+          <div class="item_box1_like">
+            <div class="like_icon_box">
+              <i class="fa-regular fa-bookmark fa-lg"></i>
+            </div>
+            <p class="item_like_num">2</p>
+          </div>
+        </div>
+      </div>
+      <div class="item_box1">
+        <div class="item_selection">
+          <div class="item_box1__img">
+            <img src="../static/images/item5_image.png" alt="상품5" />
+          </div>
+          <div class="item_box1__info">
+            <p class="item_box1__title">미니 인형 키링</p>
+            <div class="item_box1__upload">
+              <p class="item_box1__seller">EwhaSeller5</p>
+              <p class="item_box1__date">6달 전</p>
+            </div>
+            <p class="item_box1__price">5,000원</p>
+          </div>
+        </div>
+        <div class="item_box1__icon">
+          <div class="item_box1_like">
+            <div class="like_icon_box">
+              <i class="fa-regular fa-bookmark fa-lg"></i>
+            </div>
+            <p class="item_like_num">9</p>
+          </div>
+        </div>
+      </div>
+    </main>
   </body>
-  
+  <script
+    src="https://kit.fontawesome.com/afee348a73.js"
+    crossorigin="anonymous"
+  ></script>
+</html>
