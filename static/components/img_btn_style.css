@@ -12,7 +12,8 @@
   }
 
   .input-hidden {
-    display: none;
+    /* display: none; */
+    opacity: 0.1;
   }
 
 .upload-container__icon{

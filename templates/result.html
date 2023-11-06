@@ -3,34 +3,97 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>상품 등록 결과 화면</title>
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='result_style.css') }}"
+      href="{{ url_for('static', filename='item_detail.css') }}"
     />
-    <title>상품 등록 결과 화면</title>
+
+    <!--아이콘 집어넣기 위한 코드-->
+    <script
+      src="https://kit.fontawesome.com/a1969e7b61.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
-    <p>
-      판매자 {{data.userId}})가 {{data.itemName}}을 {{data.price}}원에
-      판매합니다. <br />
-      상품 상태는 {% if data['status']=="좋음" %} 좋고, {% endif %} {% if
-      data['status']=="보통" %} 보통이고, {% endif %} {% if
-      data['status']=="나쁨" %} 나쁘고, {% endif %} 상품에 대한 상세 설명은
-      다음과 같습니다. <br />
-      {{data.description}}<br />
+    <div class="item_detail__img">
+      <img src="{{img_path}}" alt="item image" />
+    </div>
 
-      {% if data['transaction']=="대면" %} 대면으로 {% if
-      data['location']=="학관" %} 학관 {% endif %} {% if
-      data['location']=="아산공학관" %} 아산공학관 {% endif %} {% if
-      data['location']=="신공학관" %} 신공학관 {% endif %} {% if
-      data['location']=="포스코관" %} 포스코관 {% endif %}{% if
-      data['location']=="종합과학관" %} 종합과학관 {% endif %} 에서 {% endif %}
-      {% if data['transaction']=="비대면 (택배, 우편)" %} 비대면 (택배,
-      우편)으로 {% endif %} 거래하길 원합니다.
-    </p>
+    <!-- <button class="return_btn" type="button" onclick="return_btn()">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <script>
+      function return_btn() {
+        window.history.go(-1);
+      }
+    </script> -->
 
-    <form action="/" method="GET">
-      <button id="submit_btn" type="submit">돌아가기</button>
-    </form>
+    <main>
+      <h2 class="title">{{data.itemName}}</h2>
+
+      <div class="detail">
+        <div class="use">
+          <span>
+            <i class="fa-solid fa-won-sign fa-lg"></i>
+            {{data.price}}
+          </span>
+          <span>
+            <i class="fa-solid fa-square-check fa-lg"></i>
+            {% if data['status']=="good" %}좋음{% endif %} {% if
+            data['status']=="common" %}보통{% endif %} {% if
+            data['status']=="bad" %}나쁨{% endif %}
+          </span>
+          <span>
+            <i class="fa-sharp fa-solid fa-location-dot fa-lg"></i>
+            {% if data['transaction']=="f2f" %} {% if
+            data['location']=="ECC"%}ECC{% endif %} {% if
+            data['location']=="공학관"%}공학관(아산공학관, 신공학관){% endif %}
+            {% if data['location']=="교육관" %}교육관{% endif %} {% if
+            data['location']=="기숙사e" %}기숙사(E-house, 한우리){% endif %} {%
+            if data['location']=="기숙사i" %}기숙사(I-house){% endif %} {% if
+            data['location']=="대강당" %}대강당{% endif %} {% if
+            data['location']=="신세계관" %}신세계관{% endif %} {% if
+            data['location']=="음악관" %}음악관{% endif %} {% if
+            data['location']=="정문" %}정문{% endif %} {% if
+            data['location']=="종합과학관" %}종합과학관{% endif %} {% if
+            data['location']=="중앙도서관" %}중앙도서관{% endif %} {% if
+            data['location']=="조형예술관" %}조형예술관{% endif %} {% if
+            data['location']=="포스코관" %}포스코관{% endif %} {% if
+            data['location']=="학관" %}학관{% endif %}{% endif %} {% if
+            data['transaction']=="no-f2f" %}비대면 (택배, 우편){% endif %}
+          </span>
+        </div>
+      </div>
+
+      <div class="detail_info">
+        <div class="detail_info__seller">
+          <span>ID :</span>
+          <span class="seller_id">{{data.userId}}</span>
+          <span class="seller_rank">
+            학점
+            <span class="rank_eng">A+</span>
+          </span>
+        </div>
+        <p class="detail_info__date">방금 전</p>
+        <pre class="detail_info__item">{{data.description}}</pre>
+      </div>
+    </main>
+
+    <div class="item_detail__button item_box1_like">
+      <!--bookmark action을 일괄 적용위한 클래스 명 설정-->
+      <!-- <button class="bookmark_btn" type="button">
+        <i class="fa-regular fa-bookmark fa-xl"></i>
+      </button> -->
+      <button
+        class="dm_btn"
+        type="button"
+        onclick="document.location.href='/list'"
+      >
+        돌아가기
+      </button>
+    </div>
   </body>
+  <script src="../static/components/simple_like_press.js"></script>
+  <script src="../static/components/base_header.js"></script>
 </html>

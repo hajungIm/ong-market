@@ -45,10 +45,16 @@ def reg_item_submit():
     print(userId, itemName, price, status, description, transaction, location)
     return render_template("")
 
+
+#사용자가 등록한 상품 이미지는 images 폴더 아래에 있는 regItem에 들어가도록 경로 설정
 @application.route("/submit_item_post", methods=['POST'])
 def reg_item_submit_post():
+    image_file=request.files["itemImg"]
+    image_file.save("static/images/regItem/{}".format(image_file.filename))
     data=request.form
-    return render_template("result.html", data=data)
+    return render_template("result2.html", data=data, img_path="static/images/regItem/{}".format(image_file.filename))
+
+
 
 @application.route("/mypage")
 def mypage():
