@@ -120,6 +120,10 @@ def likePage():
 def userPage():
     return render_template("user_Page.html")
 
+@application.route("/chatting_list")
+def chattingListPage():
+    return render_template("chatting_list.html")
+
 if __name__ == "__main__":
     application.run(host='0.0.0.0', debug=True)
     
