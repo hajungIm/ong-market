@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입 화면</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='mem_register.css') }}">
+    
+</head>
+<body>
+    <header class="header">
+        
+    </header>
+    <img src="../static/images/logo.png" alt="logo image" width="375px;">
+    <h1>회원가입</h1>
+    
+    <div id="box">
+    <div id="mem_register">
+        <form method="post">
+            <h4>Name</h4>
+            <input id="name" type="text" name="name" style="border:none" required>
+            <hr>
+
+            <h4>Id</h4>
+            <button class="check_button" id="check_id_button" type="button" onclick="check_id()">check</button>
+            <input id="id" type="text" name="id" style="border:none;" required>
+            <script>
+                /*사용가능 아이디 확인 임시 함수*/
+                function check_id(){
+                    var id=document.getElementById("id");
+                    var btn=document.getElementById("check_id_button");
+
+                    /*기능 확인을 위해 임의로 정한 if문*/
+                    if(id.value=="ewha"){
+                        alert("중복 아이디입니다.다른 아이디를 입력해주세요!");
+                        id.value=null;
+                    }
+                    else if(id.value==""){
+                        alert("아이디를 입력해주세요!")
+                    }
+                    else{
+                        alert("사용 가능한 아이디입니다");
+                        btn.style.backgroundColor="green";
+                    }
+                }
+
+            </script>
+            <hr>
+
+            <h4>Password</h4>
+            <input id="password" type="text" name="password" style="border:none" required>
+            <hr>
+
+            <h4>Confirm Password</h4>
+            <button class="check_button" id="check_pw_button" type="button" onclick="check_pw()">check</button>
+            <input id="confirm_password" type="text" name="confirm_password" style="border:none" required>
+            <script>
+                /*비밀번호 일치 확인 임시 함수*/
+                function check_pw(){
+                    var pw=document.getElementById("password");
+                    var confirm_pw=document.getElementById("confirm_password");
+                    var btn=document.getElementById('check_pw_button');
+                    
+                    if(pw.value != confirm_pw.value){
+                        alert('비밀번호가 일치하지 않습니다.다시 입력해주세요!');
+                        confirm_pw.value=null;
+                        btn.style.backgroundColor="rgb(112, 111, 111)";
+                    }
+                    else if(confirm_pw.value==""){
+                        alert("비밀번호를 입력해주세요!")
+                    }
+                    else{
+                        alert("비밀번호 확인 완료")
+                        btn.style.backgroundColor="green";
+                    }
+                }
+            </script>
+            <hr>
+
+            <h4>Ewha Email</h4>
+            <button class="check_button" id="check_email_button" type="button" 
+            onclick="parent.location.href='/student_check'">check</button>
+            <input id="Ewha_mail" type="text" name="Ewha_mail" style="border:none" required>
+            <hr><br><br>
+
+        
+        
+        <button id="mem_register_button" type="submit" onclick=""><b>가입하기</b></button>
+        </form>
+        
+        <p id="question"><a>이미 계정을 가지고 계신가요?</a> <a href="/login"><b>로그인</b></a></p>
+    </div>
+    </div>
+    <br><br><br>
+        
+</body>
+</html>
