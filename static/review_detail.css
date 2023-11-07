@@ -16,7 +16,7 @@ body {
 #item{
     height: 120px;
     margin: 0px 15px;
-    padding-bottom: 10px;
+    padding-bottom: 8x;
     display: flex;
     gap: 10px;
     align-items: center;
@@ -25,8 +25,8 @@ body {
 
 .review_detail__img {
     overflow: hidden;
-    width: 110px;
-    height: 110px;
+    width: 90px;
+    height: 90px;
     border-radius: 8px;
 
 }
@@ -50,13 +50,13 @@ p.item{
     margin-bottom: 8px;
     font-weight: 600; 
     color: var(--black-3);
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .item__price {
     font-weight: 800;
-    font-size: 22px;
-    margin-bottom: 15px;
+    font-size: 20px;
+    margin-bottom: 10px;
 }
 
 .item__review-star{
