@@ -130,6 +130,10 @@ def userPage():
 def chattingListPage():
     return render_template("chatting_list.html")
 
+@application.route("/keyword")
+def keywordPage():
+    return render_template("keyword.html")
+
 if __name__ == "__main__":
     application.run(host='0.0.0.0', debug=True)
     

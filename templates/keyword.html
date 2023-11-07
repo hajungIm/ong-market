@@ -1,0 +1,96 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>프로필</title>
+        <link
+          rel="stylesheet"
+          href="{{ url_for('static', filename='keyword_style.css') }}"
+        />
+      </head>
+<body>
+    <header class="base_header">
+        <a href="/mypage" class="base_header__icon">
+        <i class="fa-solid fa-chevron-left fa-xl" style="color: #242424"></i>
+        </a>
+        <div>
+        <h2 class="base_header__title">프로필</h2>
+        </div>
+        <div class="base_header__icon">
+        <!--레이아웃 배치용-->
+        </div>
+    </header>
+    <main>
+        <div id="profile_details" style="display: block;">
+            <div id="profile_details" style="display: flex;">
+                <img src="../static/images/profile.jpg" style="width: 80px; height: 80px;" alt="프로필 사진" />
+                <div class="profile_details__info">
+                    <div>
+                        <span class="profile_name">이화인 </span>
+                    </div>
+                    <span class="profile_rank">
+                        등급
+                        <span class="profile_rank_eng">A+</span>
+                    </span>
+                </div>
+            </div>
+            <div class="for_layout"></div>
+            <button class="review_btn" href="">받은 리뷰 보기</button>
+        </div>
+        <div class="item_box1"></div>
+        <div style="width: 100%; height: 10%; justify-content: flex-start; align-items: flex-start;display: inline-flex; padding-top: 5%;">
+            <div style="color: #303030; font-size: 15px; font-weight: 700;">받은 리뷰 평가</div>
+            <div style="color: #707070; font-size: 15px; font-weight: 700;">(10명 참여)</div>
+        </div>
+        <div class="keyword_box">
+            <div class="keyword_box_1">
+                <div style="width: 264px;" class="green"></div>
+                <div class="keyword_text">시간 약속을 잘 지켜요.</div>
+                <div class="keyword_num">7</div>
+            </div>
+            <div class="keyword_box_1">
+                <div style="width: 168px;" class="green_1"></div>
+                <div class="keyword_text">상품 설명이 자세해요.</div>
+                <div class="keyword_num">5</div>
+            </div>
+            <div class="keyword_box_1">
+                <div style="width: 168px;"  class="green_1"></div>
+                <div class="keyword_text">가격이 합리적이에요.</div>
+                <div class="keyword_num">5</div>
+            </div>
+            <div class="keyword_box_1">
+                <div style="width: 168px;"  class="green_1"></div>
+                <div class="keyword_text">친절하고 매너가 좋아요.</div>
+                <div class="keyword_num">5</div>
+            </div>
+            <div class="keyword_box_1">
+                <div style="width: 126px;" class="green_2"></div>
+                <div class="keyword_text">상품상태가 설명한 것과 같아요.</div>
+                <div class="keyword_num">3</div>
+            </div>
+            <div class="keyword_box_1">
+                <div style="width: 80px;"  class="green_1"></div>
+                <div class="keyword_text">응답이 빨라요.</div>
+                <div class="keyword_num">2</div>
+            </div>
+            <div class="keyword_box_1">
+                <div style="width: 40px;" class="green_3"></div>
+                <div class="keyword_text">나눔을 해주셨어요.</div>
+                <div class="keyword_num">1</div>
+            </div>
+            <div class="keyword_box_1">
+                <div class="keyword_text">제가 있는 곳까지 와서 거래했어요.</div>
+                <div class="keyword_num">0</div>
+            </div>
+        </div>
+
+    </main>
+</body>
+<script src="../static/components/base_header.js"></script> 
+<script
+  src="https://kit.fontawesome.com/afee348a73.js"
+  crossorigin="anonymous"
+></script>
+<script src="../static/screens/list.js"></script>
+<script src="../static/components/like_press.js"></script>
+</html>
