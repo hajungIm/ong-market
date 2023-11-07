@@ -1,6 +1,7 @@
 @import "reset.css";
 @import "components/base_header_style.css";
 @import "font.css";
+@import "style.css";
 
 body{
   width: 100%; 
