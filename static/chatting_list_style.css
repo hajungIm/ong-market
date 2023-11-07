@@ -145,3 +145,10 @@ body{
     grid-row-start: 1;
     grid-row-end: 2;
 }
+
+
+div.item_box1 {
+  box-sizing: border-box;
+  padding: 25px;
+
+}
