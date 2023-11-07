@@ -9,6 +9,7 @@ body{
 main {
     margin-top: 65px;
     padding: 10px 20px;
+
 }
 
 
@@ -122,11 +123,12 @@ main {
     font-size: 13px;
     font-weight: 600;
     text-align: right;
+    margin-top: 40px;
     /* margin-top: 80px;
     margin-right: 20px; */
-    position: absolute;
+    /* position: absolute;
     bottom: 95px;
-    right: 30px;
+    right: 30px; */
 }
 
 a.mypage_link{
