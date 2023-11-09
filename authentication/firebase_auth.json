@@ -1,0 +1,9 @@
+{
+  "apiKey": "AIzaSyDWz1_ZttmWjc1IzQRI8wMAe-IqeYDzark",
+  "authDomain": "ong-market.firebaseapp.com",
+  "databaseURL": "https://ong-market-default-rtdb.firebaseio.com",
+  "projectId": "ong-market",
+  "storageBucket": "ong-market.appspot.com",
+  "messagingSenderId": "464409088344",
+  "appId": "1:464409088344:web:bd00bf2f298988db2c552d"
+}
