@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, sessions
+from flask import Flask, render_template, request, flash, redirect, url_for, session
 from database import DBhandler
 import hashlib
 
@@ -11,6 +11,27 @@ DB = DBhandler()
 @application.route("/")
 def hello():
     return render_template("index.html")
+
+@application.route("/login_confirm", methods=['POST'])
+def login_user():
+    id_=request.form['id']
+    pw=request.form['password']
+    pw_hash=hashlib.sha256(pw.encode('utf-8')).hexdigest()
+    if DB.find_user(id_, pw_hash):
+        session['id']=id_
+        return redirect(url_for('list'))
+    else:
+        flash("Wrong ID or PW!")
+        return render_template("login.html")
+    
+def find_user(self, id_, pw_):
+    users = self.db.child("user").get()
+    target_value=[]
+    for res in users.each():
+        value = res.val()
+        if value['id'] == id_ and value['pw'] == pw_:
+            return True
+    return False
 
 @application.route("/list")
 def view_list():
