@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash, redirect, sessions
 from database import DBhandler
+import hashlib
 
 import sys
 
@@ -56,10 +57,8 @@ def reg_item_submit():
 def reg_item_submit_post():
     image_file=request.files["itemImg"]
     image_file.save("static/images/regItem/{}".format(image_file.filename))
-    data=request.form
+    data=request.form    
     return render_template("result.html", data=data, img_path="static/images/regItem/{}".format(image_file.filename))
-
-
 
 @application.route("/mypage")
 def mypage():
@@ -93,9 +92,6 @@ def find_password_fail():
 def item_detail():
     return render_template("item_detail.html")
 
-@application.route("/login")
-def login():
-    return render_template("login.html")
 
 @application.route("/mem_register")
 def mem_register():
