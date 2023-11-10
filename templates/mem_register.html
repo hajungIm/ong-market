@@ -6,6 +6,23 @@
     <title>회원가입 화면</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='mem_register.css') }}">
     
+        
+    <script>
+        let unduplicatedId = false;
+        let rightPassword = false;
+        let rightEmail = true;
+        
+        function checkRequired() {
+            isValid = (unduplicatedId && rightPassword && rightEmail);
+            
+            if (!isValid) {
+                alert("가입 조건을 체크해주세요!")
+                return false;
+            }
+            
+            return ture;
+        }
+    </script>
 </head>
 <body>
     <header class="header">
@@ -16,7 +33,7 @@
     
     <div id="box">
     <div id="mem_register">
-        <form method="post">
+        <form action="/signup_post" method="post" onsubmit="return checkRequired()">
             <h4>Name</h4>
             <input id="name" type="text" name="name" style="border:none" required>
             <hr>
@@ -41,6 +58,7 @@
                     else{
                         alert("사용 가능한 아이디입니다");
                         btn.style.backgroundColor="green";
+                        unduplicatedId = true;
                     }
                 }
 
@@ -48,12 +66,12 @@
             <hr>
 
             <h4>Password</h4>
-            <input id="password" type="text" name="password" style="border:none" required>
+            <input id="password" type="password" name="password" style="border:none" required>
             <hr>
 
             <h4>Confirm Password</h4>
             <button class="check_button" id="check_pw_button" type="button" onclick="check_pw()">check</button>
-            <input id="Confirm Password" type="text" name="Confirm Password" style="border:none" required>
+            <input id="confirm_password" type="password" name="Confirm Password" style="border:none" required>
             <script>
                 /*비밀번호 일치 확인 임시 함수*/
                 function check_pw(){
@@ -72,6 +90,7 @@
                     else{
                         alert("비밀번호 확인 완료")
                         btn.style.backgroundColor="green";
+                        rightPassword = true;
                     }
                 }
             </script>
@@ -85,13 +104,14 @@
 
         
         
-        <button id="mem_register_button" type="submit" onclick=""><b>가입하기</b></button>
-        </form>
+        <button id="mem_register_button" type="submit" value="Submit"><b>가입하기</b></button>
+        
         
         <p id="question"><a>이미 계정을 가지고 계신가요?</a> <a href="/login"><b>로그인</b></a></p>
     </div>
     </div>
     <br><br><br>
+    
         
 </body>
 </html>

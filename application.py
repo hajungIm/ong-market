@@ -5,12 +5,17 @@ import hashlib
 import sys
 
 application = Flask(__name__)
+application.config["SECRET_KEY"]="helloosp"
 
 DB = DBhandler()
 
 @application.route("/")
 def hello():
     return render_template("index.html")
+
+@application.route("/login")
+def login():
+    return render_template("login.html")
 
 @application.route("/login_confirm", methods=['POST'])
 def login_user():
@@ -32,6 +37,21 @@ def find_user(self, id_, pw_):
         if value['id'] == id_ and value['pw'] == pw_:
             return True
     return False
+
+@application.route("/mem_register")
+def mem_register():
+    return render_template("mem_register.html")
+
+@application.route("/signup_post", methods=['POST'])
+def register_user():
+    data=request.form
+    pw=request.form['password']
+    pw_hash=hashlib.sha256(pw.encode('utf-8')).hexdigest()
+    if DB.insert_user(data,pw_hash):
+        return render_template("login.html")
+    else:
+        flash("user id already exist!")
+        return render_template("mem_register.html")
 
 @application.route("/list")
 def view_list():
@@ -112,11 +132,6 @@ def find_password_fail():
 @application.route("/item_detail")
 def item_detail():
     return render_template("item_detail.html")
-
-
-@application.route("/mem_register")
-def mem_register():
-    return render_template("mem_register.html")
 
 @application.route("/review_detail")
 def review_detail():
