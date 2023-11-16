@@ -168,7 +168,7 @@ def userPage():
 def chattingListPage():
     return render_template("chatting_list.html")
 
-@application.route("/keyword")
+@application.route("/list_review")
 def keywordPage():
     return render_template("keyword.html")
 
