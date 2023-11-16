@@ -15,6 +15,13 @@
     <img src="../static/images/logo.png" alt="logo image" width="375px;" />
     <h1>로그인</h1>
     <p><br /><br /></p>
+      
+      <!-- 플래시 메시지 표시 -->
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <script>alert("{{ messages[0] }}");</script>
+    {% endif %}
+    {% endwith %}
 
     <div id="box">
       <div id="login">
