@@ -1,181 +1,121 @@
 <!DOCTYPE html>
 <html lang="kr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
-    <title>상품 전체 조회</title>
-  </head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+        <title>상품 전체 조회</title>
+    </head>
 
-  <body>
-    <header class="base_header">
-      <div class="item_option">
-        <button class="item_option__btn" id="item_option_btn">
-          <i class="fa-solid fa-check" style="color: #ffffff"></i>
-          <p>대면</p>
-        </button>
+    <body>
+        <header class="base_header">
+            <div class="item_option">
+                <button class="item_option__btn" id="item_option_btn">
+                    <i class="fa-solid fa-check" style="color: #ffffff;"></i>
+                    <p>대면</p>
+                </button>
 
-        <select
-          class="item_option__select"
-          id="select_place"
-          name="select_place"
-        >
-          <option value="all" selected>모두</option>
-          <option value="ECC">ECC</option>
-          <option value="공학관">공학관(아산공학관, 신공학관)</option>
-          <option value="교육관">교육관</option>
-          <option value="기숙사e">기숙사(E-house, 한우리)</option>
-          <option value="기숙사i">기숙사(I-house)</option>
-          <option value="대강당">대강당</option>
-          <option value="신세계관">신세계관</option>
-          <option value="음악관">음악관</option>
-          <option value="정문">정문</option>
-          <option value="종합과학관">종합과학관</option>
-          <option value="중앙도서관">중앙도서관</option>
-          <option value="조형예술관">조형예술관</option>
-          <option value="포스코관">포스코관</option>
-          <option value="학관">학관</option>
-        </select>
-      </div>
-      <input
-        class="reg_item_btn"
-        type="button"
-        onclick="window.location.href='/reg_item'"
-        value="상품등록"
-      />
-      <!--레이아웃 배치용-->
-    </header>
+                <select class="item_option__select" id="select_place" name="select_place">
+                    <option value="all" selected>모두</option>
+                    <option value="ECC">ECC</option>
+                    <option value="공학관">공학관(아산공학관, 신공학관)</option>
+                    <option value="교육관">교육관</option>
+                    <option value="기숙사e">기숙사(E-house, 한우리)</option>
+                    <option value="기숙사i">기숙사(I-house)</option>
+                    <option value="대강당">대강당</option>
+                    <option value="신세계관">신세계관</option>
+                    <option value="음악관">음악관</option>
+                    <option value="정문">정문</option>
+                    <option value="종합과학관">종합과학관</option>
+                    <option value="중앙도서관">중앙도서관</option>
+                    <option value="조형예술관">조형예술관</option>
+                    <option value="포스코관">포스코관</option>
+                    <option value="학관">학관</option>
+                </select>
+            </div>
+            <input
+                class="reg_item_btn"
+                type="button"
+                onclick="window.location.href='/reg_item'"
+                value="상품등록"
+            />
+            <!--레이아웃 배치용-->
+        </header>
+        <main class="list_page_box">
+            {% for key, value in datas %}
+            <div class="item_box1">
+                <div class="item_selection">
+                    <div class="item_box1__img">
+                        <img
+                            src="{{ url_for('static', filename=value.img_path) }}"
+                            alt="{{ key }}"
+                        />
+                    </div>
+                    <div class="item_box1__info">
+                        <p class="item_box1__title">{{ value.itemName }}</p>
+                        <div class="item_box1__upload">
+                            <p class="item_box1__seller">{{ value.userId }}</p>
+                            <p class="item_box1__date">{{ value.createdAt }}</p>
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    var dateElements = document.querySelectorAll(
+                                        '.item_box1__date'
+                                    );
+                                    dateElements.forEach(function (elem) {
+                                        // HTML 요소에서 날짜 문자열 읽기
+                                        var dateString = elem.textContent;
 
-    <main class="list_page_box">
-      <!--서버 연동시 동일 코드 삭제하고 반복문으로 해결할 예정 -->
-      <div class="item_box1">
-        <div class="item_selection">
-          <div class="item_box1__img">
-            <img src="../static/images/item1_image.jpeg" alt="상품1" />
-          </div>
-          <div class="item_box1__info">
-            <p class="item_box1__title">원형 테이블</p>
-            <div class="item_box1__upload">
-              <p class="item_box1__seller">EwhaSeller1</p>
-              <p class="item_box1__date">2일 전</p>
-            </div>
-            <p class="item_box1__price">15,000원</p>
-          </div>
-        </div>
-        <div class="item_box1__icon">
-          <div class="item_box1_like">
-            <div class="like_icon_box">
-              <i class="fa-regular fa-bookmark fa-lg"></i>
-            </div>
-            <p class="item_like_num">5</p>
-          </div>
-        </div>
-      </div>
-      <div class="item_box1">
-        <div class="item_selection">
-          <div class="item_box1__img">
-            <img src="../static/images/item2_image.jpeg" alt="상품2" />
-          </div>
-          <div class="item_box1__info">
-            <p class="item_box1__title">미니멀 스탠드</p>
-            <div class="item_box1__upload">
-              <p class="item_box1__seller">EwhaSeller2</p>
-              <p class="item_box1__date">6일 전</p>
-            </div>
-            <p class="item_box1__price">25,000원</p>
-          </div>
-        </div>
-        <div class="item_box1__icon">
-          <div class="item_box1_like">
-            <div class="like_icon_box">
-              <i class="fa-regular fa-bookmark fa-lg"></i>
-            </div>
-            <p class="item_like_num">4</p>
-          </div>
-        </div>
-      </div>
-      <div class="item_box1">
-        <div class="item_selection">
-          <div class="item_box1__img">
-            <img src="../static/images/item3_image.png" alt="상품3" />
-          </div>
-          <div class="item_box1__info">
-            <p class="item_box1__title">운동화</p>
-            <div class="item_box1__upload">
-              <p class="item_box1__seller">EwhaSeller3</p>
-              <p class="item_box1__date">1달 전</p>
-            </div>
-            <p class="item_box1__price">35,000원</p>
-          </div>
-        </div>
-        <div class="item_box1__icon">
-          <div class="item_box1_like">
-            <div class="like_icon_box">
-              <i class="fa-regular fa-bookmark fa-lg"></i>
-            </div>
-            <p class="item_like_num">7</p>
-          </div>
-        </div>
-      </div>
-      <div class="item_box1">
-        <div class="item_selection">
-          <div class="item_box1__img">
-            <img src="../static/images/item4_image.jpeg" alt="상품4" />
-          </div>
-          <div class="item_box1__info">
-            <p class="item_box1__title">미니멀 책상</p>
-            <div class="item_box1__upload">
-              <p class="item_box1__seller">EwhaSeller4</p>
-              <p class="item_box1__date">4달 전</p>
-            </div>
-            <p class="item_box1__price">30,000원</p>
-          </div>
-        </div>
-        <div class="item_box1__icon">
-          <div class="item_box1_like">
-            <div class="like_icon_box">
-              <i class="fa-regular fa-bookmark fa-lg"></i>
-            </div>
-            <p class="item_like_num">2</p>
-          </div>
-        </div>
-      </div>
-      <div class="item_box1">
-        <div class="item_selection">
-          <div class="item_box1__img">
-            <img src="../static/images/item5_image.png" alt="상품5" />
-          </div>
-          <div class="item_box1__info">
-            <p class="item_box1__title">미니 인형 키링</p>
-            <div class="item_box1__upload">
-              <p class="item_box1__seller">EwhaSeller5</p>
-              <p class="item_box1__date">6달 전</p>
-            </div>
-            <p class="item_box1__price">5,000원</p>
-          </div>
-        </div>
-        <div class="item_box1__icon">
-          <div class="item_box1_like">
-            <div class="like_icon_box">
-              <i class="fa-regular fa-bookmark fa-lg"></i>
-            </div>
-            <p class="item_like_num">9</p>
-          </div>
-        </div>
-      </div>
+                                        // 날짜 문자열 파싱
+                                        var dateParts = dateString.split('T');
+                                        var date = dateParts[0].split('-');
+                                        var time = dateParts[1].split(':');
+                                        var seconds = time[2].split('.');
 
-      {% include 'pagination.html' %}
-    </main>
+                                        // Date 객체 생성
+                                        var createdAt = new Date(
+                                            Date.UTC(
+                                                parseInt(date[0]), // 년
+                                                parseInt(date[1]) - 1, // 월 (0부터 시작)
+                                                parseInt(date[2]), // 일
+                                                parseInt(time[0]), // 시
+                                                parseInt(time[1]), // 분
+                                                parseInt(seconds[0]) // 초
+                                            )
+                                        );
 
-    {% include 'nav_bar.html' %}
-  </body>
-  <script
-    src="https://kit.fontawesome.com/afee348a73.js"
-    crossorigin="anonymous"
-  ></script>
-  <script src="../static/screens/list.js"></script>
-  <script src="../static/components/like_press.js"></script>
+                                        // 현재 시간과의 차이 계산
+                                        var now = new Date();
+                                        var timeDiff = now.getTime() - createdAt.getTime();
+
+                                        // 차이를 일 단위로 변환
+                                        var daysAgo = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+
+                                        elem.textContent = daysAgo + '일 전';
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <p class="item_box1__price">{{ value.price }}원</p>
+                    </div>
+                </div>
+                <div class="item_box1__icon">
+                    <div class="item_box1_like">
+                        <div class="like_icon_box">
+                            <i class="fa-regular fa-bookmark fa-lg"></i>
+                        </div>
+                        <p class="item_like_num">{{ value.like_count }}</p>
+                    </div>
+                </div>
+            </div>
+
+            {% else %}
+            <p>등록된 상품이 없습니다.</p>
+            {% endfor %} {% include 'pagination.html' %}
+        </main>
+
+        {% include 'nav_bar.html' %}
+    </body>
+    <script src="https://kit.fontawesome.com/afee348a73.js" crossorigin="anonymous"></script>
+    <script src="../static/screens/list.js"></script>
+    <script src="../static/components/like_press.js"></script>
 </html>

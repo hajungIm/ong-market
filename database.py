@@ -1,5 +1,6 @@
 import pyrebase
 import json
+from datetime import datetime
 
 class DBhandler:
     def __init__(self):
@@ -43,7 +44,9 @@ class DBhandler:
                 return True
         return False
         
-    def insert_item(self, name, data, img_path):
+    def insert_item(self, unique_id, data, img_path):
+        current_time = datetime.utcnow().isoformat() + 'Z'
+
         item_info = {
                 "userId": data['userId'],
                 "itemName": data['itemName'],
@@ -51,12 +54,31 @@ class DBhandler:
                 "status": data['status'],
                 "description": data['description'],
                 "transaction": data['transaction'],
-                "img_path": img_path
+                "img_path": img_path,
+                "like_count": 0,
+                "createdAt": current_time
             }
         if data['transaction'] == "p2p":
             item_info.append("location")
             item_info.location = data['location']
 
-        self.db.child("item").child(name).set(item_info)
+        self.db.child("item").child(unique_id).set(item_info)
         print(data, img_path)
         return True
+    
+    def get_items(self):
+        items = self.db.child("item").get().val()
+        return items
+    
+    def get_item_by_name(self, name):
+        items = self.db.child("item").get()
+        target_value=""
+        print("###########",name)
+        for res in items.each():
+            key_value = res.key()
+            
+            if key_value == name:
+                target_value=res.val()
+        return target_value
+
+    

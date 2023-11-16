@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 from database import DBhandler
 import hashlib
+import uuid
 
 import sys
 
@@ -11,7 +12,8 @@ DB = DBhandler()
 
 @application.route("/")
 def hello():
-    return render_template("index.html")
+    #return render_template("index.html")
+    return redirect(url_for('view_list'))
 
 @application.route("/login")
 def login():
@@ -60,7 +62,25 @@ def register_user():
 
 @application.route("/list")
 def view_list():
-    return render_template("list.html")
+    page = request.args.get("page", 0, type=int)
+    per_page=5
+    per_row=1
+    row_count = int(per_page/per_row)
+    start_idx=per_page*page
+    end_idx=per_page*(page+1)
+
+    data = DB.get_items()
+    item_counts = len(data)
+    data = dict(list(data.items())[start_idx:end_idx])
+    tot_count = len(data)
+    
+    for i in range(row_count):#last row 
+        locals()['data_{}'.format(i)] = dict(list(data.items())[i*per_row:(i+1)*per_row])       
+
+    return render_template("list.html", datas=data.items(),
+                           row1=locals()['data_0'].items(), row2=locals()['data_1'].items(), row3=locals()['data_2'].items(), row4=locals()['data_3'].items(), row5=locals()['data_4'].items(),
+                           limit=per_page, page=page+1, page_count=int((item_counts/per_page)+1),
+                           total=item_counts)
 
 @application.route("/review_list")
 def review_list():
@@ -101,11 +121,18 @@ def reg_item_submit():
 #사용자가 등록한 상품 이미지는 images 폴더 아래에 있는 regItem에 들어가도록 경로 설정
 @application.route("/reg_item_post", methods=['POST'])
 def reg_item_submit_post():
+    # 고유 UUID 생성
+    unique_id = str(uuid.uuid4())
+    
     image_file=request.files["itemImg"]
-    image_file.save("static/images/regItem/{}".format(image_file.filename))
+    file_extension = image_file.filename.rsplit('.',1)[1].lower()
+    image_file_path = "images/regItem/{}.{}".format(unique_id, file_extension)
+    save_path = "static/" + image_file_path
+    image_file.save(save_path)
+
     data=request.form 
-    DB.insert_item(data['itemName'], data, image_file.filename)
-    return render_template("result.html", data=data, img_path="static/images/regItem/{}".format(image_file.filename))
+    DB.insert_item(unique_id, data, image_file_path)
+    return render_template("result.html", data=data, img_path=save_path)
 
 @application.route("/mypage")
 def mypage():
@@ -177,5 +204,12 @@ def chattingListPage():
 def keywordPage():
     return render_template("keyword.html")
 
+@application.route("/view_detail/<name>/")
+def view_item_detail(name):
+    print("###name:",name)
+    data = DB.get_item_byname(str(name))
+    print("####data:",data)
+    return render_template("item_detail.html", name=name, data=data)
+           
 if __name__ == "__main__":
     application.run(host='0.0.0.0', debug=True)
