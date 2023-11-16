@@ -19,6 +19,11 @@ def hello():
 def login():
     return render_template("login.html")
 
+@application.route("/logout")
+def logout_user():
+    session.clear()
+    return redirect(url_for('hello'))
+
 @application.route("/login_confirm", methods=['POST'])
 def login_user():
     id_=request.form['id']
@@ -26,7 +31,7 @@ def login_user():
     pw_hash=hashlib.sha256(pw.encode('utf-8')).hexdigest()
     if DB.find_user(id_, pw_hash):
         session['id']=id_
-        return redirect(url_for('list'))
+        return redirect(url_for('view_list'))
     else:
         flash("Wrong ID or PW!")
         return render_template("login.html")
