@@ -49,123 +49,43 @@
       <!--레이아웃 배치용-->
     </header>
 
-    <main class="list_page_box">
-      <!--서버 연동시 동일 코드 삭제하고 반복문으로 해결할 예정 -->
-      <div class="item_box1">
-        <div class="item_selection">
-          <div class="item_box1__img">
-            <img src="../static/images/item1_image.jpeg" alt="상품1" />
-          </div>
-          <div class="item_box1__info">
-            <p class="item_box1__title">원형 테이블</p>
-            <div class="item_box1__upload">
-              <p class="item_box1__seller">EwhaSeller1</p>
-              <p class="item_box1__date">2일 전</p>
+     <main class="list_page_box">
+        {% if total > 0 %}
+        <p>상품 리스트 -- 현재까지 {{ total }}개 등록됨</p>
+        <table>
+          <tr>
+            <th>상품 이름</th>
+            <th>이미지</th>
+            <th>판매자</th>
+            <th>등록일</th>
+            <th>가격</th>
+          </tr>
+          {% for key, value in datas.items() %}
+          <tr>
+            <td>{{ key }}</td>
+            <td><img src="{{ url_for('static', filename=value.img_path) }}" alt="{{ key }}" width="140" height="200" /></td>
+            <td>{{ value.seller }}</td>
+            <td>{{ value.date }}</td>
+            <td>{{ value.price }}원</td>
+          </tr>
+          {% endfor %}
+        </table>
+         
+        <!-- 페이지네이션을 위한 코드 시작 -->
+        <div class="page-wrap">
+            <div class="page-nation">
+                <ul>
+                    <li>
+                    {% for i in range(page_count)%}
+                        <a href="{{url_for('view_list', page=i)}}" color="black">{{i}}</a>
+                    {% endfor %} </li>
+                </ul>
             </div>
-            <p class="item_box1__price">15,000원</p>
-          </div>
         </div>
-        <div class="item_box1__icon">
-          <div class="item_box1_like">
-            <div class="like_icon_box">
-              <i class="fa-regular fa-bookmark fa-lg"></i>
-            </div>
-            <p class="item_like_num">5</p>
-          </div>
-        </div>
-      </div>
-      <div class="item_box1">
-        <div class="item_selection">
-          <div class="item_box1__img">
-            <img src="../static/images/item2_image.jpeg" alt="상품2" />
-          </div>
-          <div class="item_box1__info">
-            <p class="item_box1__title">미니멀 스탠드</p>
-            <div class="item_box1__upload">
-              <p class="item_box1__seller">EwhaSeller2</p>
-              <p class="item_box1__date">6일 전</p>
-            </div>
-            <p class="item_box1__price">25,000원</p>
-          </div>
-        </div>
-        <div class="item_box1__icon">
-          <div class="item_box1_like">
-            <div class="like_icon_box">
-              <i class="fa-regular fa-bookmark fa-lg"></i>
-            </div>
-            <p class="item_like_num">4</p>
-          </div>
-        </div>
-      </div>
-      <div class="item_box1">
-        <div class="item_selection">
-          <div class="item_box1__img">
-            <img src="../static/images/item3_image.png" alt="상품3" />
-          </div>
-          <div class="item_box1__info">
-            <p class="item_box1__title">운동화</p>
-            <div class="item_box1__upload">
-              <p class="item_box1__seller">EwhaSeller3</p>
-              <p class="item_box1__date">1달 전</p>
-            </div>
-            <p class="item_box1__price">35,000원</p>
-          </div>
-        </div>
-        <div class="item_box1__icon">
-          <div class="item_box1_like">
-            <div class="like_icon_box">
-              <i class="fa-regular fa-bookmark fa-lg"></i>
-            </div>
-            <p class="item_like_num">7</p>
-          </div>
-        </div>
-      </div>
-      <div class="item_box1">
-        <div class="item_selection">
-          <div class="item_box1__img">
-            <img src="../static/images/item4_image.jpeg" alt="상품4" />
-          </div>
-          <div class="item_box1__info">
-            <p class="item_box1__title">미니멀 책상</p>
-            <div class="item_box1__upload">
-              <p class="item_box1__seller">EwhaSeller4</p>
-              <p class="item_box1__date">4달 전</p>
-            </div>
-            <p class="item_box1__price">30,000원</p>
-          </div>
-        </div>
-        <div class="item_box1__icon">
-          <div class="item_box1_like">
-            <div class="like_icon_box">
-              <i class="fa-regular fa-bookmark fa-lg"></i>
-            </div>
-            <p class="item_like_num">2</p>
-          </div>
-        </div>
-      </div>
-      <div class="item_box1">
-        <div class="item_selection">
-          <div class="item_box1__img">
-            <img src="../static/images/item5_image.png" alt="상품5" />
-          </div>
-          <div class="item_box1__info">
-            <p class="item_box1__title">미니 인형 키링</p>
-            <div class="item_box1__upload">
-              <p class="item_box1__seller">EwhaSeller5</p>
-              <p class="item_box1__date">6달 전</p>
-            </div>
-            <p class="item_box1__price">5,000원</p>
-          </div>
-        </div>
-        <div class="item_box1__icon">
-          <div class="item_box1_like">
-            <div class="like_icon_box">
-              <i class="fa-regular fa-bookmark fa-lg"></i>
-            </div>
-            <p class="item_like_num">9</p>
-          </div>
-        </div>
-      </div>
+        
+        {% else %}
+        <p>등록된 상품이 없습니다.</p>
+        {% endif %}
 
       {% include 'pagination.html' %}
     </main>

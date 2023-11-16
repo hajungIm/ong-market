@@ -1,21 +1,53 @@
 <div class="pagination">
   <ul class="pagination_list">
     <li class="disabledBg pagination_box">
-      <a href="#"
+      <a href="{{ url_for('list', page=page-1) }}"
         ><i class="fa-solid fa-chevron-left" style="color: #ffffff"></i
       ></a>
     </li>
-    <li class="page_current pagination_box">
-      <a href="#" class="page_num">1</a>
-    </li>
-    <li class="pagination_box"><a href="#" class="page_num">2</a></li>
-    <li class="pagination_box"><a href="#" class="page_num">3</a></li>
-    <li class="pagination_box"><a href="#" class="page_num">4</a></li>
-    <li class="pagination_box"><a href="#" class="page_num">5</a></li>
+    {% for i in range(1, total_pages + 1) %}
+      <li class="pagination_box{% if i == page %} page_current{% endif %}">
+        <a href="{{ url_for('list', page=i) }}" class="page_num">{{ i }}</a>
+      </li>
+    {% endfor %}
     <li class="pagination_box">
-      <a href="#"
+      <a href="{{ url_for('list', page=page+1) }}"
         ><i class="fa-solid fa-chevron-right" style="color: var(--gray)"></i
       ></a>
     </li>
   </ul>
 </div>
+
+
+<style>
+    .pagination_list {
+    list-style: none;
+  }
+
+    .page-wrap{
+     text-align: center;
+     font-size: 0;
+    }
+    .page-nation{
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     margin-top: 20px;
+    }
+    .page-nation a{
+     display: block;
+     margin: 0 3px;
+     float: left;
+     border: 1px solid #e6e6e6;
+     width: 28px;
+     height: 28px;
+     line-height: 28px;
+     text-align: center;
+     background-color: #fff;
+     font-size: 13px;
+     color: black;
+     text-decoration: none;
+     font-weight:bold;
+    }
+
+</style>
