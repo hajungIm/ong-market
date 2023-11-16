@@ -17,6 +17,11 @@ def hello():
 def login():
     return render_template("login.html")
 
+@application.route("/logout")
+def logout_user():
+    session.clear()
+    return redirect(url_for('hello'))
+
 @application.route("/login_confirm", methods=['POST'])
 def login_user():
     id_=request.form['id']
