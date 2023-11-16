@@ -134,10 +134,6 @@ def find_password_fail():
 def item_detail():
     return render_template("item_detail.html")
 
-@application.route("/mem_register")
-def mem_register():
-    return render_template("mem_register.html")
-
 @application.route("/review_detail")
 def review_detail():
     return render_template("review_detail.html")
