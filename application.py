@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 from database import DBhandler
 import hashlib
+import uuid
 
 import sys
 
@@ -115,11 +116,18 @@ def reg_item_submit():
 #사용자가 등록한 상품 이미지는 images 폴더 아래에 있는 regItem에 들어가도록 경로 설정
 @application.route("/reg_item_post", methods=['POST'])
 def reg_item_submit_post():
+    # 고유 UUID 생성
+    unique_id = str(uuid.uuid4())
+    
     image_file=request.files["itemImg"]
-    image_file.save("static/images/regItem/{}".format(image_file.filename))
+    file_extension = image_file.filename.rsplit('.',1)[1].lower()
+    image_file_path = "images/regItem/{}.{}".format(unique_id, file_extension)
+    save_path = "static/" + image_file_path
+    image_file.save(save_path)
+
     data=request.form 
-    DB.insert_item(data['itemName'], data, image_file.filename)
-    return render_template("result.html", data=data, img_path="static/images/regItem/{}".format(image_file.filename))
+    DB.insert_item(unique_id, data, image_file_path)
+    return render_template("result.html", data=data, img_path=save_path)
 
 @application.route("/mypage")
 def mypage():
