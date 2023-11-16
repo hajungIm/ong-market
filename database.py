@@ -8,7 +8,7 @@ class DBhandler:
 
         firebase = pyrebase.initialize_app(config)
         self.db = firebase.database()
-        
+
     def insert_user(self, data, pw):
         user_info={
             "id": data['id'],
@@ -42,10 +42,12 @@ class DBhandler:
                 "status": data['status'],
                 "description": data['description'],
                 "transaction": data['transaction'],
-                "location": data['location'],
                 "img_path": img_path
             }
+        if data['transaction'] == "p2p":
+            item_info.append("location")
+            item_info.location = data['location']
 
-        self.db.child("item").child(name).set(item_info) 
+        self.db.child("item").child(name).set(item_info)
         print(data, img_path)
         return True

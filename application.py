@@ -94,11 +94,12 @@ def reg_item_submit():
 
 
 #사용자가 등록한 상품 이미지는 images 폴더 아래에 있는 regItem에 들어가도록 경로 설정
-@application.route("/submit_item_post", methods=['POST'])
+@application.route("/reg_item_post", methods=['POST'])
 def reg_item_submit_post():
     image_file=request.files["itemImg"]
     image_file.save("static/images/regItem/{}".format(image_file.filename))
-    data=request.form    
+    data=request.form 
+    DB.insert_item(data['itemName'], data, image_file.filename)
     return render_template("result.html", data=data, img_path="static/images/regItem/{}".format(image_file.filename))
 
 @application.route("/mypage")
@@ -132,6 +133,10 @@ def find_password_fail():
 @application.route("/item_detail")
 def item_detail():
     return render_template("item_detail.html")
+
+@application.route("/mem_register")
+def mem_register():
+    return render_template("mem_register.html")
 
 @application.route("/review_detail")
 def review_detail():
