@@ -60,7 +60,18 @@
             <th>등록일</th>
             <th>가격</th>
           </tr>
-          {% for key, value in datas.items() %}
+          {% for key, value in row1 %}
+            <td onclick="location.href='/view_detail/{{key}}/';" style="cursor:pointer;">
+          <tr>
+            <td>{{ key }}</td>
+            <td><img src="{{ url_for('static', filename=value.img_path) }}" alt="{{ key }}" width="140" height="200" /></td>
+            <td>{{ value.seller }}</td>
+            <td>{{ value.date }}</td>
+            <td>{{ value.price }}원</td>
+          </tr>
+          {% endfor %}
+            {% for key, value in row2 %}
+            <td onclick="location.href='/view_detail/{{key}}/';" style="cursor:pointer;">
           <tr>
             <td>{{ key }}</td>
             <td><img src="{{ url_for('static', filename=value.img_path) }}" alt="{{ key }}" width="140" height="200" /></td>
@@ -77,7 +88,7 @@
                 <ul>
                     <li>
                     {% for i in range(page_count)%}
-                        <a href="{{url_for('list', page=i)}}" style="color:black">{{i}}</a>
+                        <a href="{{url_for('view_list', page=i)}}" color="black">{{i}}</a>
                     {% endfor %} </li>
                 </ul>
             </div>
