@@ -48,55 +48,37 @@
       />
       <!--레이아웃 배치용-->
     </header>
-
-     <main class="list_page_box">
-        {% if total > 0 %}
-        <p>상품 리스트 -- 현재까지 {{ total }}개 등록됨</p>
-        <table>
-          <tr>
-            <th>상품 이름</th>
-            <th>이미지</th>
-            <th>판매자</th>
-            <th>등록일</th>
-            <th>가격</th>
-          </tr>
-          {% for key, value in row1 %}
-            <td onclick="location.href='/view_detail/{{key}}/';" style="cursor:pointer;">
-          <tr>
-            <td>{{ key }}</td>
-            <td><img src="{{ url_for('static', filename=value.img_path) }}" alt="{{ key }}" width="140" height="200" /></td>
-            <td>{{ value.seller }}</td>
-            <td>{{ value.date }}</td>
-            <td>{{ value.price }}원</td>
-          </tr>
-          {% endfor %}
-            {% for key, value in row2 %}
-            <td onclick="location.href='/view_detail/{{key}}/';" style="cursor:pointer;">
-          <tr>
-            <td>{{ key }}</td>
-            <td><img src="{{ url_for('static', filename=value.img_path) }}" alt="{{ key }}" width="140" height="200" /></td>
-            <td>{{ value.seller }}</td>
-            <td>{{ value.date }}</td>
-            <td>{{ value.price }}원</td>
-          </tr>
-          {% endfor %}
-        </table>
-         
-        <!-- 페이지네이션을 위한 코드 시작 -->
-        <div class="page-wrap">
-            <div class="page-nation">
-                <ul>
-                    <li>
-                    {% for i in range(page_count)%}
-                        <a href="{{url_for('view_list', page=i)}}" color="black">{{i}}</a>
-                    {% endfor %} </li>
-                </ul>
+<main class="list_page_box">
+    {% for key, value in datas %}
+    <div class="item_box1">
+        <div class="item_selection">
+            <div class="item_box1__img">
+                <img src="{{ url_for('static', filename=value.img_path) }}" alt="{{ key }}" />
+            </div>
+            <div class="item_box1__info">
+                <p class="item_box1__title">{{ value.itemName }}</p>
+                <div class="item_box1__upload">
+                    <p class="item_box1__seller">{{ value.userId }}</p>
+                    <!-- <p class="item_box1__date">{{ value.date }}</p> -->
+                    <p class="item_box1__date"># 일전</p>
+                </div>
+                <p class="item_box1__price">{{ value.price }}원</p>
             </div>
         </div>
-        
+        <div class="item_box1__icon">
+            <div class="item_box1_like">
+                <div class="like_icon_box">
+                    <i class="fa-regular fa-bookmark fa-lg"></i>
+                </div>
+                <p class="item_like_num">{{ value.like_count }}</p>
+                <p class="item_like_num">#</p>
+            </div>
+        </div>
+    </div>
+      
         {% else %}
         <p>등록된 상품이 없습니다.</p>
-        {% endif %}
+        {% endfor %}
 
       {% include 'pagination.html' %}
     </main>

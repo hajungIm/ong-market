@@ -57,8 +57,8 @@ def register_user():
 @application.route("/list")
 def view_list():
     page = request.args.get("page", 0, type=int)
-    per_page=6
-    per_row=3
+    per_page=5
+    per_row=1
     row_count = int(per_page/per_row)
     start_idx=per_page*page
     end_idx=per_page*(page+1)
@@ -68,15 +68,12 @@ def view_list():
     data = dict(list(data.items())[start_idx:end_idx])
     tot_count = len(data)
     
-    for i in range(row_count):#last row
-        if (i == row_count-1) and (tot_count%per_row != 0):
-             locals()['data_{}'.format(i)] = dict(list(data.items())[i*per_row:])
-        else:
-             locals()['data_{}'.format(i)] = dict(list(data.items())[i*per_row:(i+1)*per_row])       
+    for i in range(row_count):#last row 
+        locals()['data_{}'.format(i)] = dict(list(data.items())[i*per_row:(i+1)*per_row])       
 
     return render_template("list.html", datas=data.items(),
-                           row1=locals()['data_0'].items(), row2=locals()['data_1'].items(),
-                           limit=per_page, page=page, page_count=int((item_counts/per_page)+1),
+                           row1=locals()['data_0'].items(), row2=locals()['data_1'].items(), row3=locals()['data_2'].items(), row4=locals()['data_3'].items(), row5=locals()['data_4'].items(),
+                           limit=per_page, page=page+1, page_count=int((item_counts/per_page)+1),
                            total=item_counts)
 
 @application.route("/review_list")
