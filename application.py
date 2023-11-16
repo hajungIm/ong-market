@@ -30,8 +30,10 @@ def login_user():
     id_=request.form['id']
     pw=request.form['password']
     pw_hash=hashlib.sha256(pw.encode('utf-8')).hexdigest()
-    if DB.find_user(id_, pw_hash):
+    user_name = DB.find_user(id_, pw_hash)
+    if user_name:
         session['id']=id_
+        session['name']=user_name
         return redirect(url_for('view_list'))
     else:
         flash("Wrong ID or PW!")
