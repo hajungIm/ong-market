@@ -149,3 +149,6 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# 상품 등록 이미지는 저장
+!static/images/regItem/
