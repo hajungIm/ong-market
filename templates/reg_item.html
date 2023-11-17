@@ -35,7 +35,7 @@
           id="userId"
           name="userId"
           type="text"
-          value="사용자 아이디(자동입력)"
+          value="{{ session['id'] if session['id'] else 'no session' }}"
           readonly
         />
       </div>

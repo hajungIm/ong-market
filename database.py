@@ -41,7 +41,7 @@ class DBhandler:
         for res in users.each():
             value = res.val()
             if value['id'] == id_ and value['pw'] == pw_:
-                return True
+                return value['name']
         return False
         
     def insert_item(self, unique_id, data, img_path):

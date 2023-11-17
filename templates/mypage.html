@@ -28,7 +28,7 @@
         <img src="../static/images/profile.jpg" alt="프로필 사진" />
         <div class="profile_details__info">
           <div>
-            <span class="profile_name" name="name">이화인 </span>
+            <span class="profile_name" name="name">{{ session['name'] if session['name'] else 'no session' }}</span>
             <button
               class="profile_btn"
               onclick="window.location.href='/keyword'"
