@@ -93,7 +93,6 @@
           required
         ></textarea>
       </div>
-
       <div class="reg_item_form__section">
         <p class="reg_item-form__label">거래방식</p>
         <div id="reg_item-form__radio">
@@ -172,6 +171,27 @@
         </button>
       </div>
     </form>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // Function to handle form submission
+        function handleSubmit(event) {
+          // Get the value of the description textarea
+          var descriptionValue = document.getElementById('description').value;
+
+          // Check if the length is less than 10
+          if (descriptionValue.length < 10) {
+            // Display a warning message
+            alert('상품 설명은 10자 이상이어야 합니다.');
+            // Prevent the form submission
+            event.preventDefault();
+          }
+          // Otherwise, the form will be submitted as usual
+        }
+
+        // Attach the handleSubmit function to the form's submit event
+        document.getElementById('submit_btn').addEventListener('click', handleSubmit);
+      });
+    </script>
   </body>
   <script src="../static/screens/reg_item_select.js"></script>
   <script
