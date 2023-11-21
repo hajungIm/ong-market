@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>403error</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='error_style.css') }}">
+
+</head>
+<body>
+    <header class="header">
+        
+    </header>
+    <img src="../static/images/logo.png" alt="logo image" width="375px;">
+    <h1>403 Error</h1>
+    <p><br><br></p>
+
+    <div id="box">
+    <div id="find_id">
+    <form>
+        <br>
+        <!--임시로 만든 화면. 나중에는 사용자가 입력하는 메일 주소 가져와서 화면에 띄우기 !-->
+        <h3>죄송합니다<br><br></h3>
+        <h3>잘못된 요청입니다</h3>
+        
+        <br><br>
+
+    </form>
+
+    <button id="confirm_button" type="button" onclick="goBack()"><b>확인</b></button>
+    </div>
+    </div>
+
+    <br><br><br>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script> 
+</body>
+</html>

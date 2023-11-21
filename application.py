@@ -217,6 +217,26 @@ def view_item_detail(name):
     data = DB.get_item_byname(str(name))
     print("####data:",data)
     return render_template("item_detail.html", name=name, data=data)
-           
+
+@application.route("/error400")
+def error400():
+    return render_template("error_400.html")
+
+@application.route("/error401")
+def error401():
+    return render_template("error_401.html")
+
+@application.route("/error403")
+def error403():
+    return render_template("error_403.html")
+
+@application.route("/error404")
+def error404():
+    return render_template("error_404.html")
+
+@application.route("/error500")
+def error500():
+    return render_template("error_500.html")
+
 if __name__ == "__main__":
     application.run(host='0.0.0.0', debug=True)

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404error</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='error_style.css') }}">
+
+</head>
+<body>
+    <header class="header">
+        
+    </header>
+    <img src="../static/images/logo.png" alt="logo image" width="375px;">
+    <h1>404 Error</h1>
+    <p><br><br></p>
+
+    <div id="box">
+    <div id="find_id">
+    <form>
+        <br>
+        <h3>죄송합니다<br><br></h3>
+        <h3>잘못된 요청입니다</h3>
+        
+        <br><br>
+
+    </form>
+
+    <button id="confirm_button" type="button" onclick="goBack()"><b>확인</b></button>
+    </div>
+    </div>
+
+    <br><br><br>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script> 
+</body>
+</html>
