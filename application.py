@@ -70,18 +70,24 @@ def view_list():
     per_page=5
     start_idx=per_page* (page - 1)
     end_idx=start_idx+per_page
-
+     
     data = DB.get_items()
-    
+
+    # OrderedDict의 키 리스트 생성
+    data_keys = list(data.keys())
+
     # 데이터가 없거나 비어있는 경우 처리
-    if not data:
+    if not data_keys:
         return render_template("list.html", datas=[], page=page, page_count=0, total=0)
     
-    item_counts = len(data)
-    data_slice = data[start_idx:end_idx]
+    item_counts = len(data_keys)
+    data_slice_keys = data_keys[start_idx:end_idx]
+
+    # 슬라이스된 키를 사용하여 데이터 추출
+    data_slice = [data[key] for key in data_slice_keys]
 
     # 각 행에 대한 데이터 딕셔너리 생성
-    rows = [{'data_{}'.format(i): item} for i, item in enumerate(data_slice)]
+    rows = [{'data_{}'.format(i): item} for i, item in enumerate(data_slice, start=start_idx)]
 
     page_count = math.ceil(item_counts / per_page)
 
@@ -177,9 +183,14 @@ def find_password_success():
 def find_password_fail():
     return render_template("find_password_fail.html")
 
-@application.route("/item_detail")
-def item_detail():
-    return render_template("item_detail.html")
+@application.route("/item_detail/<itemId>")
+def item_detail(itemId):
+    item = DB.find_item_by_id(itemId)
+    
+    if not item:
+        return "Item not found", 404
+    
+    return render_template("item_detail.html", data=item)
 
 @application.route("/review_detail")
 def review_detail():

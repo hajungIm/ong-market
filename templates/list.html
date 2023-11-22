@@ -43,70 +43,74 @@
         </header>
         <main class="list_page_box">
             {% for row in rows %} {% for key, value in row.items() %}
-            <div class="item_box1">
-                <div class="item_selection">
-                    <div class="item_box1__img">
-                        <img
-                            src="{{ url_for('static', filename=value.img_path) }}"
-                            alt="{{ key }}"
-                        />
-                    </div>
-                    <div class="item_box1__info">
-                        <p class="item_box1__title">{{ value.itemName }}</p>
-                        <div class="item_box1__upload">
-                            <p class="item_box1__seller">{{ value.userId }}</p>
-                            <p class="item_box1__date">{{ value.createdAt }}</p>
-                            <script>
-                                document.addEventListener('DOMContentLoaded', function () {
-                                    var dateElements = document.querySelectorAll(
-                                        '.item_box1__date'
-                                    );
-                                    dateElements.forEach(function (elem) {
-                                        // HTML 요소에서 날짜 문자열 읽기
-                                        var dateString = elem.textContent;
-
-                                        // 날짜 문자열 파싱
-                                        var dateParts = dateString.split('T');
-                                        var date = dateParts[0].split('-');
-                                        var time = dateParts[1].split(':');
-                                        var seconds = time[2].split('.');
-
-                                        // Date 객체 생성
-                                        var createdAt = new Date(
-                                            Date.UTC(
-                                                parseInt(date[0]), // 년
-                                                parseInt(date[1]) - 1, // 월 (0부터 시작)
-                                                parseInt(date[2]), // 일
-                                                parseInt(time[0]), // 시
-                                                parseInt(time[1]), // 분
-                                                parseInt(seconds[0]) // 초
-                                            )
+            <a href="{{ url_for('item_detail', itemId=value.itemId) }}" class="item_box_link">
+                <div class="item_box1">
+                    <div class="item_selection">
+                        <div class="item_box1__img">
+                            <img
+                                src="{{ url_for('static', filename=value.img_path) }}"
+                                alt="{{ key }}"
+                            />
+                        </div>
+                        <div class="item_box1__info">
+                            <p class="item_box1__title">{{ value.itemName }}</p>
+                            <div class="item_box1__upload">
+                                <p class="item_box1__seller">{{ value.userId }}</p>
+                                <p class="item_box1__date">{{ value.createdAt }}</p>
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        var dateElements = document.querySelectorAll(
+                                            '.item_box1__date'
                                         );
+                                        dateElements.forEach(function (elem) {
+                                            // HTML 요소에서 날짜 문자열 읽기
+                                            var dateString = elem.textContent;
 
-                                        // 현재 시간과의 차이 계산
-                                        var now = new Date();
-                                        var timeDiff = now.getTime() - createdAt.getTime();
+                                            // 날짜 문자열 파싱
+                                            var dateParts = dateString.split('T');
+                                            var date = dateParts[0].split('-');
+                                            var time = dateParts[1].split(':');
+                                            var seconds = time[2].split('.');
 
-                                        // 차이를 일 단위로 변환
-                                        var daysAgo = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                                            // Date 객체 생성
+                                            var createdAt = new Date(
+                                                Date.UTC(
+                                                    parseInt(date[0]), // 년
+                                                    parseInt(date[1]) - 1, // 월 (0부터 시작)
+                                                    parseInt(date[2]), // 일
+                                                    parseInt(time[0]), // 시
+                                                    parseInt(time[1]), // 분
+                                                    parseInt(seconds[0]) // 초
+                                                )
+                                            );
 
-                                        elem.textContent = daysAgo + '일 전';
+                                            // 현재 시간과의 차이 계산
+                                            var now = new Date();
+                                            var timeDiff = now.getTime() - createdAt.getTime();
+
+                                            // 차이를 일 단위로 변환
+                                            var daysAgo = Math.floor(
+                                                timeDiff / (1000 * 60 * 60 * 24)
+                                            );
+
+                                            elem.textContent = daysAgo + '일 전';
+                                        });
                                     });
-                                });
-                            </script>
+                                </script>
+                            </div>
+                            <p class="item_box1__price">{{ value.price }}원</p>
                         </div>
-                        <p class="item_box1__price">{{ value.price }}원</p>
+                    </div>
+                    <div class="item_box1__icon">
+                        <div class="item_box1_like">
+                            <div class="like_icon_box">
+                                <i class="fa-regular fa-bookmark fa-lg"></i>
+                            </div>
+                            <p class="item_like_num">{{ value.like_count }}</p>
+                        </div>
                     </div>
                 </div>
-                <div class="item_box1__icon">
-                    <div class="item_box1_like">
-                        <div class="like_icon_box">
-                            <i class="fa-regular fa-bookmark fa-lg"></i>
-                        </div>
-                        <p class="item_like_num">{{ value.like_count }}</p>
-                    </div>
-                </div>
-            </div>
+            </a>
             {% endfor %} {% else %}
             <p>등록된 상품이 없습니다.</p>
             {% endfor %} {% include 'pagination.html' %}

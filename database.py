@@ -48,6 +48,7 @@ class DBhandler:
         current_time = datetime.utcnow().isoformat() + 'Z'
 
         item_info = {
+                "itemId": current_id,
                 "userId": data['userId'],
                 "itemName": data['itemName'],
                 "price": data['price'],
@@ -81,4 +82,10 @@ class DBhandler:
                 target_value=res.val()
         return target_value
 
+    def find_item_by_id(self, itemId):
+        item = self.db.child("item").child(itemId).get()
+        if item.val():
+            return item.val()
+        else:
+            return None
     
