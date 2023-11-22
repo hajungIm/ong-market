@@ -21,7 +21,7 @@
         {% endfor %}
 
         <!-- 다음 페이지 링크 -->
-        <li class="pagination_box {{ 'disabledBg' if page == page_count }}">
+        <li class="pagination_box {{ 'disabledBg' if page == page_count or page_count == 0 }}">
             {% if page < page_count %}
             <a href="{{ url_for('view_list', page=page+1) }}">
                 <i class="fa-solid fa-chevron-right" style="color: var(--gray);"></i>
