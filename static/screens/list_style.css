@@ -51,9 +51,9 @@ div.item_box1__info {
 }
 
 p.item_box1__title {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--black-3);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--black);
     margin-bottom: 5px;
 }
 div.item_box1__upload {
@@ -65,8 +65,8 @@ div.item_box1__upload {
 }
 .item_box1__seller {
     font-size: 15px;
-    font-weight: 700;
-    color: var(--black);
+    font-weight: 600;
+    color: var(--black-3);
 
 }
 
