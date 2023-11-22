@@ -42,17 +42,23 @@
     <main>
       <div class="temp_s">
         <div class="font_head">Name</div>
-        <div class="font_body" name="name">Bruno Pham</div>
+        <div class="font_body" name="name">
+          {{ session['name'] if session['name'] else 'no session' }}
+        </div>
       </div>
       <br />
       <div class="temp_s">
         <div class="font_head">Id</div>
-        <div class="font_body" name="id">bruno</div>
+        <div class="font_body" name="id">
+          {{ session['id'] if session['id'] else 'no session' }}
+        </div>
       </div>
       <br />
       <div class="temp_s">
         <div class="font_head">Email</div>
-        <div class="font_body" name="EwhaMail">bruno203@gmail.com</div>
+        <div class="font_body" name="EwhaMail">
+          {{ session['email'] if session['email'] else 'no session' }}
+        </div>
       </div>
       <div style="padding-top: 30px"></div>
       <form action="#" style="padding-left: 2%">
