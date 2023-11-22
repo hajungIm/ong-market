@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, session
+from flask import Flask, render_template, request, flash, redirect, url_for, session, jsonify
 from database import DBhandler
 import hashlib
 import uuid
@@ -109,6 +109,30 @@ def reg_review():
 @application.route("/mypage")
 def my_page():
     return render_template("mypage.html")
+
+# 임시로 만든 비밀번호 변경하는 엔드포인트입니다.
+# 프론트에서 POST 요청으로 새로운 비밀번호를 받아 처리.
+# 처리 결과를 프론트로 응답해야 함.
+@application.route("/change_password", methods=["POST"])
+def change_password():
+    try:
+        # 세션에서 사용자 ID 가져오기
+        user_id = session.get("id")
+        if not user_id:
+            return jsonify({"message": "세션이 만료되었습니다. 다시 로그인해주세요."}), 401
+
+        # 새로운 비밀번호 가져오기
+        new_password = request.json.get("newPassword")
+
+        # firebase 비밀번호 변경 로직
+        
+        #비밀번호 변경 성공
+        return jsonify({"message": "비밀번호 변경이 완료되었습니다."}), 200
+
+    #오류 발생
+    except Exception as e:
+        return jsonify({"message": f"비밀번호 변경 중 오류 발생: {str(e)}"}), 500
+
 
 @application.route("/dm")
 def dm():
