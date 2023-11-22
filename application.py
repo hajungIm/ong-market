@@ -3,6 +3,7 @@ from database import DBhandler
 import hashlib
 import uuid
 import math
+import os
 
 import sys
 
@@ -71,23 +72,20 @@ def view_list():
     end_idx=start_idx+per_page
 
     data = DB.get_items()
+    
+    # 데이터가 없거나 비어있는 경우 처리
+    if not data:
+        return render_template("list.html", datas=[], page=page, page_count=0, total=0)
+    
     item_counts = len(data)
-    data = dict(list(data.items())[start_idx:end_idx])
-    
-    row_count = int(per_page)
-    
-    for i in range(row_count):#last row 
-        locals()['data_{}'.format(i)] = dict(list(data.items())[i:(i+1)])
-        
+    data_slice = data[start_idx:end_idx]
+
+    # 각 행에 대한 데이터 딕셔너리 생성
+    rows = [{'data_{}'.format(i): item} for i, item in enumerate(data_slice)]
+
     page_count = math.ceil(item_counts / per_page)
 
-    return render_template("list.html", datas=data.items(),
-                           row1=locals()['data_0'].items(), 
-                           row2=locals()['data_1'].items(), 
-                           row3=locals()['data_2'].items(), 
-                           row4=locals()['data_3'].items(), 
-                           row5=locals()['data_4'].items(),
-                           page=page, page_count=page_count, total=item_counts)
+    return render_template("list.html", datas=data_slice, rows=rows, page=page, page_count=page_count, total=item_counts)
 
 @application.route("/review_list")
 def review_list():
@@ -128,17 +126,27 @@ def reg_item_submit():
 #사용자가 등록한 상품 이미지는 images 폴더 아래에 있는 regItem에 들어가도록 경로 설정
 @application.route("/reg_item_post", methods=['POST'])
 def reg_item_submit_post():
-    # 고유 UUID 생성
-    unique_id = str(uuid.uuid4())
+    # item_id.txt 를 참고하여 아이템 고유 아이디 생성, 초기화 값 = -1
+    item_id_path = 'item_id.txt'
+    if os.path.exists(item_id_path):
+        with open(item_id_path, 'r') as file:
+            last_id = int(file.read().strip())
+    else:
+        last_id = 0
+        
+    current_id = last_id + 1
+    
+    with open(item_id_path, 'w') as file:
+        file.write(str(current_id))
     
     image_file=request.files["itemImg"]
     file_extension = image_file.filename.rsplit('.',1)[1].lower()
-    image_file_path = "images/regItem/{}.{}".format(unique_id, file_extension)
+    image_file_path = "images/regItem/{}.{}".format(current_id, file_extension)
     save_path = "static/" + image_file_path
     image_file.save(save_path)
 
     data=request.form 
-    DB.insert_item(unique_id, data, image_file_path)
+    DB.insert_item(current_id, data, image_file_path)
     return render_template("result.html", data=data, img_path=save_path)
 
 @application.route("/mypage")

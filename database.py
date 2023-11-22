@@ -44,7 +44,7 @@ class DBhandler:
                 return value['name']
         return False
         
-    def insert_item(self, unique_id, data, img_path):
+    def insert_item(self, current_id, data, img_path):
         current_time = datetime.utcnow().isoformat() + 'Z'
 
         item_info = {
@@ -62,7 +62,7 @@ class DBhandler:
             item_info.append("location")
             item_info.location = data['location']
 
-        self.db.child("item").child(unique_id).set(item_info)
+        self.db.child("item").child(current_id).set(item_info)
         print(data, img_path)
         return True
     

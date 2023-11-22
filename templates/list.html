@@ -42,7 +42,7 @@
             <!--레이아웃 배치용-->
         </header>
         <main class="list_page_box">
-            {% for key, value in datas %}
+            {% for row in rows %} {% for key, value in row.items() %}
             <div class="item_box1">
                 <div class="item_selection">
                     <div class="item_box1__img">
@@ -107,8 +107,7 @@
                     </div>
                 </div>
             </div>
-
-            {% else %}
+            {% endfor %} {% else %}
             <p>등록된 상품이 없습니다.</p>
             {% endfor %} {% include 'pagination.html' %}
         </main>
