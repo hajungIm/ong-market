@@ -59,9 +59,8 @@ class DBhandler:
                 "like_count": 0,
                 "createdAt": current_time
             }
-        if data['transaction'] == "p2p":
-            item_info.append("location")
-            item_info.location = data['location']
+        if data['transaction'] == "대면":
+           item_info["location"] = data['location']
 
         self.db.child("item").child(current_id).set(item_info)
         print(data, img_path)

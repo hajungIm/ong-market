@@ -64,21 +64,15 @@
       <div class="reg_item_form__section">
         <p class="reg_item-form__label">상태</p>
         <div class="reg_item-form__radio">
-          <input id="good" type="radio" name="status" value="good" required />
+          <input id="good" type="radio" name="status" value="좋음" required />
           <label for="good">좋음</label>
         </div>
         <div class="reg_item-form__radio">
-          <input
-            id="common"
-            type="radio"
-            name="status"
-            value="common"
-            required
-          />
+          <input id="common" type="radio" name="status" value="보통" required />
           <label for="common">보통</label>
         </div>
         <div class="reg_item-form__radio">
-          <input id="bad" type="radio" name="status" value="bad" />
+          <input id="bad" type="radio" name="status" value="나쁨" />
           <label for="bad">나쁨</label>
         </div>
       </div>
@@ -101,7 +95,7 @@
               id="f2f"
               type="radio"
               name="transaction"
-              value="f2f"
+              value="대면"
               required
             />
             <label id="f2f_label" for="f2f">
@@ -110,7 +104,12 @@
             >
           </div>
           <div>
-            <input id="no-f2f" type="radio" name="transaction" value="no-f2f" />
+            <input
+              id="no-f2f"
+              type="radio"
+              name="transaction"
+              value="비대면 (택배, 우편)"
+            />
             <label id="no-f2f_label" for="no-f2f">
               <i class="fa-solid fa-check"></i>
               비대면 (택배, 우편)
@@ -130,10 +129,14 @@
         >
           <option value="" disabled selected>장소 선택</option>
           <option value="ECC">ECC</option>
-          <option value="공학관">공학관(아산공학관, 신공학관)</option>
+          <option value="공학관(아산공학관, 신공학관)">
+            공학관(아산공학관, 신공학관)
+          </option>
           <option value="교육관">교육관</option>
-          <option value="기숙사e">기숙사(E-house, 한우리)</option>
-          <option value="기숙사i">기숙사(I-house)</option>
+          <option value="기숙사(E-house, 한우리)">
+            기숙사(E-house, 한우리)
+          </option>
+          <option value="기숙사(I-house)">기숙사(I-house)</option>
           <option value="대강당">대강당</option>
           <option value="신세계관">신세계관</option>
           <option value="음악관">음악관</option>
@@ -172,16 +175,16 @@
       </div>
     </form>
     <script>
-      document.addEventListener('DOMContentLoaded', function () {
+      document.addEventListener("DOMContentLoaded", function () {
         // Function to handle form submission
         function handleSubmit(event) {
           // Get the value of the description textarea
-          var descriptionValue = document.getElementById('description').value;
+          var descriptionValue = document.getElementById("description").value;
 
           // Check if the length is less than 10
           if (descriptionValue.length < 10) {
             // Display a warning message
-            alert('상품 설명은 10자 이상이어야 합니다.');
+            alert("상품 설명은 10자 이상이어야 합니다.");
             // Prevent the form submission
             event.preventDefault();
           }
@@ -189,7 +192,9 @@
         }
 
         // Attach the handleSubmit function to the form's submit event
-        document.getElementById('submit_btn').addEventListener('click', handleSubmit);
+        document
+          .getElementById("submit_btn")
+          .addEventListener("click", handleSubmit);
       });
     </script>
   </body>

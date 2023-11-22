@@ -36,32 +36,17 @@
         <div class="use">
           <span>
             <i class="fa-solid fa-won-sign fa-lg"></i>
-            {{data.price}}
+            <span class="commas_price"> {{data.price}} </span>
           </span>
           <span>
             <i class="fa-solid fa-square-check fa-lg"></i>
-            {% if data['status']=="good" %}좋음{% endif %} {% if
-            data['status']=="common" %}보통{% endif %} {% if
-            data['status']=="bad" %}나쁨{% endif %}
+            {{ data.status }}
           </span>
           <span>
             <i class="fa-sharp fa-solid fa-location-dot fa-lg"></i>
-            {% if data['transaction']=="f2f" %} {% if
-            data['location']=="ECC"%}ECC{% endif %} {% if
-            data['location']=="공학관"%}공학관(아산공학관, 신공학관){% endif %}
-            {% if data['location']=="교육관" %}교육관{% endif %} {% if
-            data['location']=="기숙사e" %}기숙사(E-house, 한우리){% endif %} {%
-            if data['location']=="기숙사i" %}기숙사(I-house){% endif %} {% if
-            data['location']=="대강당" %}대강당{% endif %} {% if
-            data['location']=="신세계관" %}신세계관{% endif %} {% if
-            data['location']=="음악관" %}음악관{% endif %} {% if
-            data['location']=="정문" %}정문{% endif %} {% if
-            data['location']=="종합과학관" %}종합과학관{% endif %} {% if
-            data['location']=="중앙도서관" %}중앙도서관{% endif %} {% if
-            data['location']=="조형예술관" %}조형예술관{% endif %} {% if
-            data['location']=="포스코관" %}포스코관{% endif %} {% if
-            data['location']=="학관" %}학관{% endif %}{% endif %} {% if
-            data['transaction']=="no-f2f" %}비대면 (택배, 우편){% endif %}
+            {% if data['transaction'] == "대면" %} {{data.location}} {% endif %}
+            {% if data['transaction']== "비대면 (택배, 우편)" %}
+            {{data.transaction}} {% endif %}
           </span>
         </div>
       </div>
@@ -72,19 +57,51 @@
           <span class="seller_id">{{data.userId}}</span>
           <span class="seller_rank">
             학점
-            <span class="rank_eng">A+</span>
+            <span class="rank_eng">{{ data.seller_rank }}</span>
           </span>
         </div>
-        <p class="detail_info__date">방금 전</p>
+        <p class="detail_info__date">{{ data.createdAt }}</p>
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            var dateElements = document.querySelectorAll(".detail_info__date");
+            dateElements.forEach(function (elem) {
+              // HTML 요소에서 날짜 문자열 읽기
+              var dateString = elem.textContent;
+
+              // 날짜 문자열 파싱
+              var dateParts = dateString.split("T");
+              var date = dateParts[0].split("-");
+              var time = dateParts[1].split(":");
+              var seconds = time[2].split(".");
+
+              // Date 객체 생성
+              var createdAt = new Date(
+                Date.UTC(
+                  parseInt(date[0]), // 년
+                  parseInt(date[1]) - 1, // 월 (0부터 시작)
+                  parseInt(date[2]), // 일
+                  parseInt(time[0]), // 시
+                  parseInt(time[1]), // 분
+                  parseInt(seconds[0]) // 초
+                )
+              );
+
+              // 현재 시간과의 차이 계산
+              var now = new Date();
+              var timeDiff = now.getTime() - createdAt.getTime();
+
+              // 차이를 일 단위로 변환
+              var daysAgo = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+
+              elem.textContent = daysAgo + "일 전";
+            });
+          });
+        </script>
         <pre class="detail_info__item">{{data.description}}</pre>
       </div>
     </main>
 
     <div class="item_detail__button item_box1_like">
-      <!--bookmark action을 일괄 적용위한 클래스 명 설정-->
-      <!-- <button class="bookmark_btn" type="button">
-        <i class="fa-regular fa-bookmark fa-xl"></i>
-      </button> -->
       <button
         class="dm_btn"
         type="button"
@@ -96,4 +113,5 @@
   </body>
   <script src="../static/components/simple_like_press.js"></script>
   <script src="../static/components/base_header.js"></script>
+  <script src="../static/components/commas_to_price.js"></script>
 </html>
