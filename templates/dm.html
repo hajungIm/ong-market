@@ -135,12 +135,12 @@
                     <span>장소</span>
                 </div>
                 {% if session['id'] == chat_room.sellerId %}
-                    <div class="dm_function__icon">
-                        <div class="dm_icon__box" id="dm_function_complete">
-                            <i class="fa-solid fa-circle-check"></i>
-                        </div>
-                        <span>거래완료</span>
+                <div class="dm_function__icon">
+                    <div class="dm_icon__box" id="dm_function_complete">
+                        <i class="fa-solid fa-circle-check"></i>
                     </div>
+                    <span>거래완료</span>
+                </div>
                 {% endif %}
                 <script>
                     document
@@ -189,6 +189,9 @@
                     var messageRef = chatRoomRef.child('messages').orderByChild('timestamp');
                     var completeRef = chatRoomRef.child('complete');
 
+                    var sessionId = '{{ session["id"] }}';
+                    var sellerId = '{{ chat_room.sellerId }}';
+
                     // 메시지에 대한 이벤트 리스너
                     messageRef.on('child_added', function (snaphot) {
                         var message = snaphot.val();
@@ -198,7 +201,13 @@
                     // 거래 완료 상태 감지
                     completeRef.on('value', function (snaphot) {
                         if (snaphot.val() === true) {
-                            addCompleteMessage();
+                            if (sessionId === sellerId) {
+                                // 판매자 완료 메시지 - 리뷰 보기
+                                addCompleteMessageForSeller();
+                            } else {
+                                // 구매자 완료 메시지 - 리뷰 쓰기
+                                addCompleteMessageForBuyer();
+                            }
                         }
                     });
 
@@ -235,7 +244,38 @@
                         chatWindow.appendChild(messageElement);
                     }
 
-                    function addCompleteMessage() {
+            function addCompleteMessageForSeller() {
+                var chatWindow = document.getElementById('chat-window');
+
+                // 거래 완료 메시지를 생성합니다.
+                var infoDiv = document.createElement('div');
+                infoDiv.className = 'dm_info';
+
+                var contentDiv = document.createElement('div');
+                contentDiv.className = 'dm_info__content';
+
+                var titleP = document.createElement('p');
+                titleP.className = 'dm_info__content-title';
+                titleP.textContent = '안내';
+
+                var textP = document.createElement('p');
+                textP.className = 'dm_info__contenttxt';
+                textP.textContent = '거래가 완료되었어요!';
+
+                var reviewLink = document.createElement('a');
+                reviewLink.className = 'dm_info__btn';
+                reviewLink.href = '/review_detail/' + {{ chat_room.itemId }};
+                reviewLink.textContent = '리뷰 보기';
+
+                contentDiv.appendChild(titleP);
+                contentDiv.appendChild(textP);
+                infoDiv.appendChild(contentDiv);
+                infoDiv.appendChild(reviewLink);
+
+                chatWindow.appendChild(infoDiv);
+            }
+
+                    function addCompleteMessageForBuyer() {
                var chatWindow = document.getElementById('chat-window');
 
                 // 거래 완료 메시지를 생성합니다.
