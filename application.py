@@ -148,9 +148,8 @@ def dm_to_seller():
         item_data = json.loads(request.form.get('itemData', '{}'))
     
         chat_room = DB.get_chat_room(item_data, seller_id, buyer_id)
-        # messages = [msg for msg in chat_room['messages'].values()]
     
-        return render_template("dm.html", counterpartId=seller_id, chat_room=chat_room)
+        return render_template("dm.html", chat_room=chat_room)
 
 @application.route("/dm")
 def dm():
@@ -294,7 +293,18 @@ def userPage():
 
 @application.route("/chatting_list")
 def chattingListPage():
-    return render_template("chatting_list.html")
+    user_id = session.get('id')
+    if user_id is None:
+        # 사용자 ID가 세션에 없는 경우, 로그인 페이지나 오류 페이지로 리디렉트
+        return redirect(url_for('login'))
+    
+    chat_rooms = DB.get_chat_rooms_for_user(user_id)
+    return render_template("chatting_list.html", chat_rooms=chat_rooms)
+
+@application.route("/chat_room/<chat_room_id>")
+def chat_room_page(chat_room_id):
+    chat_room_data = DB.get_chat_room_data(chat_room_id)
+    return render_template('dm.html', chat_room=chat_room_data)
 
 @application.route("/keyword")
 def keywordPage():

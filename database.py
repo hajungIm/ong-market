@@ -134,4 +134,16 @@ class DBhandler:
         self.db.child("chats").child(chat_room_id).child("messages").push(new_message)
         return True
 
+    def get_chat_rooms_for_user(self, user_id):
+        chat_rooms = []
+        all_chats = self.db.child("chats").get().val()
+        if all_chats:
+            for chat_room_id, chat_room_data in all_chats.items():
+                if chat_room_data.get('sellerId') == user_id or chat_room_data.get('buyerId') == user_id:
+                    chat_rooms.append(chat_room_data)
+        return chat_rooms
+    
+    def get_chat_room_data(self, chat_room_id):
+        chat_room_data = self.db.child("chats").child(chat_room_id).get().val()
+        return chat_room_data
     
