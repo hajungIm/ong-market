@@ -25,7 +25,7 @@
 
     <main>
       <div id="profile_details">
-        <img src="{{ user_info['profile_image'] }}" alt="프로필 사진" />
+        <img src="{{ url_for('static', filename=user_info['profile_image']) }}" alt="프로필 사진" />
         <div class="profile_details__info">
           <div>
             <span class="profile_name" name="name"

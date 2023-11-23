@@ -2,7 +2,6 @@ const photoBtn = document.getElementsByClassName("photo_btn")[0];
 const photoChangePanel = document.getElementById("photo_change");
 const cancleBtn = document.getElementsByClassName("cancel_btn")[0];
 const fileInput = document.getElementById("profileImgInput");
-const fileSubmitBtn = document.getElementById("photo_submit_btn");
 const img = document.getElementById("current_profile_image"); //현재 프로필 이미지 요소를 가져온다.
 const origin_img = img.src; //원래 이미지 src
 //초기화
