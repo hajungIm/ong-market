@@ -273,7 +273,26 @@ def sellingPage():
 
 @application.route("/like")
 def likePage():
-    return render_template("jjim_Page.html")
+    user_id = session.get('id')
+    if user_id is None:
+        # 사용자 ID가 세션에 없는 경우, 로그인 페이지나 오류 페이지로 리디렉트
+        return redirect(url_for('login'))
+    
+    like_items = DB.get_like_items(user_id)
+    like_items = sorted(like_items, key=lambda x: x['createdAt'], reverse=True)
+    
+    return render_template("jjim_Page.html", like_items=like_items)
+
+@application.route("/like/<item_id>", methods=['POST'])
+def update_like(item_id):
+    data = request.json
+    flag = data.get('flag')
+    user_id = session.get('id')
+    
+    item = DB.find_item_by_id(item_id)
+    DB.update_like_to_item(item, flag)
+    DB.update_like_to_user(user_id, item, flag)
+    return jsonify({"status": "success", "message": "like update complete"})
 
 @application.route("/user_Page")
 def userPage():

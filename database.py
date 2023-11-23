@@ -46,6 +46,14 @@ class DBhandler:
                 return value['name']
         return False
     
+    def find_user_by_id(self, user_id):
+        users = self.db.child("user").get()
+        for user in users.each():
+            user_data = user.val()
+            if user_data['id'] == user_id:
+                return user.key(), user_data
+        return None, None
+    
     def get_user_info(self, id_):
         users = self.db.child("user").get()
         for res in users.each():
@@ -60,11 +68,9 @@ class DBhandler:
         return None
     
     def get_user_Img(self, user_id):
-        users = self.db.child("user").get()
-        for user in users.each():
-            user_data = user.val()
-            if user_data['id'] == user_id:
-                return user_data['profile_image']
+        user_key, user_data = self.find_user_by_id(user_id)
+        if user_data:
+            return user_data.get('profile_image')
         return None
         
     def insert_item(self, current_id, data, img_path):
@@ -169,13 +175,10 @@ class DBhandler:
         self.db.child("chats").child(chat_room_id).update(complete_update)
     
     def update_profile_image(self, user_id, new_image):
-        users = self.db.child("user").get()
-        for user in users.each():
-            user_data = user.val()
-            if user_data['id'] == user_id:
-                user_key = user.key()
-                self.db.child("user").child(user_key).update({"profile_image": new_image})
-                return True
+        user_key, user_data = self.find_user_by_id(user_id)
+        if user_data:
+            self.db.child("user").child(user_key).update({"profile_image": new_image})
+            return True
         return False
     
     def update_chats_profile_image(self, user_id, new_image):
@@ -188,4 +191,37 @@ class DBhandler:
             else:
                 self.db.child("chats").child(chat_room_id).update({'buyerImg': new_image})
         return True
+    
+    def update_like_to_item(self, item, flag):
+        new_like_count = item.get('like_count', 0) + flag
+        self.db.child("item").child(item['itemId']).update({"like_count": new_like_count})
+        return True
+    
+    def update_like_to_user(self, user_id, item, flag):
+        user_key, user_data = self.find_user_by_id(user_id)
+        if user_data:
+            like_items = user_data.get('like_items', [])
+                
+            if flag == 1 and item['itemId'] not in like_items:
+                like_items.append(item['itemId'])
+            elif flag == -1 and item['itemId'] in like_items:
+                like_items.remove(item['itemId'])
+            
+            self.db.child("user").child(user_key).update({"like_items": like_items})
+            return True
+    
+    def get_like_items(self, user_id):
+        user_key, user_data = self.find_user_by_id(user_id)
+        if user_data and 'like_items' in user_data:
+            like_items_ids = user_data['like_items']
+            like_items_details = []
+            
+            for item_id in like_items_ids:
+                item = self.find_item_by_id(item_id)
+                if item:
+                    like_items_details.append(item)
+            
+            return like_items_details
+        
+        return []
     
