@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, session, json
+from flask import Flask, render_template, request, flash, redirect, url_for, session, json, escape
 from database import DBhandler
 import hashlib
 import uuid
@@ -110,15 +110,16 @@ def reg_review():
 def my_page():
     return render_template("mypage.html")
 
-@application.route("/dm_to_seller")
+@application.route("/dm_to_seller", methods=['GET', 'POST'])
 def dm_to_seller():
-    seller_id = request.args.get('sellerId')
-    buyer_id = request.args.get('buyerId')
-    item_data = json.loads(request.args.get('itemData', '{}'))
+    if request.method == 'POST':
+        seller_id = request.form.get('sellerId')
+        buyer_id = request.form.get('buyerId')
+        item_data = json.loads(request.form.get('itemData', '{}'))
     
-    chat_room = DB.get_chat_room(item_data, seller_id, buyer_id)
+        chat_room = DB.get_chat_room(item_data, seller_id, buyer_id)
     
-    return render_template("dm.html", counterpartId=seller_id, chat_room=chat_room)
+        return render_template("dm.html", counterpartId=seller_id, chat_room=chat_room)
 
 
 @application.route("/submit_item")
@@ -196,7 +197,9 @@ def item_detail(itemId):
     if not item:
         return "Item not found", 404
     
-    return render_template("item_detail.html", data=item)
+    item_data_json = escape(json.dumps(item))
+    
+    return render_template("item_detail.html", data=item, item_data_json=item_data_json)
 
 @application.route("/review_detail")
 def review_detail():

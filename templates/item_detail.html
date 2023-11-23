@@ -1,134 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>상품 상세 화면</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='item_detail.css') }}"
-    />
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>상품 상세 화면</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='item_detail.css') }}" />
 
-    <!--아이콘 집어넣기 위한 코드-->
-    <script
-      src="https://kit.fontawesome.com/a1969e7b61.js"
-      crossorigin="anonymous"
-    ></script>
-  </head>
-  <body>
-    <div class="item_detail__img">
-      <img
-        src="{{ url_for('static', filename=data.img_path) }}"
-        alt="item image"
-      />
-    </div>
-    <button class="return_btn" type="button" onclick="return_btn()">
-      <i class="fa-solid fa-chevron-left"></i>
-    </button>
-    <!--뒤로 가기 버튼 함수-->
-    <script>
-      function return_btn() {
-        window.history.go(-1);
-      }
-    </script>
-
-    <main>
-      <h2 class="title">{{ data.itemName }}</h2>
-
-      <div class="detail">
-        <div class="use">
-          <span>
-            <i class="fa-solid fa-won-sign fa-lg"></i>
-            <span class="commas_price">{{ data.price }}원</span>
-          </span>
-          <span>
-            <i class="fa-solid fa-square-check fa-lg"></i>
-            {{ data.status }}
-          </span>
-          <span>
-            <i class="fa-sharp fa-solid fa-location-dot fa-lg"></i>
-            {% if data['transaction'] == "대면" %} {{data.location}} {% endif %}
-            {% if data['transaction']== "비대면 (택배, 우편)" %}
-            {{data.transaction}} {% endif %}
-          </span>
+        <!--아이콘 집어넣기 위한 코드-->
+        <script src="https://kit.fontawesome.com/a1969e7b61.js" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <div class="item_detail__img">
+            <img src="{{ url_for('static', filename=data.img_path) }}" alt="item image" />
         </div>
-      </div>
-
-      <div class="detail_info">
-        <div class="detail_info__seller">
-          <span>ID :</span>
-          <span class="seller_id">{{ data.userId }}</span>
-          <span class="seller_rank">
-            학점
-            <span class="rank_eng">{{ data.seller_rank }}</span>
-          </span>
-        </div>
-        <p class="detail_info__date">{{ data.createdAt }}</p>
+        <button class="return_btn" type="button" onclick="return_btn()">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <!--뒤로 가기 버튼 함수-->
         <script>
-          document.addEventListener("DOMContentLoaded", function () {
-            var dateElements = document.querySelectorAll(".detail_info__date");
-            dateElements.forEach(function (elem) {
-              // HTML 요소에서 날짜 문자열 읽기
-              var dateString = elem.textContent;
-
-              // 날짜 문자열 파싱
-              var dateParts = dateString.split("T");
-              var date = dateParts[0].split("-");
-              var time = dateParts[1].split(":");
-              var seconds = time[2].split(".");
-
-              // Date 객체 생성
-              var createdAt = new Date(
-                Date.UTC(
-                  parseInt(date[0]), // 년
-                  parseInt(date[1]) - 1, // 월 (0부터 시작)
-                  parseInt(date[2]), // 일
-                  parseInt(time[0]), // 시
-                  parseInt(time[1]), // 분
-                  parseInt(seconds[0]) // 초
-                )
-              );
-
-              // 현재 시간과의 차이 계산
-              var now = new Date();
-              var timeDiff = now.getTime() - createdAt.getTime();
-
-              // 차이를 일 단위로 변환
-              var daysAgo = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-
-              elem.textContent = daysAgo + "일 전";
-            });
-          });
-        </script>
-        <!-- 줄바꿈 적용을 위해 pre 태그 사용 -->
-        <pre class="detail_info__item">{{ data.description }}</pre>
-      </div>
-    </main>
-
-    <div class="item_detail__button item_box1_like">
-      <!--bookmark action을 일괄 적용위한 클래스 명 설정-->
-      <button class="bookmark_btn" type="button">
-        <i class="fa-regular fa-bookmark fa-xl"></i>
-      </button>
-      <button
-        class="dm_btn"
-        type="button"
-        onclick="startChat('{{ data.userId }}', '{{ session['name'] }}')"
-      >
-        채팅하기
-      </button>
-        <script>
-            function startChat(sellerId, buyerId) {
-                var itemData = JSON.stringify({{ data | tojson }});
-                var chatUrl = '/dm_to_seller?sellerId=' + encodeURIComponent(sellerId) +
-                    '&buyerId=' + encodeURIComponent(buyerId) +
-                    '&itemData=' + encodeURIComponent(itemData);
-                window.location.href = chatUrl;
+            function return_btn() {
+                window.history.go(-1);
             }
         </script>
-    </div>
-  </body>
-  <script src="../static/components/simple_like_press.js"></script>
-  <script src="../static/components/base_header.js"></script>
-  <script src="../static/components/commas_to_price.js"></script>
+
+        <main>
+            <h2 class="title">{{ data.itemName }}</h2>
+
+            <div class="detail">
+                <div class="use">
+                    <span>
+                        <i class="fa-solid fa-won-sign fa-lg"></i>
+                        <span class="commas_price">{{ data.price }}원</span>
+                    </span>
+                    <span>
+                        <i class="fa-solid fa-square-check fa-lg"></i>
+                        {{ data.status }}
+                    </span>
+                    <span>
+                        <i class="fa-sharp fa-solid fa-location-dot fa-lg"></i>
+                        {% if data['transaction'] == "대면" %} {{data.location}} {% endif %} {% if
+                        data['transaction']== "비대면 (택배, 우편)" %} {{data.transaction}} {% endif
+                        %}
+                    </span>
+                </div>
+            </div>
+
+            <div class="detail_info">
+                <div class="detail_info__seller">
+                    <span>ID :</span>
+                    <span class="seller_id">{{ data.userId }}</span>
+                    <span class="seller_rank">
+                        학점
+                        <span class="rank_eng">{{ data.seller_rank }}</span>
+                    </span>
+                </div>
+                <p class="detail_info__date">{{ data.createdAt }}</p>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var dateElements = document.querySelectorAll('.detail_info__date');
+                        dateElements.forEach(function (elem) {
+                            // HTML 요소에서 날짜 문자열 읽기
+                            var dateString = elem.textContent;
+
+                            // 날짜 문자열 파싱
+                            var dateParts = dateString.split('T');
+                            var date = dateParts[0].split('-');
+                            var time = dateParts[1].split(':');
+                            var seconds = time[2].split('.');
+
+                            // Date 객체 생성
+                            var createdAt = new Date(
+                                Date.UTC(
+                                    parseInt(date[0]), // 년
+                                    parseInt(date[1]) - 1, // 월 (0부터 시작)
+                                    parseInt(date[2]), // 일
+                                    parseInt(time[0]), // 시
+                                    parseInt(time[1]), // 분
+                                    parseInt(seconds[0]) // 초
+                                )
+                            );
+
+                            // 현재 시간과의 차이 계산
+                            var now = new Date();
+                            var timeDiff = now.getTime() - createdAt.getTime();
+
+                            // 차이를 일 단위로 변환
+                            var daysAgo = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+
+                            elem.textContent = daysAgo + '일 전';
+                        });
+                    });
+                </script>
+                <!-- 줄바꿈 적용을 위해 pre 태그 사용 -->
+                <pre class="detail_info__item">{{ data.description }}</pre>
+            </div>
+        </main>
+
+        <div class="item_detail__button item_box1_like">
+            <!--bookmark action을 일괄 적용위한 클래스 명 설정-->
+            <button class="bookmark_btn" type="button">
+                <i class="fa-regular fa-bookmark fa-xl"></i>
+            </button>
+            <!-- DM을 위한 POST input-->
+            <form id="chatForm" action="/dm_to_seller" method="POST" style="display: none;">
+                <input type="hidden" name="sellerId" value="{{ data.userId }}" />
+                <input type="hidden" name="buyerId" value="{{ session['id'] }}" />
+                <input type="hidden" name="itemData" value="{{ item_data_json }}" />
+            </form>
+            <button class="dm_btn" type="button" onclick="startChat()">
+                채팅하기
+            </button>
+            <script>
+                function startChat() {
+                    document.getElementById('chatForm').submit();
+                }
+            </script>
+        </div>
+    </body>
+    <script src="../static/components/simple_like_press.js"></script>
+    <script src="../static/components/base_header.js"></script>
+    <script src="../static/components/commas_to_price.js"></script>
 </html>
