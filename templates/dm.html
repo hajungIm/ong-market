@@ -166,7 +166,7 @@
                         firebase.initializeApp(firebaseConfig);
 
                     var chatRoomId = document.body.getAttribute('data-chat-room-id');
-                        var messageRef = firebase.database().ref('chats/' + chatRoomId + '/messages');
+                        var messageRef = firebase.database().ref('chats/' + chatRoomId + '/messages').orderByChild('timestamp');
                         messageRef.on('child_added', function(snaphot) {
                             var message = snaphot.val();
                             addMessageToChatWindow(message);
