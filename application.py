@@ -102,9 +102,21 @@ def review_list():
 def reg_item():
     return render_template("reg_item.html")
 
-@application.route("/reg_review")
-def reg_review():
-    return render_template("reg_review.html")
+# @application.route("/reg_review")
+# def reg_review():
+#     return render_template("reg_review.html")
+
+
+@application.route("/reg_review/<itemId>")
+def reg_review_init(itemId):
+    item = DB.find_item_by_id(itemId)
+    return render_template("reg_review.html", data = item)
+
+@application.route("/reg_review_post/<name>", methods=['POST'])
+def submit_review():
+    data=request.form
+    DB.reg_review(data)
+    return redirect(url_for('review_detail'))
 
 @application.route("/mypage")
 def my_page():
@@ -210,7 +222,7 @@ def find_password_success():
 def find_password_fail():
     return render_template("find_password_fail.html")
 
-@application.route("/item_detail/<itemId>")
+@application.route("/item_detail/<itemId>/")
 def item_detail(itemId):
     item = DB.find_item_by_id(itemId)
     

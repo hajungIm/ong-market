@@ -76,7 +76,7 @@ class DBhandler:
                 "createdAt": current_time
             }
         if data['transaction'] == "대면":
-           item_info["location"] = data['location']
+            item_info["location"] = data['location']
 
         self.db.child("item").child(current_id).set(item_info)
         print(data, img_path)
@@ -104,4 +104,11 @@ class DBhandler:
         else:
             return None
         
-    
+    def reg_review(self, data):
+        review_info = {
+            # 리뷰 form 목록 설정하기
+            "rate": data['reviewStar'],
+            "review": data['reviewContents']
+        }
+        self.db.child("review").child(data['name']).set(review_info)
+        return True
