@@ -103,5 +103,36 @@ class DBhandler:
             return item.val()
         else:
             return None
+
+    def get_chat_room(self, item_data, seller_id, buyer_id):
+        chat_room_id = f"{seller_id}_{buyer_id}_{item_data['itemId']}"
+        chat_room = self.db.child("chats").child(chat_room_id).get().val()
         
+        if not chat_room:
+            chat_room_info = {
+                "chatRoomId": chat_room_id,
+                "sellerId": seller_id,
+                "buyerId": buyer_id,
+                "itemId": item_data.get('itemId', 'Unknwon Item'),
+                "itemName": item_data.get('itemName', 'Unknwon Item'),
+                "itemPrice": item_data.get('price', 'Unknwon Price'),
+                "imgPath": item_data.get('img_path', 'no_image.png'),
+                "messages": [],
+                "createdAt": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            }
+            self.db.child("chats").child(chat_room_id).set(chat_room_info)
+            chat_room = chat_room_info
+            
+        return chat_room
+    
+    def save_msg(self, chat_room_id, message, sender_id, timestamp):
+        new_message = {
+            "senderId": sender_id,
+            "text": message,
+            "timestamp": timestamp
+        }
+        
+        self.db.child("chats").child(chat_room_id).child("messages").push(new_message)
+        return True
+
     
