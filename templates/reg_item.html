@@ -11,9 +11,9 @@
   </head>
   <body>
     <header class="base_header">
-      <a href="/list" class="base_header__icon">
+      <div class="base_header__icon base_header__back">
         <i class="fa-solid fa-chevron-left fa-xl" style="color: #242424"></i>
-      </a>
+      </div>
       <div>
         <h2 class="base_header__title">상품 등록</h2>
       </div>
@@ -56,7 +56,7 @@
           class="reg_item-form__input"
           id="price"
           name="price"
-          type="text"
+          type="number"
           required
           placeholder="가격을 입력해주세요."
         />
@@ -204,4 +204,5 @@
     crossorigin="anonymous"
   ></script>
   <script src="../static/components/img_btn.js"></script>
+  <script src="../static/components/base_header.js"></script>
 </html>

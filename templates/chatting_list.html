@@ -1,30 +1,32 @@
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>채팅 목록</title>
-        <link
-          rel="stylesheet"
-          href="{{ url_for('static', filename='chatting_list_style.css') }}"
-        />
-      </head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>채팅 목록</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='chatting_list_style.css') }}"
+    />
+  </head>
+  <body>
     <header class="base_header">
-        <a href="/mypage" class="base_header__icon">
-          <i class="fa-solid fa-chevron-left fa-xl" style="color: #242424"></i>
-        </a>
-        <div>
-          <h2 class="base_header__title">채팅</h2>
-        </div>
-        <div class="base_header__icon">
-          <!--레이아웃 배치용-->
-        </div>
-      </header>
-    <div>
+      <div class="base_header__icon">
+        <!--레이아웃 배치용-->
+      </div>
+      <div>
+        <h2 class="base_header__title">채팅</h2>
+      </div>
+      <div class="base_header__icon">
+        <!--레이아웃 배치용-->
+      </div>
+    </header>
     <main class="list_page_box">
       <div class="item_box1">
         <div class="item_selection">
-          <div class="item_box1__img" style="border-radius: 9999px; width: 50px; height: 50px;">
+          <div
+            class="item_box1__img"
+            style="border-radius: 9999px; width: 50px; height: 50px"
+          >
             <img src="../static/images/profile.jpg" alt="face1" />
           </div>
           <div class="item_box1__info">
@@ -32,17 +34,23 @@
               <p class="item_box1__seller">EwhaSeller1</p>
               <p class="item_box1__date">2일 전</p>
             </div>
-            <p style="color: #242424; font-size: 14px;">안녕하세요</p>
+            <p style="color: #242424; font-size: 14px">안녕하세요</p>
           </div>
         </div>
-        <div class="item_box1__img" style="width: 50px; height: 50px; display: flex;">
+        <div
+          class="item_box1__img"
+          style="width: 50px; height: 50px; display: flex"
+        >
           <img src="../static/images/item1_image.jpeg" alt="상품1" />
         </div>
       </div>
 
       <div class="item_box1">
         <div class="item_selection">
-          <div class="item_box1__img" style="border-radius: 9999px; width: 50px; height: 50px;">
+          <div
+            class="item_box1__img"
+            style="border-radius: 9999px; width: 50px; height: 50px"
+          >
             <img src="../static/images/profile.jpg" alt="face1" />
           </div>
           <div class="item_box1__info">
@@ -50,17 +58,23 @@
               <p class="item_box1__seller">EwhaSeller2</p>
               <p class="item_box1__date">6일 전</p>
             </div>
-            <p style="color: #242424; font-size: 14px;">감사합니다</p>
+            <p style="color: #242424; font-size: 14px">감사합니다</p>
           </div>
         </div>
-        <div class="item_box1__img" style="width: 50px; height: 50px; display: flex;">
+        <div
+          class="item_box1__img"
+          style="width: 50px; height: 50px; display: flex"
+        >
           <img src="../static/images/item2_image.jpeg" alt="상품2" />
         </div>
       </div>
 
       <div class="item_box1">
         <div class="item_selection">
-          <div class="item_box1__img" style="border-radius: 9999px; width: 50px; height: 50px;">
+          <div
+            class="item_box1__img"
+            style="border-radius: 9999px; width: 50px; height: 50px"
+          >
             <img src="../static/images/profile.jpg" alt="face1" />
           </div>
           <div class="item_box1__info">
@@ -68,17 +82,23 @@
               <p class="item_box1__seller">EwhaSeller3</p>
               <p class="item_box1__date">1달 전</p>
             </div>
-            <p style="color: #242424; font-size: 14px;">좋은 하루 보내세요~</p>
+            <p style="color: #242424; font-size: 14px">좋은 하루 보내세요~</p>
           </div>
         </div>
-        <div class="item_box1__img" style="width: 50px; height: 50px; display: flex;">
+        <div
+          class="item_box1__img"
+          style="width: 50px; height: 50px; display: flex"
+        >
           <img src="../static/images/item3_image.png" alt="상품3" />
         </div>
       </div>
 
       <div class="item_box1">
         <div class="item_selection">
-          <div class="item_box1__img" style="border-radius: 9999px; width: 50px; height: 50px;">
+          <div
+            class="item_box1__img"
+            style="border-radius: 9999px; width: 50px; height: 50px"
+          >
             <img src="../static/images/profile.jpg" alt="face1" />
           </div>
           <div class="item_box1__info">
@@ -86,21 +106,25 @@
               <p class="item_box1__seller">EwhaSeller4</p>
               <p class="item_box1__date">6달 전</p>
             </div>
-            <p style="color: #242424; font-size: 14px;">네 저도 너무 감사합니다. 감기 조...</p>
+            <p style="color: #242424; font-size: 14px">
+              네 저도 너무 감사합니다. 감기 조...
+            </p>
           </div>
         </div>
-        <div class="item_box1__img" style="width: 50px; height: 50px; display: flex;">
+        <div
+          class="item_box1__img"
+          style="width: 50px; height: 50px; display: flex"
+        >
           <img src="../static/images/item4_image.jpeg" alt="상품4" />
         </div>
       </div>
     </main>
     {% include 'nav_bar.html' %}
-</body>
-<script src="../static/components/base_header.js"></script> 
-<script
-  src="https://kit.fontawesome.com/afee348a73.js"
-  crossorigin="anonymous"
-></script>
-<script src="../static/screens/list.js"></script>
-<script src="../static/components/like_press.js"></script>
+  </body>
+  <script
+    src="https://kit.fontawesome.com/afee348a73.js"
+    crossorigin="anonymous"
+  ></script>
+  <script src="../static/screens/list.js"></script>
+  <script src="../static/components/like_press.js"></script>
 </html>

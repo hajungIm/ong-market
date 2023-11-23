@@ -37,7 +37,8 @@ div.item_box1__img {
 
 div.item_box1__img img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
 }
 
 div.item_box1__info {
