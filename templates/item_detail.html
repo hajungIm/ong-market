@@ -113,10 +113,19 @@
       <button
         class="dm_btn"
         type="button"
-        onclick="document.location.href='/dm'"
+        onclick="startChat('{{ data.userId }}', '{{ session['name'] }}')"
       >
         채팅하기
       </button>
+        <script>
+            function startChat(sellerId, buyerId) {
+                var itemData = JSON.stringify({{ data | tojson }});
+                var chatUrl = '/dm_to_seller?sellerId=' + encodeURIComponent(sellerId) +
+                    '&buyerId=' + encodeURIComponent(buyerId) +
+                    '&itemData=' + encodeURIComponent(itemData);
+                window.location.href = chatUrl;
+            }
+        </script>
     </div>
   </body>
   <script src="../static/components/simple_like_press.js"></script>

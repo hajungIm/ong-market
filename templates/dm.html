@@ -7,7 +7,7 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='style.css') }}"
     />
-    <title>DM-EwhaStudent1</title>
+    <title>DM-{{ counterpartId }}</title>
   </head>
 
   <body>
@@ -22,7 +22,7 @@
           src="static/images/ewhastudent1_profile.jpeg"
           alt="프로필 사진"
         />
-        <h2 class="base_header__title">EwhaStudent1</h2>
+        <h2 class="base_header__title">{{ counterpartId }}</h2>
       </div>
       <div class="base_header__icon">
         <!--레이아웃 배치용-->
@@ -32,13 +32,13 @@
       <div class="review_img__box">
         <img
           class="review_item__img"
-          src="static/images/item1_image.jpeg"
+          src="{{ url_for('static', filename=chat_room.imgPath) }}"
           alt="상품 이미지"
         />
       </div>
       <div class="review_item__content">
-        <p class="review_item__title">원형 테이블</p>
-        <p class="review_item__price">15,000원</p>
+        <p class="review_item__title">{{ chat_room.itemName }}</p>
+        <p class="review_item__price">{{ chat_room.itemPrice }}원</p>
       </div>
     </div>
 

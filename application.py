@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, session
+from flask import Flask, render_template, request, flash, redirect, url_for, session, json
 from database import DBhandler
 import hashlib
 import uuid
@@ -110,9 +110,15 @@ def reg_review():
 def my_page():
     return render_template("mypage.html")
 
-@application.route("/dm")
-def dm():
-    return render_template("dm.html")
+@application.route("/dm_to_seller")
+def dm_to_seller():
+    seller_id = request.args.get('sellerId')
+    buyer_id = request.args.get('buyerId')
+    item_data = json.loads(request.args.get('itemData', '{}'))
+    
+    chat_room = DB.get_chat_room(item_data, seller_id, buyer_id)
+    
+    return render_template("dm.html", counterpartId=seller_id, chat_room=chat_room)
 
 
 @application.route("/submit_item")
