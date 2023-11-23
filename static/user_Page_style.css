@@ -132,9 +132,8 @@ body{
 
     border: none; 
     background-color: white; 
-    position:absolute;
-    top: 80px;
-    right: 35%;
+    position:relative;
+    top: -80px;
 }
 .photo_btn i {
     font-size: 20px;

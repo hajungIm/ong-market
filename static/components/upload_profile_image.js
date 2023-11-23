@@ -5,7 +5,7 @@ const fileInput = document.getElementById("profileImgInput");
 const fileSubmitBtn = document.getElementById("photo_submit_btn");
 const img = document.getElementById("current_profile_image"); //현재 프로필 이미지 요소를 가져온다.
 const origin_img = img.src; //원래 이미지 src
-
+//초기화
 fileSubmitBtn.disabled = true;
 photoChangePanel.style.visibility = "hidden";
 
@@ -45,3 +45,19 @@ function hasFileInput() {
     return true;
   }
 }
+
+submitBtn.addEventListener("click", function () {
+  const formData = new FormData();
+  formData.append("profileImage", fileInput.files[0]);
+  fetch("/upload_profile_image", {
+    method: "POST",
+    body: formData,
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      alert("사진이 성공적으로 변경되었습니다.");
+    })
+    .catch((error) => {
+      alert("사진 변경을 실패하였습니다.", error);
+    });
+});

@@ -254,6 +254,16 @@ def userPage():
         user_info = DB.get_user_info(user_id)
     return render_template("user_Page.html", user_info=user_info)
 
+
+# @application.route("/upload_profile_image", methods=['POST'])
+# def upload_profile_image():
+#     try:
+#         if 'profile_image' in request.files:
+#             profile_image = request.files['profile_image']
+#     catch:
+    
+#     #user 경로에 대한 참조
+
 @application.route("/chatting_list")
 def chattingListPage():
     return render_template("chatting_list.html")
@@ -293,19 +303,6 @@ def error404():
 @application.route("/error500")
 def error500():
     return render_template("error_500.html")
-
-
-#임시(수정 예정)
-# @application.route("/upload_profile_image", methods=['POST'])
-# def upload_profile_image():
-#     if 'profile_image' in request.files:
-#         profile_image = request.files['profile_image']
-#         # 업로드 로직을 추가하여 사용자의 프로필 이미지를 변경합니다.
-#         # 새로운 경로를 DB에 업데이트합니다.
-
-#         # ...
-
-#     return redirect(url_for('userPage'))
 
 if __name__ == "__main__":
     application.run(host='0.0.0.0', debug=True)
