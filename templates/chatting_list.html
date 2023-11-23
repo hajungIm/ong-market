@@ -27,7 +27,7 @@
                             class="item_box1__img"
                             style="border-radius: 9999px; width: 50px; height: 50px;"
                         >
-                            <img src="{% if chat_room.sellerId != session['id'] %}{{ url_for('static', filename=chat_room.buyerImg) }}{% else %}{{ url_for('static', filename=chat_room.sellerImg) }}{% endif %}"  
+                            <img src="{% if chat_room.sellerId != session['id'] %}{{ url_for('static', filename=chat_room.sellerImg) }}{% else %}{{ url_for('static', filename=chat_room.buyerImg) }}{% endif %}"  
                                  alt="profile" />
                         </div>
 

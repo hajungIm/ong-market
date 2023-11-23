@@ -109,11 +109,12 @@ def reg_review():
 
 @application.route("/mypage")
 def my_page():
-    # 세션에서 사용자 정보 가져오기
-    user_id = session.get("id")
-    if user_id:
-        # 세션에 저장된 사용자 ID를 사용하여 사용자 정보 가져오기
-        user_info = DB.get_user_info(user_id)
+    user_id = session.get('id')
+    if user_id is None:
+        # 사용자 ID가 세션에 없는 경우, 로그인 페이지나 오류 페이지로 리디렉트
+        return redirect(url_for('login'))
+
+    user_info = DB.get_user_info(user_id)
     return render_template("mypage.html", user_info=user_info)
 
 # 임시로 만든 비밀번호 변경하는 엔드포인트입니다.
@@ -299,6 +300,7 @@ def update_profile_image():
     image_file.save(save_path)
     
     DB.update_profile_image(user_id, image_file_path)
+    DB.update_chats_profile_image(user_id, image_file_path)
     return jsonify(success=True)
     
 
@@ -310,6 +312,7 @@ def chattingListPage():
         return redirect(url_for('login'))
     
     chat_rooms = DB.get_chat_rooms_for_user(user_id)
+    chat_rooms = sorted(chat_rooms, key=lambda x: x['lastTimestamp'], reverse=True)
     return render_template("chatting_list.html", chat_rooms=chat_rooms)
 
 @application.route("/chat_room/<chat_room_id>")

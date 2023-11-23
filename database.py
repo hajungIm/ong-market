@@ -178,3 +178,14 @@ class DBhandler:
                 return True
         return False
     
+    def update_chats_profile_image(self, user_id, new_image):
+        chat_rooms = self.get_chat_rooms_for_user(user_id)
+        for chat_room in chat_rooms:
+            chat_room_id = chat_room['chatRoomId']
+            
+            if chat_room['sellerId'] == user_id:
+                self.db.child("chats").child(chat_room_id).update({'sellerImg': new_image})
+            else:
+                self.db.child("chats").child(chat_room_id).update({'buyerImg': new_image})
+        return True
+    
