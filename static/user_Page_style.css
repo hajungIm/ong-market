@@ -107,19 +107,19 @@ body{
 
 .image_style{
     border-radius: 50%; /*원 형태로 만들고 싶으면 border-radius를 50%로 ㅂ*/
-    width: 25%;
+    width: 160px;
     align-items: center;
-    position:relative;
-    left: 35%;
-    margin-bottom: 5%;
+    margin-bottom: 35px;
+
 }
 
 .make_center{
     padding-top: 80px;
     width: 100%;
     align-items: center;
-    display: block;
+    display: flex;
     position: relative;
+    justify-content: center;
 }
 
 .photo_btn{
@@ -144,3 +144,59 @@ body{
 .photo_btn:hover i{
     color: rgb(83, 83, 83);
 }
+
+.photo_change{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+
+    padding-top: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    visibility: hidden;
+}
+
+
+.photo_change__whitebox {
+    width: 100%;
+    margin: 80px;
+    padding: 20px;
+
+
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+
+}
+
+.enroll_btn {
+    font-size: 15px;
+    padding: 20px 0px;
+    text-align: center;
+    background-color: var(--blue);
+    margin-bottom: 5px;
+    box-shadow: none;
+}
+.enroll_btn:disabled {
+    background-color: #949494;
+}
+
+.cancel_btn {
+   background-color: var(--star-yellow);
+}
+
+.custom_file_input {
+    display: none;
+}
+
+.file_btn {
+    background-color: var(--black);
+}
+

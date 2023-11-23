@@ -26,13 +26,6 @@
         src="{{ user_info['profile_image'] }}"
         alt="프로필 이미지"
       />
-      <input
-        type="file"
-        id="profileImgInput"
-        style="display: none"
-        accept="image/*"
-        multiple="false"
-      />
       <button class="photo_btn">
         <i class="fa-solid fa-pen-to-square fa-xl"></i>
       </button>
@@ -86,6 +79,34 @@
         />
       </form>
     </main>
+
+    <!-- 사진 변경 창 -->
+    <div class="photo_change" id="photo_change">
+      <!-- current image -->
+      <div class="photo_change__whitebox">
+        <div>
+          <img
+            class="image_style"
+            id="current_profile_image"
+            src="{{ user_info['profile_image'] }}"
+            alt="프로필 이미지"
+          />
+        </div>
+
+        <input
+          type="file"
+          class="custom_file_input enroll_btn"
+          id="profileImgInput"
+          accept="imgae/*"
+          multiple="false"
+        />
+        <label for="profileImgInput" class="enroll_btn file_btn"
+          >사진 선택하기</label
+        >
+        <button class="enroll_btn" id="photo_submit_btn">변경하기</button>
+        <button class="enroll_btn cancel_btn">취소</button>
+      </div>
+    </div>
   </body>
   <script src="../static/components/base_header.js"></script>
   <script
