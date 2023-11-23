@@ -325,6 +325,11 @@ def chat_room_page(chat_room_id):
     
     return render_template('dm.html', chat_room=chat_room_data, counterpartId=counterpartId, counterpartImg=counterpartImg)
 
+@application.route('/complete/<chat_room_id>', methods=['POST'])
+def complete_chat_room(chat_room_id):
+    DB.mark_chat_room_as_complete(chat_room_id)
+    return jsonify({"status": "success", "message": "Chat room marked as complete"})
+
 @application.route("/keyword")
 def keywordPage():
     # 세션에서 사용자 정보 가져오기

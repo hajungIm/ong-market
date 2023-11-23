@@ -164,6 +164,10 @@ class DBhandler:
         chat_room_data = self.db.child("chats").child(chat_room_id).get().val()
         return chat_room_data
     
+    def mark_chat_room_as_complete(self, chat_room_id):
+        complete_update = {"complete": True}
+        self.db.child("chats").child(chat_room_id).update(complete_update)
+    
     def update_profile_image(self, user_id, new_image):
         users = self.db.child("user").get()
         for user in users.each():
