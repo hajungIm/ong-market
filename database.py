@@ -117,7 +117,8 @@ class DBhandler:
                 "itemPrice": item_data.get('price', 'Unknwon Price'),
                 "imgPath": item_data.get('img_path', 'no_image.png'),
                 "messages": [],
-                "createdAt": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                "lastMessageText": "",
+                "lastTimestamp": ""
             }
             self.db.child("chats").child(chat_room_id).set(chat_room_info)
             chat_room = chat_room_info
@@ -132,6 +133,13 @@ class DBhandler:
         }
         
         self.db.child("chats").child(chat_room_id).child("messages").push(new_message)
+        
+        last_message_update = {
+            "lastMessageText": message,
+            "lastTimestamp": timestamp
+        }
+        self.db.child("chats").child(chat_room_id).update(last_message_update)
+
         return True
 
     def get_chat_rooms_for_user(self, user_id):
