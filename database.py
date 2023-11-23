@@ -11,7 +11,7 @@ class DBhandler:
         self.db = firebase.database()
 
     def insert_user(self, data, pw):
-        default_profile_image = "static/images/default_profile_image.png" # 디폴트 프로필 이미지 경로
+        default_profile_image = "static/images/profile/default_profile_image.png" # 디폴트 프로필 이미지 경로
         user_info={
             "id": data['id'],
             "pw": pw,
