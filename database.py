@@ -61,7 +61,6 @@ class DBhandler:
         
         
     def insert_item(self, current_id, data, img_path):
-        current_time = datetime.utcnow().isoformat() + 'Z'
 
         item_info = {
                 "itemId": current_id,
@@ -73,7 +72,7 @@ class DBhandler:
                 "transaction": data['transaction'],
                 "img_path": img_path,
                 "like_count": 0,
-                "createdAt": current_time
+                "createdAt": data['itemRegDate']
             }
         if data['transaction'] == "대면":
            item_info["location"] = data['location']
