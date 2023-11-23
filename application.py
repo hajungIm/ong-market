@@ -108,7 +108,12 @@ def reg_review():
 
 @application.route("/mypage")
 def my_page():
-    return render_template("mypage.html")
+    # 세션에서 사용자 정보 가져오기
+    user_id = session.get("id")
+    if user_id:
+        # 세션에 저장된 사용자 ID를 사용하여 사용자 정보 가져오기
+        user_info = DB.get_user_info(user_id)
+    return render_template("mypage.html", user_info=user_info)
 
 # 임시로 만든 비밀번호 변경하는 엔드포인트입니다.
 # 프론트에서 POST 요청으로 새로운 비밀번호를 받아 처리.
@@ -179,9 +184,7 @@ def reg_item_submit_post():
     DB.insert_item(current_id, data, image_file_path)
     return render_template("result.html", data=data, img_path=save_path)
 
-@application.route("/mypage")
-def mypage():
-    return render_template("mypage.html")
+
 
 @application.route("/find_id")
 def find_id():
@@ -244,7 +247,12 @@ def likePage():
 
 @application.route("/user_Page")
 def userPage():
-    return render_template("user_Page.html")
+     # 세션에서 사용자 정보 가져오기
+    user_id = session.get("id")
+    if user_id:
+        # 세션에 저장된 사용자 ID를 사용하여 사용자 정보 가져오기
+        user_info = DB.get_user_info(user_id)
+    return render_template("user_Page.html", user_info=user_info)
 
 @application.route("/chatting_list")
 def chattingListPage():
@@ -252,7 +260,12 @@ def chattingListPage():
 
 @application.route("/keyword")
 def keywordPage():
-    return render_template("keyword.html")
+    # 세션에서 사용자 정보 가져오기
+    user_id = session.get("id")
+    if user_id:
+        # 세션에 저장된 사용자 ID를 사용하여 사용자 정보 가져오기
+        user_info = DB.get_user_info(user_id)
+    return render_template("keyword.html", user_info=user_info)
 
 @application.route("/view_detail/<name>/")
 def view_item_detail(name):
@@ -280,6 +293,19 @@ def error404():
 @application.route("/error500")
 def error500():
     return render_template("error_500.html")
+
+
+#임시(수정 예정)
+# @application.route("/upload_profile_image", methods=['POST'])
+# def upload_profile_image():
+#     if 'profile_image' in request.files:
+#         profile_image = request.files['profile_image']
+#         # 업로드 로직을 추가하여 사용자의 프로필 이미지를 변경합니다.
+#         # 새로운 경로를 DB에 업데이트합니다.
+
+#         # ...
+
+#     return redirect(url_for('userPage'))
 
 if __name__ == "__main__":
     application.run(host='0.0.0.0', debug=True)

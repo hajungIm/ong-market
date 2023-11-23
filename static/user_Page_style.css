@@ -115,7 +115,7 @@ body{
 }
 
 .make_center{
-    padding-top: 100px;
+    padding-top: 80px;
     width: 100%;
     align-items: center;
     display: block;
@@ -123,9 +123,24 @@ body{
 }
 
 .photo_btn{
+    box-sizing: border-box;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     border: none; 
     background-color: white; 
     position:absolute;
-    top: 40%;
+    top: 80px;
     right: 35%;
+}
+.photo_btn i {
+    font-size: 20px;
+    padding: 5px;
+    color: #808080;
+}
+.photo_btn:hover i{
+    color: rgb(83, 83, 83);
 }

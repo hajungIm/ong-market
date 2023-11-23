@@ -11,10 +11,12 @@ class DBhandler:
         self.db = firebase.database()
 
     def insert_user(self, data, pw):
+        default_profile_image = "static/images/default_profile_image.png" # 디폴트 프로필 이미지 경로
         user_info={
             "id": data['id'],
             "pw": pw,
-            "name": data['name']
+            "name": data['name'],
+            "profile_image":default_profile_image
         }
         if self.user_duplicate_check(str(data['id'])):
             self.db.child("user").push(user_info)
@@ -43,6 +45,20 @@ class DBhandler:
             if value['id'] == id_ and value['pw'] == pw_:
                 return value['name']
         return False
+    
+    def get_user_info(self, id_):
+        users = self.db.child("user").get()
+        for res in users.each():
+            value = res.val()
+            if value['id'] == id_:
+                return {
+                    "id": value['id'],
+                    "name": value['name'],
+                    "profile_image": value['profile_image'],
+                    # 다른 필요한 사용자 정보...
+                }
+        return None
+        
         
     def insert_item(self, current_id, data, img_path):
         current_time = datetime.utcnow().isoformat() + 'Z'
@@ -87,4 +103,5 @@ class DBhandler:
             return item.val()
         else:
             return None
+        
     
