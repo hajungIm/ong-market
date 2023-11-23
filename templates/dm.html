@@ -134,12 +134,14 @@
                     </div>
                     <span>장소</span>
                 </div>
-                <div class="dm_function__icon">
-                    <div class="dm_icon__box" id="dm_function_complete">
-                        <i class="fa-solid fa-circle-check"></i>
+                {% if session['id'] == chat_room.sellerId %}
+                    <div class="dm_function__icon">
+                        <div class="dm_icon__box" id="dm_function_complete">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                        <span>거래완료</span>
                     </div>
-                    <span>거래완료</span>
-                </div>
+                {% endif %}
                 <script>
                     document
                         .getElementById('dm_function_complete')
