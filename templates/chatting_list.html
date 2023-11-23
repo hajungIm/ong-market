@@ -38,8 +38,7 @@
                                 {% else %}
                                 <p class="item_box1__seller">{{ chat_room.buyerId }}</p>
                                 {% endif %}
-                                <!-- 마지막 메시지의 날짜를 표시해야 한다면 로직 추가 필요 -->
-                                <p class="item_box1__date">날짜 정보</p>
+                                <p class="item_box1__date">{{ chat_room.lastTimestamp }}</p>
                             </div>
                             <!-- 마지막 메시지 텍스트 -->
                             <p style="color: #242424; font-size: 14px;">
@@ -50,7 +49,7 @@
 
                     <!-- 채팅방의 상품 이미지 (예시로 static images 사용) -->
                     <div class="item_box1__img" style="width: 50px; height: 50px; display: flex;">
-                        <img src="../static/images/item_image.jpeg" alt="item image" />
+                        <img src="{{ url_for('static', filename=chat_room.imgPath) }}" alt="item image" />
                     </div>
                 </div>
             </a>

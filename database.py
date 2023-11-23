@@ -58,7 +58,14 @@ class DBhandler:
                     # 다른 필요한 사용자 정보...
                 }
         return None
-        
+    
+    def get_user_Img(self, user_id):
+        users = self.db.child("user").get()
+        for user in users.each():
+            user_data = user.val()
+            if user_data['id'] == user_id:
+                return user_data['profile_image']
+        return None
         
     def insert_item(self, current_id, data, img_path):
 
@@ -103,7 +110,7 @@ class DBhandler:
         else:
             return None
 
-    def get_chat_room(self, item_data, seller_id, buyer_id):
+    def get_chat_room(self, item_data, seller_id, seller_img, buyer_id, buyer_img):
         chat_room_id = f"{seller_id}_{buyer_id}_{item_data['itemId']}"
         chat_room = self.db.child("chats").child(chat_room_id).get().val()
         
@@ -111,13 +118,16 @@ class DBhandler:
             chat_room_info = {
                 "chatRoomId": chat_room_id,
                 "sellerId": seller_id,
+                "sellerImg": seller_img,
                 "buyerId": buyer_id,
+                "buyerImg": buyer_img,
                 "itemId": item_data.get('itemId', 'Unknwon Item'),
                 "itemName": item_data.get('itemName', 'Unknwon Item'),
                 "itemPrice": item_data.get('price', 'Unknwon Price'),
                 "imgPath": item_data.get('img_path', 'no_image.png'),
                 "messages": [],
-                "createdAt": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                "lastMessageText": "",
+                "lastTimestamp": ""
             }
             self.db.child("chats").child(chat_room_id).set(chat_room_info)
             chat_room = chat_room_info
@@ -132,6 +142,13 @@ class DBhandler:
         }
         
         self.db.child("chats").child(chat_room_id).child("messages").push(new_message)
+        
+        last_message_update = {
+            "lastMessageText": message,
+            "lastTimestamp": timestamp
+        }
+        self.db.child("chats").child(chat_room_id).update(last_message_update)
+
         return True
 
     def get_chat_rooms_for_user(self, user_id):

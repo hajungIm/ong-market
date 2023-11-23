@@ -5,8 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
         <title>
-            DM-{% if chat_room.sellerId == session['id'] %}{{ chat_room.buyerId }}{% else %}{{
-            chat_room.sellerId }}{% endif %}
+            DM-{{ counterpartId }}
         </title>
     </head>
 
@@ -19,12 +18,11 @@
             <div class="base_header__dm">
                 <img
                     class="dm_profile__img"
-                    src="static/images/ewhastudent1_profile.jpeg"
+                    src="{{ counterpartImg }}"
                     alt="프로필 사진"
                 />
                 <h2 class="base_header__title">
-                    {% if chat_room.sellerId == session['id'] %} {{ chat_room.buyerId }} {% else %}
-                    {{ chat_room.sellerId }} {% endif %}
+                    {{ counterpartId }}
                 </h2>
             </div>
             <div class="base_header__icon">
@@ -45,8 +43,8 @@
             </div>
         </div>
 
-    <main class="dm_section" id="chat-window">
-      <!-- <div class="dm_info">
+        <main class="dm_section" id="chat-window">
+            <!-- <div class="dm_info">
         <div class="dm_info__content">
           <p class="dm_info__content-title">안내</p>
           <p class="dm_info__contenttxt">
@@ -55,152 +53,170 @@
         </div>
         <a class="dm_info__btn" href="/reg_review">리뷰 작성하기</a>
       </div> -->
-    </main>
+        </main>
 
-    <footer class="dm_footer">
-      <form class="dm_reply" action="">
-        <div class="dm_reply__column" id="dm__plus_btn">
-          <i
-            id="dm_reply__plus"
-            class="fa-solid fa-circle-plus fa-lg"
-            style="color: #7a7a7a"
-          ></i>
-        </div>
+        <footer class="dm_footer">
+            <form class="dm_reply" action="">
+                <div class="dm_reply__column" id="dm__plus_btn">
+                    <i
+                        id="dm_reply__plus"
+                        class="fa-solid fa-circle-plus fa-lg"
+                        style="color: #7a7a7a;"
+                    ></i>
+                </div>
 
-        <div class="dm_reply__column">
-          <textarea
-            id="dm_reply__input"
-            type="text"
-            placeholder="메시지를 입력하세요."
-          ></textarea>
-        </div>
-        <div class="dm_reply__column">
-          <button id="dm_reply__send">
-            <img src="static/images/send-arrow.png" alt="버튼" />
-          </button>
-        </div>
+                <div class="dm_reply__column">
+                    <textarea
+                        id="dm_reply__input"
+                        type="text"
+                        placeholder="메시지를 입력하세요."
+                    ></textarea>
+                </div>
+                <div class="dm_reply__column">
+                    <button id="dm_reply__send">
+                        <img src="static/images/send-arrow.png" alt="버튼" />
+                    </button>
+                </div>
+                <script>
+                    document
+                        .getElementById('dm_reply__send')
+                        .addEventListener('click', function (event) {
+                            event.preventDefault();
+                            var messageText = document.getElementById('dm_reply__input').value;
+                            var senderId = '{{ session["id"] }}';
+                            var chatRoomId = '{{ chat_room.chatRoomId }}';
+                            var timestamp = new Date().toISOString();
+
+                            if (messageText.trim() === '') {
+                                alert('메시지를 입력해주세요.');
+                                return;
+                            }
+
+                            var data = {
+                                senderId: senderId,
+                                message: messageText,
+                                chatRoomId: chatRoomId,
+                                timestamp: timestamp,
+                            };
+
+                            fetch('/send_msg', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(data),
+                            })
+                                .then((response) => response.json())
+                                .then((data) => {
+                                    if (data.status === 'success') {
+                                        // 메시지가 성공적으로 보내졌으므로, 텍스트 입력 필드를 비움
+                                        document.getElementById('dm_reply__input').value = '';
+                                    }
+                                })
+                                .catch((error) => {
+                                    console.error('메시지 전송 오류:', error);
+                                });
+                        });
+                </script>
+            </form>
+            <div class="dm_function" id="dm_function__menu">
+                <div class="dm_function__icon">
+                    <div class="dm_icon__box" id="dm_function_emoji">
+                        <i class="fa-regular fa-face-smile"></i>
+                    </div>
+                    <span>이모티콘</span>
+                </div>
+                <div class="dm_function__icon">
+                    <div class="dm_icon__box" id="dm_function_img">
+                        <i class="fa-regular fa-image"></i>
+                    </div>
+                    <span>사진</span>
+                </div>
+                <div class="dm_function__icon">
+                    <div class="dm_icon__box" id="dm_function_camera">
+                        <i class="fa-solid fa-camera"></i>
+                    </div>
+                    <span>카메라</span>
+                </div>
+                <div class="dm_function__icon">
+                    <div class="dm_icon__box" id="dm_function_place">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <span>장소</span>
+                </div>
+                <div class="dm_function__icon">
+                    <div class="dm_icon__box" id="dm_function_complete">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <span>거래완료</span>
+                </div>
+                <div class="dm_function__icon"></div>
+                <div class="dm_function__icon"></div>
+                <div class="dm_function__icon"></div>
+            </div>
+        </footer>
+        <!-- Firebase 스크립트와 초기화 코드 -->
+        <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
+
         <script>
-          document
-            .getElementById("dm_reply__send")
-            .addEventListener("click", function (event) {
-              event.preventDefault();
-              var messageText =
-                document.getElementById("dm_reply__input").value;
-              var senderId = '{{ session["id"] }}';
-              var chatRoomId = "{{ chat_room.chatRoomId }}";
-              var timestamp = new Date().toISOString();
+            var firebaseConfig = {
+                apiKey: 'AIzaSyDWz1_ZttmWjc1IzQRI8wMAe-IqeYDzark',
+                authDomain: 'ong-market.firebaseapp.com',
+                databaseURL: 'https://ong-market-default-rtdb.firebaseio.com',
+                projectId: 'ong-market',
+                storageBucket: 'ong-market.appspot.com',
+                messagingSenderId: '464409088344',
+                appId: '1:464409088344:web:bd00bf2f298988db2c552d',
+            };
+            firebase.initializeApp(firebaseConfig);
 
-              if (messageText.trim() === "") {
-                alert("메시지를 입력해주세요.");
-                return;
-              }
-
-              var data = {
-                senderId: senderId,
-                message: messageText,
-                chatRoomId: chatRoomId,
-                timestamp: timestamp,
-              };
-
-              fetch("/send_msg", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-              })
-                .then((response) => response.json())
-                .then((data) => {
-                  if (data.status === "success") {
-                    // 메시지가 성공적으로 보내졌으므로, 텍스트 입력 필드를 비움
-                    document.getElementById("dm_reply__input").value = "";
-                  }
-                })
-                .catch((error) => {
-                  console.error("메시지 전송 오류:", error);
-                });
+            var chatRoomId = document.body.getAttribute('data-chat-room-id');
+            var messageRef = firebase
+                .database()
+                .ref('chats/' + chatRoomId + '/messages')
+                .orderByChild('timestamp');
+            messageRef.on('child_added', function (snaphot) {
+                var message = snaphot.val();
+                addMessageToChatWindow(message);
             });
+
+            function addMessageToChatWindow(message) {
+                var chatWindow = document.getElementById('chat-window');
+                var messageElement = document.createElement('div');
+                var senderIsSessionUser = message.senderId === '{{ session["id"] }}';
+
+                messageElement.className = senderIsSessionUser
+                    ? 'dm_section__line dm_section__me'
+                    : 'dm_section__line dm_section__you';
+
+                if (!senderIsSessionUser) {
+                    // 상대방의 프로필 이미지를 추가합니다.
+                    var imgElement = document.createElement('img');
+                    imgElement.className = 'dm_profile__img';
+                    imgElement.src = '{{ counterpartImg }}'; // 프로필 이미지 URL
+                    imgElement.alt = '프로필 사진';
+                    messageElement.appendChild(imgElement);
+                }
+
+                // 메시지 텍스트를 추가합니다.
+                var messageTextElement = document.createElement('span');
+                messageTextElement.className = 'dm_msg';
+                messageTextElement.innerHTML = message.text;
+                messageElement.appendChild(messageTextElement);
+
+                // 메시지 타임스탬프를 추가합니다.
+                var timestampElement = document.createElement('span');
+                timestampElement.className = 'dm_time';
+                timestampElement.innerHTML = message.timestamp;
+                messageElement.appendChild(timestampElement);
+
+                chatWindow.appendChild(messageElement);
+            }
         </script>
-      </form>
-      <div class="dm_function" id="dm_function__menu">
-        <div class="dm_function__icon">
-          <div class="dm_icon__box" id="dm_function_emoji">
-            <i class="fa-regular fa-face-smile"></i>
-          </div>
-          <span>이모티콘</span>
-        </div>
-        <div class="dm_function__icon">
-          <div class="dm_icon__box" id="dm_function_img">
-            <i class="fa-regular fa-image"></i>
-          </div>
-          <span>사진</span>
-        </div>
-        <div class="dm_function__icon">
-          <div class="dm_icon__box" id="dm_function_camera">
-            <i class="fa-solid fa-camera"></i>
-          </div>
-          <span>카메라</span>
-        </div>
-        <div class="dm_function__icon">
-          <div class="dm_icon__box" id="dm_function_place">
-            <i class="fa-solid fa-location-dot"></i>
-          </div>
-          <span>장소</span>
-        </div>
-        <div class="dm_function__icon">
-          <div class="dm_icon__box" id="dm_function_complete">
-            <i class="fa-solid fa-circle-check"></i>
-          </div>
-          <span>거래완료</span>
-        </div>
-        <div class="dm_function__icon"></div>
-        <div class="dm_function__icon"></div>
-        <div class="dm_function__icon"></div>
-      </div>
-    </footer>
-    <!-- Firebase 스크립트와 초기화 코드 -->
-    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
-
-    <script>
-      var firebaseConfig = {
-        apiKey: "AIzaSyDWz1_ZttmWjc1IzQRI8wMAe-IqeYDzark",
-        authDomain: "ong-market.firebaseapp.com",
-        databaseURL: "https://ong-market-default-rtdb.firebaseio.com",
-        projectId: "ong-market",
-        storageBucket: "ong-market.appspot.com",
-        messagingSenderId: "464409088344",
-        appId: "1:464409088344:web:bd00bf2f298988db2c552d",
-      };
-      firebase.initializeApp(firebaseConfig);
-
-      var chatRoomId = document.body.getAttribute("data-chat-room-id");
-      var messageRef = firebase
-        .database()
-        .ref("chats/" + chatRoomId + "/messages")
-        .orderByChild("timestamp");
-      messageRef.on("child_added", function (snaphot) {
-        var message = snaphot.val();
-        addMessageToChatWindow(message);
-      });
-
-      function addMessageToChatWindow(message) {
-        var chatWindow = document.getElementById("chat-window");
-        var messageElement = document.createElement("div");
-        messageElement.className =
-          message.senderId === '{{ session["id"] }}'
-            ? "dm_section__line dm_section__me"
-            : "dm_section__line dm_section__you";
-        messageElement.innerHTML = `<span class="dm_msg">${message.text}</span><span class="dm_time">${message.timestamp}</span>`;
-        chatWindow.appendChild(messageElement);
-      }
-    </script>
-  </body>
-  <script
-    src="https://kit.fontawesome.com/afee348a73.js"
-    crossorigin="anonymous"
-  ></script>
-  <script src="../static/screens/dm.js"></script>
-  <script src="../static/components/base_header.js"></script>
-  <script src="../static/components/commas_to_price.js"></script>
+    </body>
+    <script src="https://kit.fontawesome.com/afee348a73.js" crossorigin="anonymous"></script>
+    <script src="../static/screens/dm.js"></script>
+    <script src="../static/components/base_header.js"></script>
+    <script src="../static/components/commas_to_price.js"></script>
 </html>

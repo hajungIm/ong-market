@@ -146,10 +146,12 @@ def dm_to_seller():
         seller_id = request.form.get('sellerId')
         buyer_id = request.form.get('buyerId')
         item_data = json.loads(request.form.get('itemData', '{}'))
+        seller_img = DB.get_user_Img(seller_id)
+        buyer_img = DB.get_user_Img(buyer_id)
     
-        chat_room = DB.get_chat_room(item_data, seller_id, buyer_id)
+        chat_room = DB.get_chat_room(item_data, seller_id, seller_img, buyer_id, buyer_img)
     
-        return render_template("dm.html", chat_room=chat_room)
+        return render_template("dm.html", chat_room=chat_room, counterpartId=seller_id, counterpartImg=seller_img)
 
 @application.route("/dm")
 def dm():
@@ -304,7 +306,15 @@ def chattingListPage():
 @application.route("/chat_room/<chat_room_id>")
 def chat_room_page(chat_room_id):
     chat_room_data = DB.get_chat_room_data(chat_room_id)
-    return render_template('dm.html', chat_room=chat_room_data)
+    
+    if chat_room_data['sellerId'] == session['id']:
+        counterpartId = chat_room_data['buyerId']
+        counterpartImg = chat_room_data['buyerImg']
+    else:
+        counterpartId = chat_room_data['sellerId']
+        counterpartImg = chat_room_data['sellerImg']
+    
+    return render_template('dm.html', chat_room=chat_room_data, counterpartId=counterpartId, counterpartImg=counterpartImg)
 
 @application.route("/keyword")
 def keywordPage():
