@@ -34,7 +34,7 @@ function hasFileInput() {
     //파일 리더 생성 및 onload 이벤트 핸들링
     const reader = new FileReader();
     reader.onload = (e) => {
-      if (!e.target.result.startsWith("image/*")) {
+      if (!e.target.result.startsWith("data:image/")) {
         alert("이미지 파일을 선택하세요.");
         return;
       } else {
