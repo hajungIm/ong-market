@@ -110,13 +110,26 @@ def reg_item():
 @application.route("/reg_review/<itemId>")
 def reg_review_init(itemId):
     item = DB.find_item_by_id(itemId)
-    return render_template("reg_review.html", data = item)
+    return render_template("reg_review.html", data=item)
 
-@application.route("/reg_review_post/<name>", methods=['POST'])
-def submit_review():
-    data=request.form
-    DB.reg_review(data)
-    return redirect(url_for('review_detail'))
+@application.route("/submit_review_post/<itemId>", methods=['POST'])
+def submit_review(itemId):
+    user_id = session.get("id")
+    item = DB.find_item_by_id(itemId)
+    reviewId = itemId
+    
+    image_file=request.files["reveiwItemImg"]
+    file_extension = image_file.filename.rsplit('.',1)[1].lower()
+    image_file_path = "images/regReview/{}.{}".format(reviewId, file_extension)
+    save_path = "static/" + image_file_path
+    image_file.save(save_path)
+
+    reviewform=request.form
+    DB.insert_review(reviewId, reviewform, image_file_path, user_id)
+    
+    review = DB.find_review_by_id(reviewId)
+    
+    return render_template("review_detail.html", data = item, reviewdata = review)
 
 @application.route("/mypage")
 def my_page():
@@ -180,21 +193,22 @@ def reg_item_submit_post():
             last_id = int(file.read().strip())
     else:
         last_id = 0
-        
+
     current_id = last_id + 1
-    
+
     with open(item_id_path, 'w') as file:
         file.write(str(current_id))
-    
+
     image_file=request.files["itemImg"]
     file_extension = image_file.filename.rsplit('.',1)[1].lower()
     image_file_path = "images/regItem/{}.{}".format(current_id, file_extension)
     save_path = "static/" + image_file_path
     image_file.save(save_path)
-
+    
+    
     data=request.form 
     DB.insert_item(current_id, data, image_file_path)
-    return render_template("result.html", data=data, img_path=save_path)
+    return render_template("result.html", data=data)
 
 
 
@@ -225,10 +239,10 @@ def find_password_fail():
 @application.route("/item_detail/<itemId>/")
 def item_detail(itemId):
     item = DB.find_item_by_id(itemId)
-    
+
     if not item:
         return "Item not found", 404
-    
+
     return render_template("item_detail.html", data=item)
 
 @application.route("/review_detail")
