@@ -4,7 +4,10 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-        <title>DM-{{ counterpartId }}</title>
+        <title>
+            DM-{% if chat_room.sellerId == session['id'] %}{{ chat_room.buyerId }}{% else %}{{
+            chat_room.sellerId }}{% endif %}
+        </title>
     </head>
 
     <body data-chat-room-id="{{ chat_room.chatRoomId }}">
@@ -19,7 +22,10 @@
                     src="static/images/ewhastudent1_profile.jpeg"
                     alt="프로필 사진"
                 />
-                <h2 class="base_header__title">{{ counterpartId }}</h2>
+                <h2 class="base_header__title">
+                    {% if chat_room.sellerId == session['id'] %} {{ chat_room.buyerId }} {% else %}
+                    {{ chat_room.sellerId }} {% endif %}
+                </h2>
             </div>
             <div class="base_header__icon">
                 <!--레이아웃 배치용-->
