@@ -34,19 +34,24 @@ function hasFileInput() {
     //파일 리더 생성 및 onload 이벤트 핸들링
     const reader = new FileReader();
     reader.onload = (e) => {
-      //파일 읽을 때 실행할 함수 등록
-      img.src = e.target.result; //이미지 요소의 src url을 변경한다.
-      console.log("파일 선택 완료. 이미지 반영 완료");
-      //e.target.result는 파일이 성공적으로 읽혀온 결과물을 나타낸다.
-      //Data URL 형식으로, 이미지 파일의 내용을 문자열로 포함하고 있습니다.
+      if (!e.target.result.startsWith("image/*")) {
+        alert("이미지 파일을 선택하세요.");
+        return;
+      } else {
+        //파일 읽을 때 실행할 함수 등록
+        img.src = e.target.result; //이미지 요소의 src url을 변경한다.
+        console.log("파일 선택 완료. 이미지 반영 완료");
+        //e.target.result는 파일이 성공적으로 읽혀온 결과물을 나타낸다.
+        //Data URL 형식으로, 이미지 파일의 내용을 문자열로 포함하고 있습니다.
+        fileSubmitBtn.disabled = false;
+      }
     };
     reader.readAsDataURL(fileInput.files[0]); // 파일 읽기 시작
-    fileSubmitBtn.disabled = false;
     return true;
   }
 }
 
-submitBtn.addEventListener("click", function () {
+fileSubmitBtn.addEventListener("click", function () {
   const formData = new FormData();
   formData.append("profileImage", fileInput.files[0]);
   fetch("/upload_profile_image", {
@@ -58,6 +63,6 @@ submitBtn.addEventListener("click", function () {
       alert("사진이 성공적으로 변경되었습니다.");
     })
     .catch((error) => {
-      alert("사진 변경을 실패하였습니다.", error);
+      alert("사진 변경을 실패하였습니다.", error.message);
     });
 });

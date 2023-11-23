@@ -169,6 +169,7 @@ def send_msg():
 
 @application.route("/submit_item")
 def reg_item_submit():
+    createdAt=request.args.get("itemRegDate")
     userId=request.args.get("userId")
     itemName=request.args.get("itemName")
     price=price.args.get("price")
@@ -176,8 +177,9 @@ def reg_item_submit():
     description=status.args.get("description")
     transaction=status.args.get("transaction")
     location=status.args.get("location")
+
     
-    print(userId, itemName, price, status, description, transaction, location)
+    print(createdAt, userId, itemName, price, status, description, transaction, location)
     return render_template("")
 
 
