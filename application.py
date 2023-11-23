@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, session, json, escape
+from flask import Flask, render_template, request, flash, redirect, url_for, session, json, escape, jsonify
 from database import DBhandler
 import hashlib
 import uuid
@@ -110,7 +110,7 @@ def reg_review():
 def my_page():
     return render_template("mypage.html")
 
-@application.route("/dm_to_seller", methods=['GET', 'POST'])
+@application.route("/dm_to_seller", methods=['POST'])
 def dm_to_seller():
     if request.method == 'POST':
         seller_id = request.form.get('sellerId')
@@ -118,9 +118,25 @@ def dm_to_seller():
         item_data = json.loads(request.form.get('itemData', '{}'))
     
         chat_room = DB.get_chat_room(item_data, seller_id, buyer_id)
+        # messages = [msg for msg in chat_room['messages'].values()]
     
         return render_template("dm.html", counterpartId=seller_id, chat_room=chat_room)
 
+@application.route("/dm")
+def dm():
+    return render_template("dm.html")
+
+@application.route('/send_msg', methods=['POST'])
+def send_msg():
+    data = request.json
+    message = data.get('message')
+    chat_room_id = data.get('chatRoomId')
+    sender_id = data.get('senderId')
+    timestamp = data.get('timestamp')
+
+    DB.save_msg(chat_room_id, message, sender_id, timestamp)
+    
+    return jsonify({'status': 'success', 'message': '메시지 전송됨'}), 200
 
 @application.route("/submit_item")
 def reg_item_submit():

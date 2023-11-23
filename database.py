@@ -94,6 +94,7 @@ class DBhandler:
         
         if not chat_room:
             chat_room_info = {
+                "chatRoomId": chat_room_id,
                 "sellerId": seller_id,
                 "buyerId": buyer_id,
                 "itemId": item_data.get('itemId', 'Unknwon Item'),
@@ -107,4 +108,14 @@ class DBhandler:
             chat_room = chat_room_info
             
         return chat_room
+    
+    def save_msg(self, chat_room_id, message, sender_id, timestamp):
+        new_message = {
+            "senderId": sender_id,
+            "text": message,
+            "timestamp": timestamp
+        }
+        
+        self.db.child("chats").child(chat_room_id).child("messages").push(new_message)
+        return True
     
