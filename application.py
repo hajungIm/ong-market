@@ -283,15 +283,24 @@ def userPage():
         user_info = DB.get_user_info(user_id)
     return render_template("user_Page.html", user_info=user_info)
 
-
-# @application.route("/upload_profile_image", methods=['POST'])
-# def upload_profile_image():
-#     try:
-#         if 'profile_image' in request.files:
-#             profile_image = request.files['profile_image']
-#     catch:
+@application.route('/update_profile_image', methods=['POST'])
+def update_profile_image():
+    if 'profileImg' not in request.files:
+        return redirect(request.url)
+    image_file = request.files['profileImg']
+    if image_file.filename == '':
+        return redirect(request.url)
     
-#     #user 경로에 대한 참조
+    user_id = session.get("id")
+    
+    file_extension = image_file.filename.rsplit('.',1)[1].lower()
+    image_file_path = "images/profile/{}.{}".format(user_id, file_extension)
+    save_path = "static/" + image_file_path
+    image_file.save(save_path)
+    
+    DB.update_profile_image(user_id, image_file_path)
+    return jsonify(success=True)
+    
 
 @application.route("/chatting_list")
 def chattingListPage():

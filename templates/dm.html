@@ -18,7 +18,7 @@
             <div class="base_header__dm">
                 <img
                     class="dm_profile__img"
-                    src="{{ counterpartImg }}"
+                    src="{{ url_for('static', filename=counterpartImg) }}"
                     alt="프로필 사진"
                 />
                 <h2 class="base_header__title">
@@ -194,7 +194,7 @@
                     // 상대방의 프로필 이미지를 추가합니다.
                     var imgElement = document.createElement('img');
                     imgElement.className = 'dm_profile__img';
-                    imgElement.src = '{{ counterpartImg }}'; // 프로필 이미지 URL
+                    imgElement.src = '{{ url_for('static', filename=counterpartImg) }}'; // 프로필 이미지 URL
                     imgElement.alt = '프로필 사진';
                     messageElement.appendChild(imgElement);
                 }

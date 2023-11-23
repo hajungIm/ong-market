@@ -1,119 +1,133 @@
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>회원 정보 수정</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='user_Page_style.css') }}"
-    />
-  </head>
-  <body>
-    <header class="base_header">
-      <div class="base_header__icon base_header__back">
-        <i class="fa-solid fa-chevron-left fa-xl" style="color: #242424"></i>
-      </div>
-      <div>
-        <h2 class="base_header__title">회원 정보 수정</h2>
-      </div>
-      <div class="base_header__icon">
-        <!--레이아웃 배치용-->
-      </div>
-    </header>
-    <div class="make_center">
-      <img
-        class="image_style"
-        src="{{ user_info['profile_image'] }}"
-        alt="프로필 이미지"
-      />
-      <button class="photo_btn">
-        <i class="fa-solid fa-pen-to-square fa-xl"></i>
-      </button>
-    </div>
-    <main>
-      <div class="temp_s">
-        <div class="font_head">Name</div>
-        <div class="font_body" name="name">
-          {{ session['name'] if session['name'] else 'no session' }}
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>회원 정보 수정</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='user_Page_style.css') }}" />
+    </head>
+    <body>
+        <header class="base_header">
+            <div class="base_header__icon base_header__back">
+                <i class="fa-solid fa-chevron-left fa-xl" style="color: #242424;"></i>
+            </div>
+            <div>
+                <h2 class="base_header__title">회원 정보 수정</h2>
+            </div>
+            <div class="base_header__icon">
+                <!--레이아웃 배치용-->
+            </div>
+        </header>
+        <div class="make_center">
+            <img
+                class="image_style"
+                src="{{ url_for('static', filename=user_info['profile_image']) }}"
+                alt="프로필 이미지"
+            />
+            <button class="photo_btn">
+                <i class="fa-solid fa-pen-to-square fa-xl"></i>
+            </button>
         </div>
-      </div>
-      <br />
-      <div class="temp_s">
-        <div class="font_head">Id</div>
-        <div class="font_body" name="id">
-          {{ session['id'] if session['id'] else 'no session' }}
-        </div>
-      </div>
-      <br />
-      <div class="temp_s">
-        <div class="font_head">Email</div>
-        <div class="font_body" name="EwhaMail">
-          {{ session['email'] if session['email'] else 'no session' }}
-        </div>
-      </div>
-      <div style="padding-top: 30px"></div>
-      <form action="#" style="padding-left: 2%">
-        <div style="color: #909191; margin-left: 15%" class="pass_box__title">
-          비밀 번호 수정
-          <span id="password_check__error"></span>
-        </div>
-        <input
-          type="password"
-          id="newPassword"
-          class="pass_box"
-          name="newPassword"
-          placeholder="신규 비밀번호"
-        />
-        <input
-          type="password"
-          id="newPasswordCheck"
-          class="pass_box"
-          name="confirmPassword"
-          placeholder="비밀번호 확인"
-        />
-        <input
-          type="submit"
-          class="confirm_btn"
-          id="confirm_btn_id"
-          value="수정하기"
-        />
-      </form>
-    </main>
+        <main>
+            <div class="temp_s">
+                <div class="font_head">Name</div>
+                <div class="font_body" name="name">
+                    {{ session['name'] if session['name'] else 'no session' }}
+                </div>
+            </div>
+            <br />
+            <div class="temp_s">
+                <div class="font_head">Id</div>
+                <div class="font_body" name="id">
+                    {{ session['id'] if session['id'] else 'no session' }}
+                </div>
+            </div>
+            <br />
+            <div class="temp_s">
+                <div class="font_head">Email</div>
+                <div class="font_body" name="EwhaMail">
+                    {{ session['email'] if session['email'] else 'no session' }}
+                </div>
+            </div>
+            <div style="padding-top: 30px;"></div>
+            <form action="#" style="padding-left: 2%;">
+                <div style="color: #909191; margin-left: 15%;" class="pass_box__title">
+                    비밀 번호 수정
+                    <span id="password_check__error"></span>
+                </div>
+                <input
+                    type="password"
+                    id="newPassword"
+                    class="pass_box"
+                    name="newPassword"
+                    placeholder="신규 비밀번호"
+                />
+                <input
+                    type="password"
+                    id="newPasswordCheck"
+                    class="pass_box"
+                    name="confirmPassword"
+                    placeholder="비밀번호 확인"
+                />
+                <input type="submit" class="confirm_btn" id="confirm_btn_id" value="수정하기" />
+            </form>
+        </main>
 
-    <!-- 사진 변경 창 -->
-    <div class="photo_change" id="photo_change">
-      <!-- current image -->
-      <div class="photo_change__whitebox">
-        <div>
-          <img
-            class="image_style"
-            id="current_profile_image"
-            src="{{ user_info['profile_image'] }}"
-            alt="프로필 이미지"
-          />
-        </div>
+        <!-- 사진 변경 창 -->
+        <div class="photo_change" id="photo_change">
+            <!-- current image -->
+            <div class="photo_change__whitebox">
+                <div>
+                    <img
+                        class="image_style"
+                        id="current_profile_image"
+                        src="{{ url_for('static', filename=user_info['profile_image']) }}"
+                        alt="프로필 이미지"
+                    />
+                </div>
 
-        <input
-          type="file"
-          class="custom_file_input enroll_btn"
-          id="profileImgInput"
-          accept="imgae/*"
-          multiple="false"
-        />
-        <label for="profileImgInput" class="enroll_btn file_btn"
-          >사진 선택하기</label
-        >
-        <button class="enroll_btn" id="photo_submit_btn">변경하기</button>
-        <button class="enroll_btn cancel_btn">취소</button>
-      </div>
-    </div>
-  </body>
-  <script src="../static/components/base_header.js"></script>
-  <script
-    src="https://kit.fontawesome.com/afee348a73.js"
-    crossorigin="anonymous"
-  ></script>
-  <script src="../static/components/like_press.js"></script>
-  <script src="../static/components/password_check.js"></script>
-  <script src="../static/components/upload_profile_image.js"></script>
+                <input
+                    type="file"
+                    class="custom_file_input enroll_btn"
+                    id="profileImgInput"
+                    accept="imgae/*"
+                    multiple="false"
+                />
+                <label for="profileImgInput" class="enroll_btn file_btn">사진 선택하기</label>
+                <button class="enroll_btn" id="photo_submit_btn">변경하기</button>
+                <button class="enroll_btn cancel_btn">취소</button>
+                <script>
+                    document
+                        .getElementById('photo_submit_btn')
+                        .addEventListener('click', function () {
+                            var fileInput = document.getElementById('profileImgInput');
+                            var file = fileInput.files[0];
+                            var formData = new FormData();
+                            formData.append('profileImg', file);
+
+                            // AJAX 요청
+                            var xhr = new XMLHttpRequest();
+                            xhr.open('POST', '/update_profile_image', true);
+                            xhr.send(formData);
+
+                            xhr.onload = function () {
+                                if (xhr.status === 200) {
+                                    var response = JSON.parse(xhr.responseText);
+                                    if (response.success) {
+                                        // 페이지 새로고침
+                                        window.location.reload();
+                                    } else {
+                                        alert('이미지 업데이트에 실패했습니다.');
+                                    }
+                                }
+                            };
+                        });
+                </script>
+            </div>
+        </div>
+    </body>
+    <script src="../static/components/base_header.js"></script>
+    <script src="https://kit.fontawesome.com/afee348a73.js" crossorigin="anonymous"></script>
+    <script src="../static/components/like_press.js"></script>
+    <script src="../static/components/password_check.js"></script>
+    <script src="../static/components/upload_profile_image.js"></script>
 </html>

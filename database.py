@@ -11,7 +11,7 @@ class DBhandler:
         self.db = firebase.database()
 
     def insert_user(self, data, pw):
-        default_profile_image = "static/images/profile/default_profile_image.png" # 디폴트 프로필 이미지 경로
+        default_profile_image = "images/profile/default_profile_image.png" # 디폴트 프로필 이미지 경로
         user_info={
             "id": data['id'],
             "pw": pw,
@@ -163,4 +163,14 @@ class DBhandler:
     def get_chat_room_data(self, chat_room_id):
         chat_room_data = self.db.child("chats").child(chat_room_id).get().val()
         return chat_room_data
+    
+    def update_profile_image(self, user_id, new_image):
+        users = self.db.child("user").get()
+        for user in users.each():
+            user_data = user.val()
+            if user_data['id'] == user_id:
+                user_key = user.key()
+                self.db.child("user").child(user_key).update({"profile_image": new_image})
+                return True
+        return False
     
