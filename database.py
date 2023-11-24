@@ -24,7 +24,7 @@ class DBhandler:
             return True
         else:
             return False
-    
+
     def user_duplicate_check(self, id_string):
         users=self.db.child("user").get()
         print("users###", users.val())
@@ -36,7 +36,7 @@ class DBhandler:
                 if value['id'] == id_string:
                     return False
             return True
-        
+
     def find_user(self, id_, pw_):
         users = self.db.child("user").get()
         target_value = []
@@ -58,8 +58,8 @@ class DBhandler:
                     # 다른 필요한 사용자 정보...
                 }
         return None
-        
-        
+
+
     def insert_item(self, current_id, data, img_path):
         current_time = datetime.utcnow().isoformat() + 'Z'
 
@@ -81,18 +81,18 @@ class DBhandler:
         self.db.child("item").child(current_id).set(item_info)
         print(data, img_path)
         return True
-    
+
     def get_items(self):
         items = self.db.child("item").get().val()
         return items
-    
+
     def get_item_by_name(self, name):
         items = self.db.child("item").get()
         target_value=""
         print("###########",name)
         for res in items.each():
             key_value = res.key()
-            
+
             if key_value == name:
                 target_value=res.val()
         return target_value
@@ -103,5 +103,18 @@ class DBhandler:
             return item.val()
         else:
             return None
-        
-    
+
+    def get_reviews(self):
+        reviews = self.db.child("review").get().val()
+        return reviews
+
+    def get_reviews_by_name(self, name):
+        items = self.db.child("item").get()
+        target_value=""
+        print("###########",name)
+        for res in items.each():
+            key_value = res.key()
+
+            if key_value == name:
+                target_value=res.val()
+        return target_value
