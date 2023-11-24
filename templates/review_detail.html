@@ -31,19 +31,25 @@
 
     <div id="item">
       <div class="review_detail__img">
-        <img src
-             src="{{ url_for('static', filename=data.img_path) }}"
-             alt="item image"/>
+        <img src="{{ url_for('static', filename=data.img_path) }}" alt="item image" />
       </div>
       <p class="item">
-        <span class="item__name">{{ data.itemName }} </span>
-        <span class="item__price">{{ data.price }}원 </span>
-        <span class="item__review-star">
-          <i class="fa-solid fa-star fa-sm"></i>
-          <i class="fa-solid fa-star fa-sm"></i>
-          <i class="fa-solid fa-star fa-sm"></i>
-          <i class="fa-solid fa-star fa-sm"></i>
-          <i class="fa-solid fa-star fa-sm"></i>
+        <span class="item__name">{{ data.itemName }}</span>
+        <span class="item__price">{{ data.price }}원</span>
+        <span class="item__review-star" id="reviewStarContainer">
+            
+          <script>
+    // JavaScript를 사용하여 동적으로 별 아이콘을 생성하고 삽입
+    const reviewStarContainer = document.getElementById('reviewStarContainer');
+    const starCount = {{ reviewdata.rate }}; // 별 아이콘의 개수
+
+    for (let i = 0; i < starCount; i++) {
+        const starIcon = document.createElement('i');
+        starIcon.className = 'fa-solid fa-star fa-sm';
+        reviewStarContainer.appendChild(starIcon);
+    }
+</script>
+            
         </span>
       </p>
     </div>
@@ -54,7 +60,7 @@
           <i class="fa-solid fa-chevron-left fa-xl"></i>
         </button>
         <div class="review_img__box">
-          <img src="{{ url_for('static', filename=data.img_path) }}" width="342px" />
+          <img src="{{ url_for('static', filename=reviewdata.review_img_path) }}" width="342px" />
         </div>
         <button id="right" class="btn" type="button" onclick="">
           <i class="fa-solid fa-chevron-right fa-xl"></i>
@@ -62,25 +68,24 @@
       </div>
 
       <div id="simple_review">
-        <button class="review_btn" type="button">{{ data.keywordSeller }}</button>
+        <button class="review_btn" type="button">응답이 빨라요</button>
         <button class="review_btn" type="button">
-          {{ data.keywordSeller }}
+          제가 있는 곳까지 와서 거래했어요.
         </button>
         <button class="review_btn" type="button">
-          {{ data.keywordSeller }}
+          친절하고 매너가 좋아요.
         </button>
-        <button class="review_btn" type="button"> {{ data.keywordItem }}</button>
+        <button class="review_btn" type="button">가격이 합리적이에요</button>
       </div>
 
       <div id="review_ment">
         <p class="review_ment__head">
-          <span class="review_ment__title">{{ data.reviewTitle }}</span>
-          <span class="review_ment__date">{{ data.createdAt }}</span>
+          <span class="review_ment__title">{{ reviewdata.title }}</span>
+          <span class="review_ment__date">{{ reviewdata.createdAt }}</span>
         </p>
 
-        <p class="review_ment__writer">{{ data.userId }}</p>
-        <p class="review_ment__txt">
-          {{ data.reiviewContent }}
+        <p class="review_ment__writer">{{ reviewdata.userId }}</p>
+        <p class="review_ment__txt">{{ reviewdata.review }}
         </p>
       </div>
     </main>

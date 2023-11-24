@@ -59,7 +59,6 @@ class DBhandler:
                 }
         return None
 
-
     def insert_item(self, current_id, data, img_path):
         current_time = datetime.utcnow().isoformat() + 'Z'
 
@@ -76,7 +75,7 @@ class DBhandler:
                 "createdAt": current_time
             }
         if data['transaction'] == "대면":
-           item_info["location"] = data['location']
+            item_info["location"] = data['location']
 
         self.db.child("item").child(current_id).set(item_info)
         print(data, img_path)
@@ -118,3 +117,26 @@ class DBhandler:
             if key_value == name:
                 target_value=res.val()
         return target_value
+
+    def insert_review(self, review_id, data, review_img_path, userId):
+        current_time = datetime.utcnow().isoformat() + 'Z'
+
+        review_info = {
+            # 리뷰 form 목록 설정하기
+            "userId": userId,
+            "title": data['reviewTitle'],
+            "review_img_path": review_img_path,
+            "review": data['reviewContent'],
+            "createdAt": current_time,
+            "rate": data['rating']
+        }
+
+        self.db.child("review").child(review_id).set(review_info)
+        return True
+
+    def find_review_by_id(self, reviewId):
+        review = self.db.child("review").child(reviewId).get()
+        if review.val():
+            return review.val()
+        else:
+            return None
