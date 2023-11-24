@@ -5,11 +5,13 @@ import hashlib
 import uuid
 import math
 import os
+import config
 
 import sys
 
 application = Flask(__name__)
 application.config["SECRET_KEY"]="helloosp"
+application.config.from_object(config)
 
 DB = DBhandler()
 
@@ -387,6 +389,10 @@ def error404():
 @application.route("/error500")
 def error500():
     return render_template("error_500.html")
+
+@application.route("/map")
+def map():
+    return render_template("map.html")
 
 if __name__ == "__main__":
     application.run(host='0.0.0.0', debug=True)
