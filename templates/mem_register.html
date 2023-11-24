@@ -89,7 +89,33 @@
                     }
                     else{
                         alert("비밀번호 확인 완료")
-      로
+                        btn.style.backgroundColor="green";
+                        rightPassword = true;
+                    }
+                }
+            </script>
+            <hr>
+
+            <!--재학생 인증 수정중
+            -->
+            <h4>Ewha Email</h4>
+            <input id="Ewha Mail" type="text" name="Ewha Mail" style="border:none" required>
+            <button class="check_button" id="check_email_button" type="button" 
+            onclick="student_check()">check</button>
+            <script>
+                function student_check(){
+                    var email=document.getElementById('Ewha Mail');
+                    if(email.value.slice(-11) != "@ewhain.net"){
+                        alert("Ewha Mail이 아닙니다! 다시 입력해주세요");
+                        email.value=null;
+                    }
+                    else{
+                        function rand(min, max) {
+                        return Math.floor(Math.random() * (max - min + 1)) + min;
+                        }
+
+                        var random_num=rand(1000,9999);//랜덤 4자리 수 생성
+                        alert(random_num);//랜덤 수 생성 되는지 확인을 위해 임시로
                         window.location.href = '/student_check'; //재학생 인증 화면으로 넘어가도록
                     }
                 }
