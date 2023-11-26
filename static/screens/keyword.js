@@ -40,5 +40,5 @@ function setOpacity(elementId, opacityValue, elementclass) {
 
   for(var i = 0; i < 8; i++){
     setOpacity(reviewItems[i], reviewItems[i]/number, reviewClass[i]);
-    reviewClass[i].style.width = reviewItems[i]/number;
+    reviewClass[i].style.width = (reviewItems[i]/number) * 100;
   }
