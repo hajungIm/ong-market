@@ -241,6 +241,8 @@
                   var timestampElement = document.createElement('span');
                   timestampElement.className = 'dm_time';
 
+
+                  //string으로 저장된 데이터를 가져와 Date로 변환
                   var timestampDate = new Date(message.timestamp);
 
                   //시간 format 적용을 위한 코드
@@ -255,9 +257,9 @@
                   var minute = timestampDate.toLocaleString("en-GB", {
                     minute: "2-digit",
                   });
-
+                  //yyyy-mm-dd hh:mm format
                   var formattedTimestamp = `${year}-${month}-${day} ${hour}:${minute}`;
-
+                  //해당 포맷으로 변경된 날짜를 삽입
                   timestampElement.innerHTML = formattedTimestamp;
                   messageElement.appendChild(timestampElement);
 
