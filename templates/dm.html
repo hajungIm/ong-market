@@ -80,7 +80,10 @@
               var senderId = '{{ session["id"] }}';
               var chatRoomId = "{{ chat_room.chatRoomId }}";
               //시간 생성
-              var timestamp = new Date();
+              var timestamp = new Date().toLocaleString("en-GB", {
+                timeZone: "Asia/Seoul",
+              });
+              console.log(timestamp);
 
               if (messageText.trim() === "") {
                 alert("메시지를 입력해주세요.");
@@ -243,26 +246,8 @@
                   // 메시지 타임스탬프를 추가합니다.
                   var timestampElement = document.createElement('span');
                   timestampElement.className = 'dm_time';
+                  timestampElement.innerHTML = message.timestamp;
 
-
-                  //string으로 저장된 데이터를 가져와 Date로 변환
-                  var timestampDate = new Date(message.timestamp);
-
-                  //시간 format 적용을 위한 코드
-                  var year = timestampDate.toLocaleString("en-GB", { year: "numeric",});
-                  var month = timestampDate.toLocaleString("en-GB", {month: "2-digit"});
-                  var day = timestampDate.toLocaleString("en-GB", { day: "2-digit" });
-                  var hour = timestampDate.toLocaleString("en-GB", {
-                    hour: "2-digit",
-                    hour12: false,
-                  });
-                  var minute = timestampDate.toLocaleString("en-GB", {
-                    minute: "2-digit",
-                  });
-                  //yyyy-mm-dd hh:mm format
-                  var formattedTimestamp = `${year}-${month}-${day} ${hour}:${minute}`;
-                  //해당 포맷으로 변경된 날짜를 삽입
-                  timestampElement.innerHTML = formattedTimestamp;
                   messageElement.appendChild(timestampElement);
 
                   chatWindow.appendChild(messageElement);

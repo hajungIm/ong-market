@@ -133,6 +133,7 @@ def change_password():
 
         # firebase 비밀번호 변경 로직
         
+        
         #비밀번호 변경 성공
         return jsonify({"message": "비밀번호 변경이 완료되었습니다."}), 200
 

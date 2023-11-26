@@ -9,146 +9,26 @@ body{
     background: white;
     font-family: "Nunito Sans";
   }
-  
-  .main_1{
-    height: 1px; 
-    left: 20px; 
-    position: absolute; 
-    background: #F0F0F0; 
-    border-radius: 10px;
-  }
-  
-  .images_profile{
-    border-radius: 9999px;
-    width: 90%;
-    height: 90%;
-    flex-shrink: 0;
-    grid-column-start: 5;
-    grid-column-end: 7;
-    grid-row-start: 2;
-    grid-row-end: 3;
-  }
-  .tableSetting{
-    width: 100%;
-    height: 100%;
-    left: 18px;
-    padding-left: 120px;
-    top: 180px;
-    justify-content: center; 
-    align-items: center;
-    margin-bottom: 180px;
-    border: 1px solid black;
-  }
-  
-  .line {
-    height: 116px;
-    display:grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-template-rows: repeat(4, 1fr);
-    align-items: center;
-    background: none;
-    border: none;
-    text-decoration: none;
-    background: transparent; /* 배경 색상을 투명으로 설정 */
-    box-shadow: none;
-  }
-  
-  .objectName {
-    color: #606060;
-    font-size: 14px;
-    font-family: "Nunito Sans";
-    font-weight: 600;
-    word-wrap: break-word;
-    grid-column-start: 2;
-    grid-column-end: 5; /* Adjusted columns */
-    grid-row-start: 2;
-    grid-row-end: 3;
-  }
-  
-  .sellerName {
-    color: #242424;
-    font-size: 15px;
-    font-family: "Nunito Sans";
-    font-weight: 700;
-    word-wrap: break-word;
-    grid-column-start: 2;
-    grid-column-end: 5; /* Adjusted columns */
-    grid-row-start: 1;
-    grid-row-end: 2;
-  }
-  
-  .date{
-    color: #808080;
-    font-size: 10px;
-    font-family: Nunito Sans;
-    font-weight: 400;
-    word-wrap: break-word;
-    grid-column-start: 3;
-    grid-column-end: 5; /* Adjusted columns */
-    grid-row-start: 1;
-    grid-row-end: 2;
-  }
-  
-  .sell-head{
-  color: #303030;
-   font-size: 16px;
-   font-family: "Merriweather";
-   font-weight: 700;
-   word-wrap: break-word;
-   width: 375px; 
-   height: 44px; 
-   justify-content: center; 
-   align-items: center; 
-   gap: 24px; 
-   display: inline-flex;
-  }
-  
-  .sell_body{
-    width: 255px;
-    height: 20px;
-    padding-left: 50px;
-    padding-top: 50px;
-    padding-bottom: 50px;
-    text-align: center;
-    color: #303030; 
-    font-size: 16px; 
-    font-weight: 700; 
-    word-wrap: break-word;
-  }
-  
-  .sell_btn{
-    height: 116px;
-    display:grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-template-rows: repeat(4, 1fr);
-    align-items: center;
-    padding-left: 300px;
-    background: none;
-    border: none;
-    margin: 0;
-    text-decoration: none;
-    background: transparent; /* 배경 색상을 투명으로 설정 */
-    box-shadow: none;
-  }
-
-  .sellerName, .objectName {
-    text-align: left !important;
-    align-content: left;
-  }
-
-.profile{
-    width: 100%; 
-    height: 100%; 
-    position: relative;
-    grid-column-start: 1;
-    grid-column-end: 2;
-    grid-row-start: 1;
-    grid-row-end: 2;
-}
 
 
 div.item_box1 {
   box-sizing: border-box;
   padding: 25px;
 
+}
+
+
+.item_box1__seller {
+  font-size: 18px;
+  font-weight: 700;
+}
+.item_box1__date {
+  font-size: 14px;
+  font-weight: 600;
+}
+.last_message {
+  margin-top: 5px;
+  font-size: 16px;
+  color: #242424;
+  font-weight: 300;
 }

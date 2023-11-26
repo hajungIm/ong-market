@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // 결과를 HTML 요소에 적용
     let displayText = "";
     if (secondsDiff < 60) {
-      displayText = "방금 전";
+      displayText = `${secondsDiff}초 전`;
     } else if (minutesDiff < 60) {
       displayText = `${minutesDiff}분 전`;
     } else if (hoursDiff < 24) {

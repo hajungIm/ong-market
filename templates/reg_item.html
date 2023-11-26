@@ -173,63 +173,64 @@
           accept="image/*"
           onchange="setThumbnail(event);"
         />
-      
+
         <div id="image_container"></div>
-      
+
         <style>
           .upload-container {
             display: inline-block;
             vertical-align: top;
             margin-bottom: 10px; /* 간격 조절 */
           }
-      
+
           #image_container {
             display: inline-block;
             vertical-align: top;
             margin-left: 20px;
           }
-      
+
           #image_container img {
             width: 100px;
             height: 100px; /*사진크기 100px*/
+            object-fit: cover;
           }
-      
+
           .upload-container__icon {
             display: flex;
             align-items: center;
             margin-left: 30px;
             margin-top: 20px;
           }
-      
+
           .input-hidden {
             display: none; /* 기본 파일 선택 input 숨김 */
           }
         </style>
-      
+
         <script>
           function setThumbnail(event) {
             var reader = new FileReader();
-      
+
             reader.onload = function (event) {
               var imgContainer = document.querySelector("div#image_container");
-              
+
               // 기존 이미지 삭제
               while (imgContainer.firstChild) {
                 imgContainer.removeChild(imgContainer.firstChild);
               }
-      
+
               // 새로운 이미지 추가
               var img = document.createElement("img");
               img.setAttribute("src", event.target.result);
               imgContainer.appendChild(img);
             };
-      
+
             reader.readAsDataURL(event.target.files[0]);
           }
         </script>
-      </div> <!-- 사진 변경 가능하도록 수정-->
+      </div>
+      <!-- 사진 변경 가능하도록 수정-->
 
-      
       <div id="imagePreviews"></div>
       <div class="enroll_container">
         <button class="enroll_btn" id="submit_btn" type="submit">
