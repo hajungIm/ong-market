@@ -16,15 +16,22 @@ div.item_box1 {
     padding: 12px 30px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     border-bottom: 1px solid var(--blur-gray);
 }
+
 
 div.item_selection {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     gap: 25px;
+    margin-right: auto;
+
+}
+
+div.jjim_section {
+    margin-left: auto;
 }
 
 div.item_box1__img {
@@ -100,6 +107,7 @@ font-weight: 700;
     justify-content: center;
     align-items: center;
     gap: 5px;
+    box-sizing: border-box;
 }
 
 .like_icon_box {
@@ -121,3 +129,4 @@ font-weight: 700;
     font-size: 15px;
     font-weight: 400;
 }
+
