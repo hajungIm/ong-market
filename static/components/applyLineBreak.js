@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  var descriptionElements = document.querySelectorAll(".detail_info__item");
+  var descriptionElements = document.querySelectorAll(".line_break");
 
   descriptionElements.forEach(function (descriptionElement) {
     // HTML 요소에서 텍스트 읽기
