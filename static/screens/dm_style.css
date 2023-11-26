@@ -1,3 +1,7 @@
+body{
+    margin-bottom: 70px;
+}
+
 .base_header__dm{
     display: flex;
     align-items: center;
