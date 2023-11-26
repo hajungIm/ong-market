@@ -64,7 +64,10 @@
         </div>
         <div class="dm_reply__column">
           <button id="dm_reply__send">
-            <img src="static/images/send-arrow.png" alt="버튼" />
+            <img
+              src="{{ url_for('static', filename='images/send-arrow.png') }}"
+              alt="버튼"
+            />
           </button>
         </div>
         <script>
@@ -247,7 +250,6 @@
 
                   //시간 format 적용을 위한 코드
                   var year = timestampDate.toLocaleString("en-GB", { year: "numeric",});
-                  console.log(year);
                   var month = timestampDate.toLocaleString("en-GB", {month: "2-digit"});
                   var day = timestampDate.toLocaleString("en-GB", { day: "2-digit" });
                   var hour = timestampDate.toLocaleString("en-GB", {
