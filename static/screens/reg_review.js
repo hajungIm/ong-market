@@ -77,7 +77,6 @@ let clickCount = 1;
 noKeywordLabel.addEventListener('change', function () {
   const isChecked = clickCount % 2;
   if (isChecked == 1) {
-    console.log("isChecked is true");
     otherKeywordLabels.forEach(function (label) {
       label.style.color = isChecked ? "#d9d9d9" : "#242424";
       label.style.backgroundColor = isChecked ? "#F5F5F5" : "#242424";
@@ -98,7 +97,6 @@ noKeywordLabel.addEventListener('change', function () {
     clickCount++;
 
   } else {
-    console.log("isChecked is false");
     otherKeywordLabels.forEach(function (label) {
       label.style.color = "#242424";
       label.style.backgroundColor = "#F5F5F5";
