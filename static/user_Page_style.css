@@ -183,9 +183,9 @@ body{
     margin-bottom: 5px;
     box-shadow: none;
 }
-.enroll_btn:disabled {
+/* .enroll_btn:disabled {
     background-color: #949494;
-}
+} */
 
 .cancel_btn {
    background-color: var(--star-yellow);

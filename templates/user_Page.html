@@ -106,31 +106,46 @@
         <button class="enroll_btn" id="photo_submit_btn">변경하기</button>
         <button class="enroll_btn cancel_btn">취소</button>
         <script>
+          let backgroundColor;
           document
             .getElementById("photo_submit_btn")
-            .addEventListener("click", function () {
-              var fileInput = document.getElementById("profileImgInput");
-              var file = fileInput.files[0];
-              var formData = new FormData();
-              formData.append("profileImg", file);
-
-              // AJAX 요청
-              var xhr = new XMLHttpRequest();
-              xhr.open("POST", "/update_profile_image", true);
-              xhr.send(formData);
-
-              xhr.onload = function () {
-                if (xhr.status === 200) {
-                  var response = JSON.parse(xhr.responseText);
-                  if (response.success) {
-                    alert("프로필 변경이 완료되었습니다!");
-                    window.location.reload();
-                  } else {
-                    alert("이미지 업데이트에 실패했습니다.");
-                  }
-                }
-              };
+            .addEventListener("click", function (event) {
+              backgroundColor = window.getComputedStyle(
+                event.currentTarget
+              ).backgroundColor;
+              console.log(backgroundColor);
+              if (backgroundColor.trim() == "rgb(148, 148, 148)") {
+                console.log("클릭");
+                //버튼 비활성화된 경우 = 사진 파일을 업로드하지 않은 경우
+                alert("사진을 선택해주세요.");
+              } else {
+                updateProfileImage();
+              }
             });
+
+          function updateProfileImage() {
+            var fileInput = document.getElementById("profileImgInput");
+            var file = fileInput.files[0];
+            var formData = new FormData();
+            formData.append("profileImg", file);
+
+            // AJAX 요청
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/update_profile_image", true);
+            xhr.send(formData);
+
+            xhr.onload = function () {
+              if (xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                  alert("프로필 변경이 완료되었습니다!");
+                  window.location.reload();
+                } else {
+                  alert("이미지 업데이트에 실패했습니다.");
+                }
+              }
+            };
+          }
         </script>
       </div>
     </div>
