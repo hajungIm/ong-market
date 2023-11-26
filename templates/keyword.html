@@ -10,9 +10,9 @@
   </head>
   <body>
     <header class="base_header">
-      <div class="base_header__icon base_header__back">
+      <a href="/mypage" class="base_header__icon">
         <i class="fa-solid fa-chevron-left fa-xl" style="color: #242424"></i>
-      </div>
+      </a>
       <div>
         <h2 class="base_header__title">프로필</h2>
       </div>
@@ -24,7 +24,7 @@
       <div id="profile_details" style="display: block">
         <div id="profile_details" style="display: flex">
           <img
-            src="{{ user_info['profile_image'] }}"
+            src="{{ url_for('static', filename=user_info['profile_image']) }}"
             style="width: 80px; height: 80px"
             alt="프로필 사진"
           />
@@ -114,7 +114,7 @@
       </div>
     </main>
   </body>
-  <script src="../static/components/base_header.js"></script>
+  <!-- <script src="../static/components/base_header.js"></script> -->
   <script
     src="https://kit.fontawesome.com/afee348a73.js"
     crossorigin="anonymous"

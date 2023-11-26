@@ -28,7 +28,7 @@
     <!--뒤로 가기 버튼 함수-->
     <script>
       function return_btn() {
-        window.history.go(-1);
+        location.href = document.referrer; //뒤로가기 + 새로고침
       }
     </script>
 
@@ -74,24 +74,26 @@
       <button class="bookmark_btn" id="bookmark_btn" type="button">
         <i class="fa-regular fa-bookmark fa-xl"></i>
       </button>
-        <script>
-            document.getElementById('bookmark_btn').addEventListener('click', function() {
-                var itemId = '{{ data.itemId }}';
-                var flag = 1; // 좋아요를 증가시키려면 1, 감소시키려면 -1로 설정
-                
-                var xhr = new XMLHttpRequest();
-                xhr.open('POST', '/like/' + itemId, true);
-                xhr.setRequestHeader('Content-Type', 'application/json');
-                xhr.onload = function() {
-                    if (xhr.status === 200) {
-                        console.log("찜하기 업데이트 성공");
-                    } else {
-                        alert('오류가 발생했습니다:', xhr.status);
-                    }
-                };
-                xhr.send(JSON.stringify({itemId: itemId, flag: flag}));
-            });
-        </script>
+      <script>
+        document
+          .getElementById("bookmark_btn")
+          .addEventListener("click", function () {
+            var itemId = "{{ data.itemId }}";
+            var flag = 1; // 좋아요를 증가시키려면 1, 감소시키려면 -1로 설정
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/like/" + itemId, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onload = function () {
+              if (xhr.status === 200) {
+                console.log("찜하기 업데이트 성공");
+              } else {
+                alert("오류가 발생했습니다:", xhr.status);
+              }
+            };
+            xhr.send(JSON.stringify({ itemId: itemId, flag: flag }));
+          });
+      </script>
       <!-- DM을 위한 POST input-->
       <form
         id="chatForm"
