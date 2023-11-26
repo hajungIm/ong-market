@@ -64,8 +64,8 @@
           </span>
         </div>
         <p class="detail_info__date item_reg_date">{{ data.createdAt }}</p>
-        <!-- 줄바꿈 적용을 위해 pre 태그 사용 -->
-        <pre class="detail_info__item">{{ data.description }}</pre>
+        <!-- 줄바꿈 필요한 부분에 line_break 클래스 명 추가 & applyLineBreak.js 스크립트 추가하기 -->
+        <p class="detail_info__item line_break">{{ data.description }}</p>
       </div>
     </main>
 
@@ -105,18 +105,46 @@
         <input type="hidden" name="buyerId" value="{{ session['id'] }}" />
         <input type="hidden" name="itemData" value="{{ item_data_json }}" />
       </form>
-      <button class="dm_btn" type="button" onclick="startChat()">
-        채팅하기
-      </button>
+      <button id="dm_btn" class="dm_btn" type="button">채팅하기</button>
       <script>
+        const dmButton = document.getElementById("dm_btn");
+        //문서가 로드될때 상품이 내 아이템인지 아닌지 확인
+        document.addEventListener("DOMContentLoaded", isMyItem);
+
+        dmButton.addEventListener("click", () => {
+          if (dmButton.innerHTML === "채팅하기") {
+            startChat();
+          } else {
+            moveToChattinglist();
+          }
+        });
+
+        function isMyItem() {
+          // 여기에 현재 로그인한 사용자 ID를 가져온다.
+          var currentUserID = "{{ userId }}";
+          console.log(currentUserID);
+          //item_detail 페이지에서 가져온 상품의 등록자 ID를 가져온다.
+          var itemUserID = "{{data.userId}}";
+          console.log(itemUserID);
+
+          if (currentUserID === itemUserID) {
+            console.log("같음");
+            dmButton.innerHTML = "채팅 목록으로 이동하기";
+          }
+        }
+
         function startChat() {
           document.getElementById("chatForm").submit();
+        }
+
+        function moveToChattinglist() {
+          window.location.href = "/chatting_list";
         }
       </script>
     </div>
   </body>
   <script src="../static/components/simple_like_press.js"></script>
-  <script src="../static/components/base_header.js"></script>
   <script src="../static/components/commas_to_price.js"></script>
   <script src="../static/components/calcDate.js"></script>
+  <script src="../static/components/applyLineBreak.js"></script>
 </html>

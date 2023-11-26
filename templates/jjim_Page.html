@@ -1,58 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>찜한 상품</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-    </head>
-    <body>
-        <header class="base_header">
-            <div class="base_header__icon">
-                <!--레이아웃 배치용-->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>찜한 상품</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <header class="base_header">
+      <div class="base_header__icon">
+        <!--레이아웃 배치용-->
+      </div>
+      <div>
+        <h2 class="base_header__title">찜한 상품</h2>
+      </div>
+      <div class="base_header__icon">
+        <!--레이아웃 배치용-->
+      </div>
+    </header>
+    <main class="list_page_box">
+      {% for item in like_items %}
+      <div class="item_box1">
+        <div class="item_selection">
+          <div class="item_box1__img">
+            <!-- 아이템 이미지 -->
+            <img
+              src="{{ url_for('static', filename=item.img_path) }}"
+              alt="{{ item.itemName }}"
+            />
+          </div>
+          <div class="item_box1__info">
+            <!-- 아이템 제목 -->
+            <p class="item_box1__title" name="itemName">{{ item.itemName }}</p>
+            <div class="item_box1__upload">
+              <!-- 아이템 판매자 및 날짜 -->
+              <p class="item_box1__seller" name="seller">{{ item.userId }}</p>
+              <p class="item_box1__date">{{ item.createdAt }}</p>
             </div>
-            <div>
-                <h2 class="base_header__title">찜한 상품</h2>
+            <!-- 아이템 가격 -->
+            <p class="item_box1__price commas_price" name="price">
+              {{ item.price }}원
+            </p>
+          </div>
+        </div>
+        <div class="item_box1__icon">
+          <div class="item_box1_like">
+            <div class="like_icon_box">
+              <i class="fa-regular fa-bookmark fa-lg"></i>
             </div>
-            <div class="base_header__icon">
-                <!--레이아웃 배치용-->
-            </div>
-        </header>
-        <main class="list_page_box">
-            {% for item in like_items %}
-            <div class="item_box1">
-                <div class="item_selection">
-                    <div class="item_box1__img">
-                        <!-- 아이템 이미지 -->
-                        <img src="{{ url_for('static', filename=item.img_path) }}" alt="{{ item.itemName }}" />
-                    </div>
-                    <div class="item_box1__info">
-                        <!-- 아이템 제목 -->
-                        <p class="item_box1__title" name="itemName">{{ item.itemName }}</p>
-                        <div class="item_box1__upload">
-                            <!-- 아이템 판매자 및 날짜 -->
-                            <p class="item_box1__seller" name="seller">{{ item.userId }}</p>
-                            <p class="item_box1__date">{{ item.createdAt }}</p>
-                        </div>
-                        <!-- 아이템 가격 -->
-                        <p class="item_box1__price" name="price">{{ item.price }}원</p>
-                    </div>
-                </div>
-                <div class="item_box1__icon">
-                    <div class="item_box1_like">
-                        <div class="like_icon_box">
-                            <i class="fa-regular fa-bookmark fa-lg"></i>
-                        </div>
-                        <p class="item_like_num">{{ item.like_count }}</p>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </main>
-        {% include 'nav_bar.html' %}
-    </body>
-    <script src="../static/components/base_header.js"></script>
-    <script src="https://kit.fontawesome.com/afee348a73.js" crossorigin="anonymous"></script>
-    <script src="../static/screens/list.js"></script>
-    <script src="../static/components/like_press.js"></script>
+            <p class="item_like_num">{{ item.like_count }}</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </main>
+    {% include 'nav_bar.html' %}
+  </body>
+  <script src="../static/components/base_header.js"></script>
+  <script
+    src="https://kit.fontawesome.com/afee348a73.js"
+    crossorigin="anonymous"
+  ></script>
+  <script src="../static/screens/list.js"></script>
+  <script src="../static/components/like_press.js"></script>
+  <script src="../static/components/commas_to_price.js"></script>
 </html>

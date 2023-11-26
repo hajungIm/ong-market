@@ -241,13 +241,15 @@ def find_password_fail():
 @application.route("/item_detail/<itemId>")
 def item_detail(itemId):
     item = DB.find_item_by_id(itemId)
+    user_id = session.get("id")
     
     if not item:
         return "Item not found", 404
     
     item_data_json = escape(json.dumps(item))
+    item_json = json.dumps(item)
     
-    return render_template("item_detail.html", data=item, item_data_json=item_data_json)
+    return render_template("item_detail.html", data=item, item_data_json=item_data_json, userId=user_id)
 
 @application.route("/review_detail")
 def review_detail():

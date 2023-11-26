@@ -37,7 +37,9 @@
       </div>
       <div class="review_item__content">
         <p class="review_item__title">{{ chat_room.itemName }}</p>
-        <p class="review_item__price">{{ chat_room.itemPrice }}원</p>
+        <p class="review_item__price commas_price">
+          {{ chat_room.itemPrice }}원
+        </p>
       </div>
     </div>
 
@@ -54,11 +56,11 @@
         </div>
 
         <div class="dm_reply__column">
-          <textarea
+          <input
             id="dm_reply__input"
             type="text"
             placeholder="메시지를 입력하세요."
-          ></textarea>
+          />
         </div>
         <div class="dm_reply__column">
           <button id="dm_reply__send">
@@ -223,7 +225,7 @@
                       // 상대방의 프로필 이미지를 추가합니다.
                       var imgElement = document.createElement('img');
                       imgElement.className = 'dm_profile__img';
-                      imgElement.src = '{{ url_for('static', filename=counterpartImg) }}'; // 프로필 이미지 URL
+                      imgElement.src = '{{ url_for("static", filename=counterpartImg) }}'; // 프로필 이미지 URL
                       imgElement.alt = '프로필 사진';
                       messageElement.appendChild(imgElement);
                   }
