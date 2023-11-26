@@ -62,47 +62,58 @@ document.addEventListener("DOMContentLoaded", function () {
   backButton.addEventListener("click", function () {
     history.back();
   });
-
+});
 // 초기 색상 설정
 updateStarColors();
 updateKeywordColors();
-
-// '선택할 키워드가 없어요.' 라벨과 다른 라벨들을 가져옵니다.
 const noKeywordLabel = document.getElementById('no_keyword');
-const otherKeywordLabels = document.querySelectorAll('.keyword_list:not(#no_keyword)');
+const otherKeywordLabels = document.querySelectorAll('.checkbox_keyword:not(#no_keyword)');
 const checkboxKeywords = document.querySelectorAll('.checkbox_keyword:not(#no_keyword)');
+const keywordInputs2 = document.querySelectorAll(".checkbox_keyword:not(#no_keyword)");
 
-// '선택할 키워드가 없어요.' 라벨 클릭 이벤트 처리
-let clickCount = 0;
+// '선택할 키워드가 없어요.' 체크박스 클릭 이벤트 처리
+let clickCount = 1;
 
 noKeywordLabel.addEventListener('change', function () {
-  clickCount++;
-  const isChecked = clickCount % 2 === 0;
-
-  otherKeywordLabels.forEach(function (label) {
-    label.style.color = isChecked ? "#d9d9d9" : "#242424";
-    label.style.backgroundColor = isChecked ? "#F5F5F5" : "#242424";
-  });
-
-  checkboxKeywords.forEach(function (checkbox) {
-    checkbox.disabled = isChecked;
-    checkbox.checked = false;
-  });
-
-  // 만약 '선택할 키워드가 없어요'가 선택되었고, 다른 키워드 중 하나 이상이 선택되어 있으면
-  // 다른 키워드들을 초기화하고 '선택할 키워드가 없어요'를 선택한 횟수 초기화
-  if (isChecked) {
+  const isChecked = clickCount % 2;
+  if (isChecked == 1) {
+    console.log("isChecked is true");
     otherKeywordLabels.forEach(function (label) {
-      if (clickCount) {
-        label.style.backgroundColor = "#F5F5F5";
-        label.style.color = "#242424";
-      }
+      label.style.color = isChecked ? "#d9d9d9" : "#242424";
+      label.style.backgroundColor = isChecked ? "#F5F5F5" : "#242424";
     });
-    clickCount = 0;
+
+    checkboxKeywords.forEach(function (checkbox) {
+      checkbox.disabled = true;
+      checkbox.checked = false;
+      // 추가된 부분: 선택할 수 없는 버튼은 시각적으로 다르게 스타일 적용
+    });
+
+    keywordInputs2.forEach(function (input, index) {
+        keyworLabels[index].style.backgroundColor = "#F5F5F5";
+        keyworLabels[index].style.color = "#242424";
+        keyworLabels[index].style.cursor = 'not-allowed';
+        keyworLabels[index].style.opacity = 0.5;
+    });
+    clickCount++;
+
+  } else {
+    console.log("isChecked is false");
+    otherKeywordLabels.forEach(function (label) {
+      label.style.color = "#242424";
+      label.style.backgroundColor = "#F5F5F5";
+    });
+
+    checkboxKeywords.forEach(function (checkbox) {
+      checkbox.disabled = false;
+      checkbox.checked = false;
+      // 추가된 부분: 선택할 수 있는 버튼은 스타일 초기화
+    });
+    keywordInputs2.forEach(function (input, index) {
+      keyworLabels[index].style.cursor = 'pointer';
+      keyworLabels[index].style.opacity = 1;
+  });
+
+    clickCount = 1;
   }
-});
-
-
-
-// 다른 체크박스를 눌렀을 때 clickCount를 초기화하는 부분 추가
 });
