@@ -1,44 +1,54 @@
-// HTML 요소를 가져옵니다.
-var element = document.querySelector('.keyword_num');
-
-// 텍스트 내에서 숫자만 추출합니다.
-var text = element.textContent.trim();
-var number = parseInt(text.match(/\d+/)[0], 10);
-
-// 결과를 출력합니다.
-console.log(number);
-
-var reviewItems = [
-    document.getElementById("time"),
-    document.getElementById("detail"),
-    document.getElementById("resonable"),
-    document.getElementById("kind"),
-    document.getElementById("condition"),
-    document.getElementById("response"),
-    document.getElementById("give"),
-    document.getElementById("come")
+document.addEventListener("DOMContentLoaded", function() {
+  var reviewItems = [
+      document.getElementById("time"),
+      document.getElementById("detail"),
+      document.getElementById("resonable"),
+      document.getElementById("kind"),
+      document.getElementById("condition"),
+      document.getElementById("response"),
+      document.getElementById("give"),
+      document.getElementById("come")
   ];
 
-var reviewClass = [
-    document.getElementById("green green_1"),
-    document.getElementById("green green_2"),
-    document.getElementById("green green_3"),
-    document.getElementById("green green_4"),
-    document.getElementById("green green_5"),
-    document.getElementById("green green_6"),
-    document.getElementById("green green_7"),
-    document.getElementById("green green_8")
-];
+  var reviewClass = [
+      document.querySelector(".green_0"),
+      document.querySelector(".green_1"),
+      document.querySelector(".green_2"),
+      document.querySelector(".green_3"),
+      document.querySelector(".green_4"),
+      document.querySelector(".green_5"),
+      document.querySelector(".green_6"),
+      document.querySelector(".green_7")
+  ];
 
-function setOpacity(elementId, opacityValue, elementclass) {
-    var element = document.getElementById(elementId);
-    var opacityValue = element / 10;
-    if (element) {
-      elementclass.style.opacity = opacityValue;
+  // 'keyword_num'에서 숫자 값을 가져옵니다.
+  var keywordNumElement = document.querySelector('.keyword_number');
+  console.log('keywordNumElement:', keywordNumElement); // 추가된 부분
+  var keywordNumText = keywordNumElement.textContent.trim();
+  var totalNumber = parseInt(keywordNumText.match(/\d+/)[0], 10);
+
+  // Loop through each review item
+  for (var i = 0; i < reviewItems.length; i++) {
+    // Check if the reviewClass element exists
+    if (reviewClass[i]) {
+      // Get the numeric value from the review item
+      var reviewValue = parseInt(reviewItems[i].textContent, 10);
+
+      // Check if the reviewValue is a valid number
+      if (isNaN(reviewValue)) {
+        console.error("Invalid numeric value for review item", i, ":", reviewItems[i].textContent.trim());
+        continue; // Skip to the next iteration if the value is not a number
+      }
+
+      // Calculate the opacity ratio
+      var opacityRatio = reviewValue / totalNumber;
+
+      // Log the values for debugging
+      console.log('Review Item', i, ':', reviewItems[i].textContent.trim(), 'Review Value:', reviewValue, 'Total Number:', totalNumber, 'Opacity Ratio:', opacityRatio);
+
+      // Set the background-color opacity of the corresponding reviewClass
+      reviewClass[i].style.backgroundColor = `rgba(76, 217, 100, ${opacityRatio})`;
+      reviewClass[i].style.width = opacityRatio * 100 + '%';
     }
   }
-
-  for(var i = 0; i < 8; i++){
-    setOpacity(reviewItems[i], reviewItems[i]/number, reviewClass[i]);
-    reviewClass[i].style.width = (reviewItems[i]/number) * 100;
-  }
+});
