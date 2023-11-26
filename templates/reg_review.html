@@ -231,22 +231,109 @@
       </div>
 
       <div class="reg_item_form__section">
-        <label class="upload-container" for="review_imgInput">
-          <div class="upload-container__icon">
-            <i class="fas fa-camera fa-2x"></i>
-          </div>
-          <p class="upload-container__cnt">0/10</p>
-        </label>
-        <input
-          class="input-hidden"
-          id="review_imgInput"
-          type="file"
-          name="reveiwItemImg"
-          accept="image/*"
-          multiple
-        />
+        <div>
+          <label class="upload-container" for="review_imgInput">
+            <div class="upload-container__icon">
+              <i class="fas fa-camera fa-2x"></i>
+            </div>
+            <p class="upload-container__cnt" style="margin-left: 18px">
+              제품 사진
+            </p>
+          </label>
+          <input
+            class="input-hidden"
+            id="review_imgInput"
+            type="file"
+            name="itemImg"
+            accept="image/*"
+            onchange="setThumbnail(event);"
+          />
+          <div id="image_container"></div>
+        </div>
+
+        <style>
+          .upload-container {
+            display: inline-block;
+            vertical-align: top;
+            margin-bottom: 10px; /* 간격 조절 */
+          }
+
+          #image_container {
+            display: inline-block;
+            vertical-align: top;
+            margin-left: 20px;
+          }
+
+          #image_container img {
+            width: 100px;
+            height: 100px; /*사진크기 100px*/
+            object-fit: cover;
+          }
+
+          .upload-container__icon {
+            display: flex;
+            align-items: center;
+            margin-left: 30px;
+            margin-top: 20px;
+          }
+
+          .input-hidden {
+            display: none; /* 기본 파일 선택 input 숨김 */
+          }
+        </style>
+        <script>
+          function setThumbnail(event) {
+            var reader = new FileReader();
+
+            reader.onload = function (event) {
+              var imgContainer = document.querySelector("div#image_container");
+
+              // 기존 이미지 삭제
+              while (imgContainer.firstChild) {
+                imgContainer.removeChild(imgContainer.firstChild);
+              }
+
+              // 새로운 이미지 추가
+              var img = document.createElement("img");
+              img.setAttribute("src", event.target.result);
+              imgContainer.appendChild(img);
+            };
+
+            reader.readAsDataURL(event.target.files[0]);
+          }
+        </script>
       </div>
+      <!-- 사진 변경 가능하도록 수정-->
+
       <div id="imagePreviews"></div>
+      <div class="enroll_container">
+        <button class="enroll_btn" id="submit_btn" type="submit">
+          등록하기
+        </button>
+      </div>
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          // Function to handle form submission
+          function handleSubmit(event) {
+            // Get the value of the description textarea
+            var descriptionValue = document.getElementById("description").value;
+
+            // Check if the length is less than 10
+            if (descriptionValue.length < 10) {
+              // Display a warning message
+              alert("상품 설명은 10자 이상이어야 합니다.");
+              // Prevent the form submission
+              event.preventDefault();
+            }
+            // Otherwise, the form will be submitted as usual
+          }
+
+          // Attach the handleSubmit function to the form's submit event
+          document
+            .getElementById("submit_btn")
+            .addEventListener("click", handleSubmit);
+        });
+      </script>
 
       <div class="reg_item_form__section">
         <label class="reg_item-form__label" for="reveiw_content"
