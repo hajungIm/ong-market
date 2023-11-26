@@ -46,6 +46,7 @@
     padding: 0px 20px;
     align-items: center;
     justify-content: space-between;
+    background: rgba(76, 217, 100);
 }
 .green_0{
     background-color: inherit;
@@ -91,6 +92,10 @@
     background-color: #f5f5f5;
 }
 
+.green_4{
+    background: rgba(76, 217, 100, 0.50);
+}
+
 .green_5{
     background: rgba(76, 217, 100, 0.50);
 }
@@ -104,6 +109,10 @@
     background-color: #f5f5f5;
 }
 
+.green_6{
+    background: rgba(76, 217, 100, 0.50);
+}
+
 .green_7{
     background: rgba(76, 217, 100, 0.70);
 }
@@ -115,6 +124,10 @@
     top: 0;
     right: 0;
     background-color: #f5f5f5;
+}
+
+.green_8{
+    background: rgba(76, 217, 100, 0.50);
 }
 
 .keyword_text{
