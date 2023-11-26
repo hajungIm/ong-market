@@ -181,138 +181,204 @@
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
 
     <script>
-              var firebaseConfig = {
-                  apiKey: 'AIzaSyDWz1_ZttmWjc1IzQRI8wMAe-IqeYDzark',
-                  authDomain: 'ong-market.firebaseapp.com',
-                  databaseURL: 'https://ong-market-default-rtdb.firebaseio.com',
-                  projectId: 'ong-market',
-                  storageBucket: 'ong-market.appspot.com',
-                  messagingSenderId: '464409088344',
-                  appId: '1:464409088344:web:bd00bf2f298988db2c552d',
-              };
-              firebase.initializeApp(firebaseConfig);
+                    var firebaseConfig = {
+                        apiKey: 'AIzaSyDWz1_ZttmWjc1IzQRI8wMAe-IqeYDzark',
+                        authDomain: 'ong-market.firebaseapp.com',
+                        databaseURL: 'https://ong-market-default-rtdb.firebaseio.com',
+                        projectId: 'ong-market',
+                        storageBucket: 'ong-market.appspot.com',
+                        messagingSenderId: '464409088344',
+                        appId: '1:464409088344:web:bd00bf2f298988db2c552d',
+                    };
+                    firebase.initializeApp(firebaseConfig);
 
-              var chatRoomId = document.body.getAttribute('data-chat-room-id');
-              var chatRoomRef = firebase.database().ref('chats/' + chatRoomId);
-              var messageRef = chatRoomRef.child('messages').orderByChild('timestamp');
-              var completeRef = chatRoomRef.child('complete');
+                    var chatRoomId = document.body.getAttribute('data-chat-room-id');
+                    var chatRoomRef = firebase.database().ref('chats/' + chatRoomId);
+                    var messageRef = chatRoomRef.child('messages').orderByChild('timestamp');
+                    var completeRef = chatRoomRef.child('complete');
 
-              var sessionId = '{{ session["id"] }}';
-              var sellerId = '{{ chat_room.sellerId }}';
+                    var sessionId = '{{ session["id"] }}';
+                    var sellerId = '{{ chat_room.sellerId }}';
 
-              // 메시지에 대한 이벤트 리스너
-              messageRef.on('child_added', function (snaphot) {
-                  var message = snaphot.val();
-                  addMessageToChatWindow(message);
-              });
+                    // 이전 메시지의 날짜를 저장하는 변수
+                    var previousMessageDate = null;
 
-              // 거래 완료 상태 감지
-              completeRef.on('value', function (snaphot) {
-                  if (snaphot.val() === true) {
-                      if (sessionId === sellerId) {
-                          // 판매자 완료 메시지 - 리뷰 보기
-                          addCompleteMessageForSeller();
-                      } else {
-                          // 구매자 완료 메시지 - 리뷰 쓰기
-                          addCompleteMessageForBuyer();
-                      }
-                  }
-              });
+                    // 메시지에 대한 이벤트 리스너
+                    messageRef.on('child_added', function (snaphot) {
+                        var message = snaphot.val();
+                        var messageDate = timestampToDate(message.timestamp);
+                        // 이전 메시지와 현재 메시지의 날짜가 다른 경우, 또는 처음 메시지를 보내는 경우
+                        if (!previousMessageDate || !isSameDay(previousMessageDate, messageDate)) {
+                            var formattedMessageDate = formatMessageDate(messageDate);
+                            addDateSeparatorToChatWindow(formattedMessageDate);
+                        }
+                        addMessageToChatWindow(message);
+                        // 현재 메시지의 날짜를 이전 메시지의 날짜로 업데이트
+                        previousMessageDate = messageDate;
+                    });
 
-              function addMessageToChatWindow(message) {
-                  var chatWindow = document.getElementById('chat-window');
-                  var messageElement = document.createElement('div');
-                  var senderIsSessionUser = message.senderId === '{{ session["id"] }}';
+                    // 거래 완료 상태 감지
+                    completeRef.on('value', function (snaphot) {
+                        if (snaphot.val() === true) {
+                            if (sessionId === sellerId) {
+                                // 판매자 완료 메시지 - 리뷰 보기
+                                addCompleteMessageForSeller();
+                            } else {
+                                // 구매자 완료 메시지 - 리뷰 쓰기
+                                addCompleteMessageForBuyer();
+                            }
+                        }
+                    });
 
-                  messageElement.className = senderIsSessionUser
-                      ? 'dm_section__line dm_section__me'
-                      : 'dm_section__line dm_section__you';
+                    function addMessageToChatWindow(message) {
+                        var chatWindow = document.getElementById('chat-window');
+                        var messageElement = document.createElement('div');
+                        var senderIsSessionUser = message.senderId === '{{ session["id"] }}';
 
-                  if (!senderIsSessionUser) {
-                      // 상대방의 프로필 이미지를 추가합니다.
-                      var imgElement = document.createElement('img');
-                      imgElement.className = 'dm_profile__img';
-                      imgElement.src = '{{ url_for("static", filename=counterpartImg) }}'; // 프로필 이미지 URL
-                      imgElement.alt = '프로필 사진';
-                      messageElement.appendChild(imgElement);
-                  }
+                        messageElement.className = senderIsSessionUser
+                            ? 'dm_section__line dm_section__me'
+                            : 'dm_section__line dm_section__you';
 
-                  // 메시지 텍스트를 추가합니다.
-                  var messageTextElement = document.createElement('span');
-                  messageTextElement.className = 'dm_msg';
-                  messageTextElement.innerHTML = message.text;
-                  messageElement.appendChild(messageTextElement);
+                        if (!senderIsSessionUser) {
+                            // 상대방의 프로필 이미지를 추가합니다.
+                            var imgElement = document.createElement('img');
+                            imgElement.className = 'dm_profile__img';
+                            imgElement.src = '{{ url_for("static", filename=counterpartImg) }}'; // 프로필 이미지 URL
+                            imgElement.alt = '프로필 사진';
+                            messageElement.appendChild(imgElement);
+                        }
 
-                  // 메시지 타임스탬프를 추가합니다.
-                  var timestampElement = document.createElement('span');
-                  timestampElement.className = 'dm_time';
-                  timestampElement.innerHTML = message.timestamp;
+                        // 메시지 텍스트를 추가합니다.
+                        var messageTextElement = document.createElement('span');
+                        messageTextElement.className = 'dm_msg';
+                        messageTextElement.innerHTML = message.text;
+                        messageElement.appendChild(messageTextElement);
 
-                  messageElement.appendChild(timestampElement);
 
-                  chatWindow.appendChild(messageElement);
+
+                        // 메시지 타임스탬프를 추가합니다.
+                        var timestampElement = document.createElement('span');
+                        timestampElement.className = 'dm_time';
+                        //타임스탬프 포맷 변경
+                        const [datePart,timePart] = message.timestamp.split(",");
+                        const [day, month, year] = datePart.trim().split("/");
+                        const [hour, minute, second] = timePart.trim().split(":");
+                        if(hour>=12){
+                          timeText = `오후 ${hour}:${minute}`;
+                        }else{
+                          timeText = `오전 ${hour}:${minute}`;
+                        }
+                        timestampElement.innerHTML = timeText;
+
+                        messageElement.appendChild(timestampElement);
+
+                        chatWindow.appendChild(messageElement);
+                    }
+
+
+            function addCompleteMessageForSeller() {
+                var chatWindow = document.getElementById('chat-window');
+
+                // 거래 완료 메시지를 생성합니다.
+                var infoDiv = document.createElement('div');
+                infoDiv.className = 'dm_info';
+
+                var contentDiv = document.createElement('div');
+                contentDiv.className = 'dm_info__content';
+
+                var titleP = document.createElement('p');
+                titleP.className = 'dm_info__content-title';
+                titleP.textContent = '안내';
+
+                var textP = document.createElement('p');
+                textP.className = 'dm_info__contenttxt';
+                textP.textContent = '거래가 완료되었어요!';
+
+                var reviewLink = document.createElement('a');
+                reviewLink.className = 'dm_info__btn';
+                reviewLink.href = '/review_detail/' + {{ chat_room.itemId }};
+                reviewLink.textContent = '리뷰 보기';
+
+                contentDiv.appendChild(titleP);
+                contentDiv.appendChild(textP);
+                infoDiv.appendChild(contentDiv);
+                infoDiv.appendChild(reviewLink);
+
+                chatWindow.appendChild(infoDiv);
+            }
+
+                    function addCompleteMessageForBuyer() {
+               var chatWindow = document.getElementById('chat-window');
+
+                // 거래 완료 메시지를 생성합니다.
+                var infoDiv = document.createElement('div');
+                infoDiv.className = 'dm_info';
+
+                var contentDiv = document.createElement('div');
+                contentDiv.className = 'dm_info__content';
+
+                var titleP = document.createElement('p');
+                titleP.className = 'dm_info__content-title';
+                titleP.textContent = '안내';
+
+                var textP = document.createElement('p');
+                textP.className = 'dm_info__contenttxt';
+                textP.textContent = '거래가 완료되었어요! 리뷰를 남겨주세요.';
+
+                var reviewLink = document.createElement('a');
+                reviewLink.className = 'dm_info__btn';
+                reviewLink.href = '/reg_review/' + "{{ chat_room.itemId }}";
+                reviewLink.textContent = '리뷰 작성하기';
+
+                contentDiv.appendChild(titleP);
+                contentDiv.appendChild(textP);
+                infoDiv.appendChild(contentDiv);
+                infoDiv.appendChild(reviewLink);
+
+                chatWindow.appendChild(infoDiv);
+            }
+
+              // 날짜가 같은지 여부를 확인하는 함수
+              function isSameDay(date1, date2) {
+                return date1.getFullYear() === date2.getFullYear() &&
+                      date1.getMonth() === date2.getMonth() &&
+                      date1.getDate() === date2.getDate();
               }
 
-      function addCompleteMessageForSeller() {
-          var chatWindow = document.getElementById('chat-window');
+            // 메시지 날짜를 특정 형식으로 포맷하는 함수 (2023년 01월 01일)
+            function formatMessageDate(date) {
+              console.log(date); // 추가된 코드
+              var year = date.getFullYear();
+              var month = (date.getMonth() + 1); // 월을 그대로 가져옴
+              var day = date.getDate();
+              // 두 자리 숫자로 만들기 위한 조건문 추가
+              month = month < 10 ? '0' + month : month;
+              day = day < 10 ? '0' + day : day;
+              return `${year}년 ${month}월 ${day}일`;
 
-          // 거래 완료 메시지를 생성합니다.
-          var infoDiv = document.createElement('div');
-          infoDiv.className = 'dm_info';
-
-          var contentDiv = document.createElement('div');
-          contentDiv.className = 'dm_info__content';
-
-          var titleP = document.createElement('p');
-          titleP.className = 'dm_info__content-title';
-          titleP.textContent = '안내';
-
-          var textP = document.createElement('p');
-          textP.className = 'dm_info__contenttxt';
-          textP.textContent = '거래가 완료되었어요!';
-
-          var reviewLink = document.createElement('a');
-          reviewLink.className = 'dm_info__btn';
-          reviewLink.href = '/review_detail/' + {{ chat_room.itemId }};
-          reviewLink.textContent = '리뷰 보기';
-
-          contentDiv.appendChild(titleP);
-          contentDiv.appendChild(textP);
-          infoDiv.appendChild(contentDiv);
-          infoDiv.appendChild(reviewLink);
-
-          chatWindow.appendChild(infoDiv);
+            }
+            // 날짜 구분선을 채팅 창에 추가하는 함수
+            function addDateSeparatorToChatWindow(formattedDate) {
+              var chatWindow = document.getElementById('chat-window');
+              var dateSeparatorElement = document.createElement('div');
+              dateSeparatorElement.className = 'dm_section__date';
+              dateSeparatorElement.textContent = formattedDate;
+              chatWindow.appendChild(dateSeparatorElement);
       }
 
-              function addCompleteMessageForBuyer() {
-         var chatWindow = document.getElementById('chat-window');
+      //timestamp 데이터를 Date 객체로 변환해주는 함수
+      function timestampToDate(timestamp){
+        var parts = timestamp.split(/[\s,\/:]+/); // 공백, 콤마, 슬래시, 콜론을 기준으로 분리
+        var year = parseInt(parts[2], 10);
+        var month = parseInt(parts[1], 10) - 1; // JavaScript에서 월은 0부터 시작하므로 1을 빼줍니다.
+        var day = parseInt(parts[0], 10);
+        var hour = parseInt(parts[3], 10);
+        var minute = parseInt(parts[4], 10);
+        var second = parseInt(parts[5], 10);
 
-          // 거래 완료 메시지를 생성합니다.
-          var infoDiv = document.createElement('div');
-          infoDiv.className = 'dm_info';
-
-          var contentDiv = document.createElement('div');
-          contentDiv.className = 'dm_info__content';
-
-          var titleP = document.createElement('p');
-          titleP.className = 'dm_info__content-title';
-          titleP.textContent = '안내';
-
-          var textP = document.createElement('p');
-          textP.className = 'dm_info__contenttxt';
-          textP.textContent = '거래가 완료되었어요! 리뷰를 남겨주세요.';
-
-          var reviewLink = document.createElement('a');
-          reviewLink.className = 'dm_info__btn';
-          reviewLink.href = '/reg_review/' + {{ chat_room.itemId }};
-          reviewLink.textContent = '리뷰 작성하기';
-
-          contentDiv.appendChild(titleP);
-          contentDiv.appendChild(textP);
-          infoDiv.appendChild(contentDiv);
-          infoDiv.appendChild(reviewLink);
-
-          chatWindow.appendChild(infoDiv);
+        var date = new Date(year, month, day, hour, minute, second);
+        console.log(date);
+        return date;
       }
     </script>
   </body>
