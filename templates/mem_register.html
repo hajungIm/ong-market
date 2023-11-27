@@ -121,6 +121,25 @@
                         localStorage.setItem('email',email);
 
                         alert("Email로 인증번호를 전송하였습니다!");
+                        //---추가---//
+                        // 서버로 POST 요청 보내기
+                        fetch('/send_email', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                validateNum: random_num,
+                                email: email.value,
+                            }),
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log('Success:', data);
+                        })
+                        .catch((error) => {
+                            console.error('Error:', error);
+                        });
                         window.location.href = '/student_check'; //재학생 인증 화면으로 넘어가도록
                     }
 
