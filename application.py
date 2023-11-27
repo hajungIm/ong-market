@@ -102,7 +102,7 @@ def register_user():
         return render_template("login.html")
     else:
         flash("user id already exist!")
-        return renderㅁ_template("mem_register.html")
+        return render_template("mem_register.html")
 
 @application.route("/list")
 def view_list():
