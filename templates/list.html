@@ -28,20 +28,24 @@
           name="select_place"
         >
           <option value="all" selected>모두</option>
-          <option value="ECC">ECC</option>
-          <option value="공학관">공학관(아산공학관, 신공학관)</option>
-          <option value="교육관">교육관</option>
-          <option value="기숙사e">기숙사(E-house, 한우리)</option>
-          <option value="기숙사i">기숙사(I-house)</option>
-          <option value="대강당">대강당</option>
-          <option value="신세계관">신세계관</option>
-          <option value="음악관">음악관</option>
-          <option value="정문">정문</option>
-          <option value="종합과학관">종합과학관</option>
-          <option value="중앙도서관">중앙도서관</option>
-          <option value="조형예술관">조형예술관</option>
-          <option value="포스코관">포스코관</option>
-          <option value="학관">학관</option>
+          <option value="ecc">ECC</option>
+          <option value="asan">
+            아산공학관
+          </option>
+          <option value="newEng">
+            신공학관
+          </option>
+          <option value="edu">교육관</option>
+          <option value="eHouse">
+            기숙사(E-house, 한우리)
+          </option>
+          <option value="iHouse">기숙사(I-house)</option>
+          <option value="mainGate">정문</option>
+          <option value="science">종합과학관</option>
+          <option value="library">중앙도서관</option>
+          <option value="art">조형예술관</option>
+          <option value="posco">포스코관</option>
+          <option value="student">학관</option>
         </select>
       </div>
       <input
@@ -111,8 +115,8 @@
     src="https://kit.fontawesome.com/afee348a73.js"
     crossorigin="anonymous"
   ></script>
-  <script src="../static/screens/list.js"></script>
-  <script src="../static/components/like_press.js"></script>
-  <script src="../static/components/commas_to_price.js"></script>
-  <script src="../static/components/calcDate.js"></script>
+  <script src="{{ url_for('static', filename='screens/list.js') }}"></script>
+  <script src="{{ url_for('static', filename='components/like_press.js') }}"></script>
+  <script src="{{ url_for('static', filename='components/commas_to_price.js') }}"></script>
+  <script src="{{ url_for('static', filename='components/calcDate.js') }}"></script>
 </html>

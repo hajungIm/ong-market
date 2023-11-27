@@ -44,9 +44,11 @@
           </span>
           <span>
             <i class="fa-sharp fa-solid fa-location-dot fa-lg"></i>
+            <span id="transaction_location">
             {% if data['transaction'] == "대면" %} {{data.location}} {% endif %}
             {% if data['transaction']== "비대면 (택배, 우편)" %}
             {{data.transaction}} {% endif %}
+            </span>
           </span>
         </div>
       </div>
@@ -75,9 +77,10 @@
       </button>
     </div>
   </body>
-  <script src="../static/components/simple_like_press.js"></script>
-  <script src="../static/components/base_header.js"></script>
-  <script src="../static/components/commas_to_price.js"></script>
-  <script src="../static/components/applyLineBreak.js"></script>
-  <script src="../satic/components/calcDate.js"></script>
+  <script src="{{ url_for('static', filename='components/simple_like_press.js') }}"></script>
+  <script src="{{ url_for('static', filename='components/base_header.js') }}"></script>
+  <script src="{{ url_for('static', filename='components/commas_to_price.js') }}"></script>
+  <script src="{{ url_for('static', filename='components/applyLineBreak.js') }}"></script>
+  <script src="{{ url_for('static', filename='components/calcDate.js') }}"></script>
+  <script src="{{ url_for('static', filename='components/location.js') }}"></script>
 </html>

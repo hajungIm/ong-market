@@ -29,7 +29,7 @@
       {% for item in like_items %}
       <a
         href="{{ url_for('item_detail', itemId=item.itemId) }}"
-        class="item_box_link" 
+        class="item_box_link" style="background-color: rebeccapurple; width:100%; heghit:100%;"
       ></a>
         <div class="item_box1" id="item-{{ item.itemId }}">
           <div class="item_selection">
@@ -64,7 +64,7 @@
       {% include 'nav_bar.html' %}  
 </body>
   <script src="https://kit.fontawesome.com/afee348a73.js" crossorigin="anonymous"></script>
-  <script src="../static/components/like_press.js"></script>
-  <script src="../static/components/commas_to_price.js"></script>
-  <script src="../static/components/calcDate.js"></script>
+  <script src="{{ url_for('static', filename='components/like_press.js') }}"></script>
+  <script src="{{ url_for('static', filename='components/commas_to_price.js') }}"></script>
+  <script src="{{ url_for('static', filename='components/calcDate.js') }}"></script>
 </html>

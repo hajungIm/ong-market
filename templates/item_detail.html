@@ -36,24 +36,26 @@
         <main>
             <h2 class="title">{{ data.itemName }}</h2>
 
-            <div class="detail">
-                <div class="use">
-                    <span>
-                        <i class="fa-solid fa-won-sign fa-lg"></i>
-                        <span class="commas_price">{{ data.price }}원</span>
-                    </span>
-                    <span>
-                        <i class="fa-solid fa-square-check fa-lg"></i>
-                        {{ data.status }}
-                    </span>
-                    <span>
-                        <i class="fa-sharp fa-solid fa-location-dot fa-lg"></i>
-                        {% if data['transaction'] == "대면" %} {{data.location}} {% endif %} {% if
-                        data['transaction']== "비대면 (택배, 우편)" %} {{data.transaction}} {% endif
-                        %}
-                    </span>
-                </div>
-            </div>
+      <div class="detail">
+        <div class="use">
+          <span>
+            <i class="fa-solid fa-won-sign fa-lg"></i>
+            <span class="commas_price">{{ data.price }}원</span>
+          </span>
+          <span>
+            <i class="fa-solid fa-square-check fa-lg"></i>
+            {{ data.status }}
+          </span>
+          <span>
+            <i class="fa-sharp fa-solid fa-location-dot fa-lg"></i>
+            <span id="transaction_location">
+            {% if data['transaction'] == "대면" %} {{data.location}} {% endif %}
+            {% if data['transaction']== "비대면 (택배, 우편)" %}
+            {{data.transaction}} {% endif %}
+            </span>
+          </span>
+        </div>
+      </div>
 
       <div class="detail_info">
         <div class="detail_info__seller">
@@ -176,8 +178,11 @@
       </script>
     </div>
   </body>
-  <script src="../static/components/simple_like_press.js"></script>
-  <script src="../static/components/commas_to_price.js"></script>
-  <script src="../static/components/calcDate.js"></script>
-  <script src="../static/components/applyLineBreak.js"></script>
+ <!--script 태그의 src 속성을 url_for로 수정-->
+  <script src="{{ url_for('static', filename='components/simple_like_press.js') }}"></script>
+  <script src="{{ url_for('static', filename='components/commas_to_price.js') }}"></script>
+  <script src="{{ url_for('static', filename='components/calcDate.js') }}"></script>
+  <script src="{{ url_for('static', filename='components/applyLineBreak.js') }}"></script>
+  <script src="{{ url_for('static', filename='components/location.js') }}"></script>
+
 </html>
