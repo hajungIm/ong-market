@@ -285,7 +285,7 @@ def reg_item_submit_post():
     
     data=request.form 
     DB.insert_item(current_id, data, image_file_path)
-    return render_template("result.html", data=data, img_path=image_file_path)
+    return redirect(url_for('item_detail', itemId=current_id))
 
 @application.route("/find_id", methods = ['GET', 'POST'])
 def find_id():
@@ -337,7 +337,7 @@ def find_password_success():
 def find_password_fail():
     return render_template("find_password_fail.html")
 
-@application.route("/item_detail/<itemId>/")
+@application.route("/item_detail/<itemId>")
 def item_detail(itemId):
     item = DB.find_item_by_id(itemId)
     user_id = session.get("id")
@@ -347,7 +347,6 @@ def item_detail(itemId):
     
     item_data_json = escape(json.dumps(item))
     item_json = json.dumps(item)
-
 
     like_items = DB.get_like_items(user_id)
     like_items = sorted(like_items, key=lambda x: x['createdAt'], reverse=True)
