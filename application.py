@@ -51,9 +51,9 @@ def mem_register():
 
 @application.route('/send_email', methods=['POST'])
 def send_email():
-    data = request.json
-    validateNum = data['validateNum']
-    email = data['email']
+    data = request.get_json()
+    validateNum = data.get('validateNum')
+    email = data.get('email')
     
     send_email_function(validateNum, email)
     
