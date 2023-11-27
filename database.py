@@ -66,13 +66,13 @@ class DBhandler:
                     # 다른 필요한 사용자 정보...
                 }
         return None
-    
+
     def get_user_Img(self, user_id):
         user_key, user_data = self.find_user_by_id(user_id)
         if user_data:
             return user_data.get('profile_image')
         return None
-        
+
     def insert_item(self, current_id, data, img_path):
 
         item_info = {
@@ -88,7 +88,7 @@ class DBhandler:
                 "createdAt": data['itemRegDate']
             }
         if data['transaction'] == "대면":
-           item_info["location"] = data['location']
+            item_info["location"] = data['location']
 
         self.db.child("item").child(current_id).set(item_info)
         print(data, img_path)
@@ -222,6 +222,34 @@ class DBhandler:
                     like_items_details.append(item)
             
             return like_items_details
-        
+
         return []
+
+    def insert_review(self, review_id, data, review_img_path, userId):
+        current_time = datetime.utcnow().isoformat() + 'Z'
+
+        review_info = {
+            # 리뷰 form 목록 설정하기
+            "userId": userId,
+            "title": data['reviewTitle'],
+            "review_img_path": review_img_path,
+            "review": data['reviewContent'],
+            "createdAt": current_time,
+            "rate": data['rating']
+        }
+        
+        # if data['transaction'] == "대면":
+        #     review_info["rating"] = data['location']
+            
+        # if data['transaction'] == "대면":
+        #     review_info["keyword"] = data['location']
+            
+        self.db.child("review").child(review_id).set(review_info)
+        return True
     
+    def find_review_by_id(self, reviewId):
+        review = self.db.child("review").child(reviewId).get()
+        if review.val():
+            return review.val()
+        else:
+            return None
