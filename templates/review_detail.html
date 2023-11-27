@@ -17,10 +17,11 @@
   </head>
   <body>
     <header class="base_header">
-      <a class="base_header__icon base_header__back">
-        <!--뒤로 가기 링크 추후 수정 필요-->
+      <div class="base_header__icon base_header__back">
+        <!--뒤로 가기 링크 추후 수정 필요(dm창으로 이동해야 함)
+            result_review.html 생성해야함.-->
         <i class="fa-solid fa-chevron-left fa-xl" style="color: #242424"></i>
-      </a>
+      </div>
       <div>
         <h2 class="base_header__title">상세 리뷰</h2>
       </div>
@@ -31,17 +32,25 @@
 
     <div id="item">
       <div class="review_detail__img">
-        <img src="../static/images/item1_image.jpeg" alt="item image" />
+        <img src="{{ url_for('static', filename=data.img_path) }}" alt="item image" />
       </div>
       <p class="item">
-        <span class="item__name">원형 테이블 </span>
-        <span class="item__price">40,000원 </span>
-        <span class="item__review-star">
-          <i class="fa-solid fa-star fa-sm"></i>
-          <i class="fa-solid fa-star fa-sm"></i>
-          <i class="fa-solid fa-star fa-sm"></i>
-          <i class="fa-solid fa-star fa-sm"></i>
-          <i class="fa-solid fa-star fa-sm"></i>
+        <span class="item__name">{{ data.itemName }}</span>
+        <span class="item__price">{{ data.price }}원</span>
+        <span class="item__review-star" id="reviewStarContainer">
+            
+        <script>
+    // JavaScript를 사용하여 동적으로 별 아이콘을 생성하고 삽입
+    const reviewStarContainer = document.getElementById('reviewStarContainer');
+    const starCount = {{ reviewdata.rate }}; // 별 아이콘의 개수
+
+    for (let i = 0; i < starCount; i++) {
+        const starIcon = document.createElement('i');
+        starIcon.className = 'fa-solid fa-star fa-sm';
+        reviewStarContainer.appendChild(starIcon);
+    }
+        </script>
+            
         </span>
       </p>
     </div>
@@ -52,7 +61,7 @@
           <i class="fa-solid fa-chevron-left fa-xl"></i>
         </button>
         <div class="review_img__box">
-          <img src="../static/images/table_detail.png" width="342px" />
+          <img src="{{ url_for('static', filename=reviewdata.review_img_path) }}" width="342px" />
         </div>
         <button id="right" class="btn" type="button" onclick="">
           <i class="fa-solid fa-chevron-right fa-xl"></i>
@@ -72,16 +81,12 @@
 
       <div id="review_ment">
         <p class="review_ment__head">
-          <span class="review_ment__title">테이블 너무 너무 예뻐요!!!</span>
-          <span class="review_ment__date">2023.09.14</span>
+          <span class="review_ment__title">{{ reviewdata.title }}</span>
+          <span class="review_ment__date">{{ reviewdata.createdAt }}</span>
         </p>
 
-        <p class="review_ment__writer">EwhaStudent1</p>
-        <p class="review_ment__txt">
-          테이블 잘 받았어요~<br />
-          상태도 너무 좋고 설명하신 것 그대로에요! 거래 약속 시간도 잘 지키시고
-          답장도 빠르셔서 너무 만족스러운 거래였습니다! 다음에 또 거래하고
-          싶어요!
+        <p class="review_ment__writer">{{ reviewdata.userId }}</p>
+        <p class="review_ment__txt">{{ reviewdata.review }}
         </p>
       </div>
     </main>
