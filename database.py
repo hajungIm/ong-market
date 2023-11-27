@@ -1,3 +1,4 @@
+
 import pyrebase
 import json
 from datetime import datetime
@@ -93,7 +94,8 @@ class DBhandler:
                 "transaction": data['transaction'],
                 "img_path": img_path,
                 "like_count": 0,
-                "createdAt": data['itemRegDate']
+                "createdAt": data['itemRegDate'],
+                "review_complete": "0"
             }
         if data['transaction'] == "대면":
             item_info["location"] = data['location']
@@ -270,7 +272,7 @@ class DBhandler:
         else:
             review_info["keywordNo"] = 1
 
-
+        self.db.child("item").child(review_id).update({"review_complete": "1"})
         self.db.child("review").child(review_id).set(review_info)
         return True
     
@@ -278,5 +280,14 @@ class DBhandler:
         review = self.db.child("review").child(reviewId).get()
         if review.val():
             return review.val()
+        else:
+            return None
+        
+    def get_review_status_by_id(self, itemId):
+        item_data = self.db.child("item").child(itemId).get().val()
+
+        if item_data:
+            review_complete = item_data.get('review_complete')
+            return review_complete
         else:
             return None
