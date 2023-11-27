@@ -243,18 +243,40 @@ class DBhandler:
         if keyword_no == 1 :
             item_info["keywordNo"] = 1
         else
-            time = 1 if data['keywordNo'] == "1" else 0
-            time = 1 if data['keywordNo'] == "1" else 0
-            time = 1 if data['keywordNo'] == "1" else 0
-            time = 1 if data['keywordNo'] == "1" else 0
-            time = 1 if data['keywordNo'] == "1" else 0
-            time = 1 if data['keywordNo'] == "1" else 0
-            time = 1 if data['keywordNo'] == "1" else 0
-            time = 1 if data['keywordNo'] == "1" else 0
-            time = 1 if data['keywordNo'] == "1" else 0
-
+            time = 1 if data['keywordSellerTime'] == "1" else 0
+            resonable = 1 if data['keywordSellerResponse'] == "1" else 0
+            kind = 1 if data['keywordSellerKind'] == "1" else 0
+            condition = 1 if data['keywordSellerCome'] == "1" else 0
+            response = 1 if data['keywordNo'] == "1" else 0
+            give = 1 if data['keywordSellerGive'] == "1" else 0
+            come = 1 if data['keywordNo'] == "1" else 0
 
             item_info["keyword"] = {,,,,,,}
+
+            
+              name="keywordSeller1"
+              id="time"
+           
+              name="keywordSeller2"
+              id="response"
+           
+              name="keywordSeller3"
+              id="kind"
+            
+              name="keywordSeller4"
+              id="come"
+           
+              name="keywordSeller5"
+              id="give"
+            
+              name="keywordItem1"
+              id="condition"
+            
+              name="keywordItem2"
+              id="detail"
+            
+              name="keywordItem1"
+              id="resonable"
             
             
         self.db.child("review").child(review_id).set(review_info)
