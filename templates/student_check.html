@@ -24,73 +24,6 @@
         <h5>이메일로 받은 인증 번호를 입력하세요</h5>
     </form>
 
-    <!--타이머 만들어야함-->
-    <div style="padding-left: 140px;">
-        <div style="width:30%; text-align: center;" id="timer">01:00</div>
-        <button class="retx_button" id="retx_button" type="button" onclick="" style="margin-left:100px; margin-top: -50px; display: inline;">재전송</button>
-    </div>
-    <script>
-        // 시작 시간 (3분)
-        let remainingTime = 1 * 60;
-      
-        // 타이머 업데이트 함수
-        function updateTimer() {
-          const minutes = Math.floor(remainingTime / 60);
-          const seconds = remainingTime % 60;
-      
-          // 시간을 두 자리로 표시하기 위해 0을 추가
-          const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-      
-          // 타이머 업데이트
-          document.getElementById('timer').innerText = formattedTime;
-      
-          // 남은 시간이 0보다 크면 1초 감소
-          if (remainingTime > 0) {
-            remainingTime--;
-          } else {
-            // 타이머 종료 시 처리 (예: 메시지 표시 등)
-            clearInterval(timerInterval);
-            alert('인증 시간 종료!');
-          }
-        }
-      
-        // 1초마다 타이머 업데이트 함수 호출
-        const timerInterval = setInterval(updateTimer, 1000);
-      </script>
-      
-
-    
-
-    <br><br>
-    <button id="check_button" type="submit" onclick="check_num()"><b>인증하기</b></button>
-    <script>
-        function check_num(){
-            if(localStorage.getItem('validateNum')){
-            var validateNum = localStorage.getItem('validateNum');
-            }
-            var input_num=document.getElementById("number");
-            
-            if(input_num.value!=num){
-                alert("인증번호가 틀립니다!");
-            }
-            else{
-                alert("인증 완료!");
-                window.history.go(-1)
-            }
-        }
-    </script>
-    
-    <button id="cancel_button" onclick="cancel()"><b>cancel</b></button>
-    <script>
-        function cancel(){
-            window.history.go(-1)
-        }
-    </script>
-    
-    </div>
-    </div>
-    <br><br><br>
-    
     <script>
         function sendEmail() {
             var validateNum = localStorage.getItem('validateNum');
@@ -111,6 +44,128 @@
                 console.error('Error:', error);
             });
         }
+
     </script>
+
+    <!--타이머 만들어야함-->
+    <div style="padding-left: 140px;">
+        <div style="width:30%; text-align: center;" id="timer">01:00</div>
+        <button class="retx_button" id="retx_button" type="button" onclick="retransmit()" style="margin-left:-35px; margin-top: 20px; width:120px; height: 35px;">
+            인증번호 재전송</button>
+    </div>
+    <script>
+        // 시작 시간 (1분)
+        let remainingTime = 1 * 60;
+      
+        // 타이머 업데이트 함수
+        function updateTimer() {
+          const minutes = Math.floor(remainingTime / 60);
+          const seconds = remainingTime % 60;
+      
+          // 시간을 두 자리로 표시하기 위해 0을 추가
+          const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      
+          // 타이머 업데이트
+          document.getElementById('timer').innerText = formattedTime;
+      
+          // 남은 시간이 0보다 크면 1초 감소
+          if (remainingTime > 0) {
+            remainingTime--;
+          } else {
+            // 타이머 종료 시 처리 (예: 메시지 표시 등)
+            clearInterval(timerInterval);
+            
+            // 인증 완료 메시지 표시 (한 번만 표시)
+            if (!localStorage.getItem('verificationComplete')) {
+                alert('인증 시간 종료!');
+                localStorage.setItem('verificationComplete', 'true');
+            }
+          }
+        }
+      
+        // 1초마다 타이머 업데이트 함수 호출
+        const timerInterval = setInterval(updateTimer, 1000);
+
+
+        //재전송 함수
+        function retransmit(){
+            // 이전 타이머가 있으면 멈춤
+            clearInterval(timerInterval);
+
+             // 남은 시간을 1분으로 초기화
+            remainingTime = 1 * 60;
+
+            //인증번호 다시 생성
+            function rand(min, max) {
+                    return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+
+            var random_num=rand(1000,9999);//랜덤 4자리 수 생성
+            alert(random_num);//랜덤 수 생성 되는지 확인을 위해 임시로
+            alert("인증번호를 다시 전송하였습니다!");
+            localStorage.setItem('validateNum',random_num);
+            var email=localStorage.getItem('email');
+            localStorage.setItem('email',email);
+  
+            // 이메일 재전송
+            fetch('/send_email', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                validateNum: random_num,
+                                email: email.value,
+                            }),
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log('Success:', data);
+                        })
+                        .catch((error) => {
+                            console.error('Error:', error);
+                        });
+
+            // 타이머 재시작
+            timerInterval = setInterval(updateTimer, 1000);
+
+            }
+      </script>
+      
+
+    
+
+    <br><br>
+    <button id="check_button" type="submit" onclick="check_num()"><b>인증하기</b></button>
+    <script>
+        function check_num(){
+            
+            var validateNum = localStorage.getItem('validateNum');
+            var input_num=document.getElementById("number");
+            
+            if(input_num.value!=validateNum){
+                alert("인증번호가 틀립니다!");
+            }
+            else{
+                alert("인증 완료!");
+                window.opener.postMessage('verificationComplete', '*');
+                localStorage.setItem('rightEmail', 'true');
+                window.history.go(-1);
+            }
+        }
+    </script>
+    
+    <button id="cancel_button" onclick="cancel()"><b>cancel</b></button>
+    <script>
+        function cancel(){
+            window.history.go(-1)
+        }
+    </script>
+    
+    </div>
+    </div>
+    <br><br><br>
+    
+   
 </body>
 </html>
