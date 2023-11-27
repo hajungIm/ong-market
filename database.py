@@ -237,48 +237,21 @@ class DBhandler:
             "createdAt": current_time,
             "rate": data['rating'],
         }
-        
-         keyword_no = 1 if data['keywordNo'] == "1" else 0
-    
-        if keyword_no == 1 :
-            item_info["keywordNo"] = 1
-        else
-            time = 1 if data['keywordSellerTime'] == "1" else 0
-            resonable = 1 if data['keywordSellerResponse'] == "1" else 0
-            kind = 1 if data['keywordSellerKind'] == "1" else 0
-            condition = 1 if data['keywordSellerCome'] == "1" else 0
-            response = 1 if data['keywordNo'] == "1" else 0
-            give = 1 if data['keywordSellerGive'] == "1" else 0
-            come = 1 if data['keywordNo'] == "1" else 0
 
-            item_info["keyword"] = {,,,,,,}
+        if data['keywordNo'] == "nokeyword":
+            review_info["keywordNo"] = 1
+        else:
+            Seller1 = 1 if data['keywordSeller1'] == "1" else 0
+            Seller2 = 1 if data['keywordSeller2'] == "1" else 0
+            Seller3 = 1 if data['keywordSeller3'] == "1" else 0
+            Seller4 = 1 if data['keywordSeller4'] == "1" else 0
+            Seller5 = 1 if data['keywordSeller5'] == "1" else 0
+            Item1 = 1 if data['keywordItem1'] == "1" else 0
+            Item2 = 1 if data['keywordItem2'] == "1" else 0
+            Item3 = 1 if data['keywordItem3'] == "1" else 0
 
-            
-              name="keywordSeller1"
-              id="time"
-           
-              name="keywordSeller2"
-              id="response"
-           
-              name="keywordSeller3"
-              id="kind"
-            
-              name="keywordSeller4"
-              id="come"
-           
-              name="keywordSeller5"
-              id="give"
-            
-              name="keywordItem1"
-              id="condition"
-            
-              name="keywordItem2"
-              id="detail"
-            
-              name="keywordItem1"
-              id="resonable"
-            
-            
+            review_info["keyword"] = [Seller1, Seller2, Seller3, Seller4, Seller5, Item1, Item2, Item3]
+
         self.db.child("review").child(review_id).set(review_info)
         return True
     
