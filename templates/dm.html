@@ -287,7 +287,7 @@
 
                 var reviewLink = document.createElement('a');
                 reviewLink.className = 'dm_info__btn';
-                reviewLink.href = '/review_detail/' + {{ chat_room.itemId }};
+                reviewLink.href = "{{ url_for('review_detail', reviewId=chat_room.itemId) }}";
                 reviewLink.textContent = '리뷰 보기';
 
                 contentDiv.appendChild(titleP);

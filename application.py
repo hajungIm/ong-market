@@ -353,9 +353,11 @@ def item_detail(itemId):
     
     return render_template("item_detail.html", data=item, item_data_json=item_data_json, userId=user_id, like_items=like_items)
 
-@application.route("/review_detail")
-def review_detail():
-    return render_template("review_detail.html")
+@application.route("/review_detail/<reviewId>")
+def review_detail(reviewId):
+    item_review = DB.find_review_by_id(reviewId)
+    item = DB.find_item_by_id(reviewId)
+    return render_template("review_detail.html", data=item, reviewdata=item_review)
 
 @application.route("/student_check")
 def student_check():
