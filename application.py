@@ -245,13 +245,28 @@ def reg_item_submit_post():
 
 
 
-@application.route("/find_id")
+@application.route("/find_id", methods = ['GET', 'POST'])
 def find_id():
+    if request.method == 'POST':
+        data = request.json
+        email = data.get('email')
+        
+        user_id = DB.find_user_by_email(email)
+        
+        if user_id:
+            session['find_user_email'] = email
+            session['find_user_id'] = user_id
+            return jsonify(success=True)
+        else:
+            return jsonify(success=False)
+    
     return render_template("find_id.html")
 
 @application.route("/find_id_success")
 def find_id_success():
-    return render_template("find_id_success.html")
+    email = session.pop('find_user_email', None)
+    user_id = session.pop('find_user_id', None)
+    return render_template("find_id_success.html", user_email=email, user_id=user_id)
 
 @application.route("/find_id_fail")
 def find_id_fail():

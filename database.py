@@ -54,6 +54,14 @@ class DBhandler:
                 return user.key(), user_data
         return None, None
     
+    def find_user_by_email(self, email):
+        users = self.db.child("user").get()
+        for user in users.each():
+            user_data = user.val()
+            if user_data['email'] == email:
+                return user_data['email']
+        return None
+    
     def get_user_info(self, id_):
         users = self.db.child("user").get()
         for res in users.each():
