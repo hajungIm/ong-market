@@ -59,7 +59,7 @@ class DBhandler:
         for user in users.each():
             user_data = user.val()
             if user_data['email'] == email:
-                return user_data['email']
+                return user_data
         return None
     
     def get_user_info(self, id_):

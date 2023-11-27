@@ -44,15 +44,6 @@ def login_user():
     else:
         flash("Wrong ID or PW!")
         return render_template("login.html")
-    
-def find_user(self, id_, pw_):
-    users = self.db.child("user").get()
-    target_value=[]
-    for res in users.each():
-        value = res.val()
-        if value['id'] == id_ and value['pw'] == pw_:
-            return True
-    return False
 
 @application.route("/mem_register")
 def mem_register():
@@ -251,11 +242,11 @@ def find_id():
         data = request.json
         email = data.get('email')
         
-        user_id = DB.find_user_by_email(email)
+        user = DB.find_user_by_email(email)
         
-        if user_id:
+        if user:
             session['find_user_email'] = email
-            session['find_user_id'] = user_id
+            session['find_user_id'] = user.get('id')
             return jsonify(success=True)
         else:
             return jsonify(success=False)
@@ -272,8 +263,19 @@ def find_id_success():
 def find_id_fail():
     return render_template("find_id_fail.html")
 
-@application.route("/find_password")
+@application.route("/find_password", methods = ['GET', 'POST'])
 def find_password():
+    if request.method == 'POST':
+        data = request.json
+        user_id = data.get('user_id')
+        email = data.get('email')
+        
+        user = DB.find_user_by_email(email)
+        
+        if (user_id == user.get('id')):
+            return jsonify(success=True)
+        return jsonify(success=False)
+        
     return render_template("find_password.html")
 
 @application.route("/find_password_success")
