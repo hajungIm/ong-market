@@ -5,6 +5,10 @@ import hashlib
 import uuid
 import math
 import os
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import config
 
 import sys
 
@@ -40,19 +44,53 @@ def login_user():
     else:
         flash("Wrong ID or PW!")
         return render_template("login.html")
-    
-def find_user(self, id_, pw_):
-    users = self.db.child("user").get()
-    target_value=[]
-    for res in users.each():
-        value = res.val()
-        if value['id'] == id_ and value['pw'] == pw_:
-            return True
-    return False
 
 @application.route("/mem_register")
 def mem_register():
     return render_template("mem_register.html")
+
+@application.route('/send_email', methods=['POST'])
+def send_email():
+    data = request.json
+    validateNum = data['validateNum']
+    email = data['email']
+    
+    send_email_function(validateNum, email)
+    
+    return jsonify({"message": "Email sent successfully"})
+
+def send_email_function(content, receiver_email):
+    sender_email = config.SENDER_EMAIL
+    sender_email_password = config.EMAIL_PASSWORD
+    
+    message = MIMEMultipart()
+    message["From"] = "Ong-market Service"
+    message["To"] = receiver_email
+    message["Subject"] = "ong market service email"
+    
+    email_body = f"""
+    <html>
+        <body>
+            <div style="font-family: Arial, sans-serif; font-size: 14px;">
+                <p>옹 마켓 가입 인증번호는</p>
+                <h1><i>{content}</i></h1>
+                <p>입니다.</p>
+                <br>
+                <p>감사합니다.</p>
+                <p>Ong-market Service Team</p>
+            </div>
+        </body>
+    </html>
+    """
+
+    # HTML 본문을 MIMEText 객체로 생성
+    body = MIMEText(email_body, "html")
+    message.attach(body)
+    
+    with smtplib.SMTP("smtp.gmail.com", 587) as server:
+        server.starttls()
+        server.login(sender_email, sender_email_password)
+        server.sendmail(sender_email, receiver_email, message.as_string())
 
 @application.route("/signup_post", methods=['POST'])
 def register_user():
@@ -239,20 +277,46 @@ def reg_item_submit_post():
     DB.insert_item(current_id, data, image_file_path)
     return render_template("result.html", data=data, img_path=image_file_path)
 
-@application.route("/find_id")
+@application.route("/find_id", methods = ['GET', 'POST'])
 def find_id():
+    if request.method == 'POST':
+        data = request.json
+        email = data.get('email')
+        
+        user = DB.find_user_by_email(email)
+        
+        if user:
+            session['find_user_email'] = email
+            session['find_user_id'] = user.get('id')
+            return jsonify(success=True)
+        else:
+            return jsonify(success=False)
+    
     return render_template("find_id.html")
 
 @application.route("/find_id_success")
 def find_id_success():
-    return render_template("find_id_success.html")
+    email = session.pop('find_user_email', None)
+    user_id = session.pop('find_user_id', None)
+    return render_template("find_id_success.html", user_email=email, user_id=user_id)
 
 @application.route("/find_id_fail")
 def find_id_fail():
     return render_template("find_id_fail.html")
 
-@application.route("/find_password")
+@application.route("/find_password", methods = ['GET', 'POST'])
 def find_password():
+    if request.method == 'POST':
+        data = request.json
+        user_id = data.get('user_id')
+        email = data.get('email')
+        
+        user = DB.find_user_by_email(email)
+        
+        if (user_id == user.get('id')):
+            return jsonify(success=True)
+        return jsonify(success=False)
+        
     return render_template("find_password.html")
 
 @application.route("/find_password_success")

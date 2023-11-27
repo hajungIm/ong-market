@@ -25,23 +25,31 @@
     
 
     <button id="find_id_button" type="submit" onclick="find_id()"><b>Id 찾기</b></button>
-    <!-- <script>
+    <script>
         function find_id(){
-            var email=document.getElementById("Ewha Mail");
-
-            /*기능 확인을 위해 임의로 정한 if문*/
-            /*id 찾기 성공*/
-            if(email.value=="ewha@ewhain.net"){
-                alert("성공");
-                window.location.href="find_id_success.html"
-            }
-            /*id 찾기 실패*/
-            else{
-                alert("fail");
-                window.location.href="find_id_fail.html"
-            }
+            var email=document.getElementById("Ewha Mail").value;
+            
+            fetch('/find_id', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: email }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = "find_id_success.html"
+                } else {
+                    window.location.href = "find_id_fail.html";
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert("오류가 발생했습니다.");
+            });
         }
-    </script> -->
+    </script>
     </form>
     <p><a id="회원가입" href="/mem_register"><b>회원가입</b></a></p>
     </div>
