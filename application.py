@@ -307,9 +307,9 @@ def find_id_fail():
 @application.route("/find_password", methods = ['GET', 'POST'])
 def find_password():
     if request.method == 'POST':
-        data = request.json
-        user_id = data.get('user_id')
-        email = data.get('email')
+        data = request.get_json()
+        user_id = data['user_id']
+        email = data['email']
         
         user = DB.find_user_by_email(email)
         
