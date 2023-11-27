@@ -5,6 +5,10 @@ import hashlib
 import uuid
 import math
 import os
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import config
 
 import sys
 
@@ -53,6 +57,32 @@ def find_user(self, id_, pw_):
 @application.route("/mem_register")
 def mem_register():
     return render_template("mem_register.html")
+
+@application.route('/send_email', methods=['POST'])
+def send_email():
+    data = request.json
+    validateNum = data['validateNum']
+    email = data['email']
+    
+    send_email_function(validateNum, email)
+    
+    return jsonify({"message": "Email sent successfully"})
+
+def send_email_function(content, receiver_email):
+    sender_email = config.SENDER_EMAIL
+    sender_email_password = config.EMAIL_PASSWORD
+    
+    message = MIMEMultipart()
+    message["From"] = "Ong-market Service"
+    message["To"] = receiver_email
+    message["Subject"] = "ong market service email"
+    
+    message.attach(MIMEText(content, "plain"))
+    
+    with smtplib.SMTP("smtp.gmail.com", 587) as server:
+        server.starttls()
+        server.login(sender_email, sender_email_password)
+        server.sendmail(sender_email, receiver_email, message.as_string())
 
 @application.route("/signup_post", methods=['POST'])
 def register_user():

@@ -1,5 +1,6 @@
 goorm.manifest
 .DS_Store
+config.py
 
 ### Firebase ###
 .idea

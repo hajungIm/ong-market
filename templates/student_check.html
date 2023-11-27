@@ -65,8 +65,8 @@
     <button id="check_button" type="submit" onclick="check_num()"><b>인증하기</b></button>
     <script>
         function check_num(){
-            if(localStorage.getItem('인증번호')){
-            var num = localStorage.getItem('인증번호');
+            if(localStorage.getItem('validateNum')){
+            var validateNum = localStorage.getItem('validateNum');
             }
             var input_num=document.getElementById("number");
             
@@ -90,5 +90,27 @@
     </div>
     </div>
     <br><br><br>
+    
+    <script>
+        function sendEmail() {
+            var validateNum = localStorage.getItem('validateNum');
+            var email = localStorage.getItem('email');
+            
+            fetch('/send_email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({validateNum: validateNum, email: email}),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
 </body>
 </html>

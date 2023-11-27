@@ -117,7 +117,8 @@
 
                         var random_num=rand(1000,9999);//랜덤 4자리 수 생성
                         alert(random_num);//랜덤 수 생성 되는지 확인을 위해 임시로
-                        localStorage.setItem('인증번호',random_num);
+                        localStorage.setItem('validateNum',random_num);
+                        localStorage.setItem('email',email);
 
                         alert("Email로 인증번호를 전송하였습니다!");
                         window.location.href = '/student_check'; //재학생 인증 화면으로 넘어가도록
