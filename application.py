@@ -280,8 +280,8 @@ def reg_item_submit_post():
 @application.route("/find_id", methods = ['GET', 'POST'])
 def find_id():
     if request.method == 'POST':
-        data = request.json
-        email = data.get('email')
+        data = request.get_json()
+        email = data['email']
         
         user = DB.find_user_by_email(email)
         

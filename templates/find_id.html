@@ -20,14 +20,14 @@
     <form method="post" action="">
         <br><br>
         <h4>Ewha Email</h4>
-        <input id="Ewha Mail" type="text" name="Ewha Mail" style="border:none;" required>
+        <input id="ewhaMail" type="text" name="Ewha Mail" style="border:none;" required>
         <br><hr><br><br>
     
 
-    <button id="find_id_button" type="submit" onclick="find_id()"><b>Id 찾기</b></button>
+    <button id="find_id_button" type="button" onclick="find_id()"><b>Id 찾기</b></button>
     <script>
         function find_id(){
-            var email=document.getElementById("Ewha Mail").value;
+            var email=document.getElementById("ewhaMail").value;
             
             fetch('/find_id', {
                 method: 'POST',
@@ -39,7 +39,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    window.location.href = "find_id_success.html"
+                    window.location.href = "/find_id_success"
                 } else {
                     window.location.href = "find_id_fail.html";
                 }
