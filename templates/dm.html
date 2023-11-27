@@ -287,9 +287,22 @@
 
                 var reviewLink = document.createElement('a');
                 reviewLink.className = 'dm_info__btn';
-                reviewLink.href = "{{ url_for('review_detail', reviewId=chat_room.itemId) }}";
-                reviewLink.textContent = '리뷰 보기';
+                
+//                 reviewLink.href = "{{ url_for('review_detail', reviewId=chat_room.itemId) }}";
+//                 reviewLink.textContent = '리뷰 보기';
 
+                var rc = {{ rc }};
+                if (rc == "1") {
+                    reviewLink.href = "{{ url_for('review_detail', reviewId=chat_room.itemId) }}";
+                    reviewLink.textContent = '리뷰 보기';
+                } else {
+                    reviewLink.href = "#";  // 빈 링크 또는 다른 처리 가능
+                    reviewLink.addEventListener('click', function() {
+                        alert("아직 리뷰가 작성되지 않았습니다.");
+                    });
+                    reviewLink.textContent = '리뷰 보기';
+                }
+                
                 contentDiv.appendChild(titleP);
                 contentDiv.appendChild(textP);
                 infoDiv.appendChild(contentDiv);
@@ -298,7 +311,7 @@
                 chatWindow.appendChild(infoDiv);
             }
 
-                    function addCompleteMessageForBuyer() {
+            function addCompleteMessageForBuyer() {
                var chatWindow = document.getElementById('chat-window');
 
                 // 거래 완료 메시지를 생성합니다.
@@ -318,9 +331,16 @@
 
                 var reviewLink = document.createElement('a');
                 reviewLink.className = 'dm_info__btn';
-                reviewLink.href = '/reg_review/' + "{{ chat_room.itemId }}";
-                reviewLink.textContent = '리뷰 작성하기';
 
+                var rc = {{ rc }};
+                if (rc == "1") {
+                    reviewLink.href = "{{ url_for('review_detail', reviewId=chat_room.itemId) }}";
+                    reviewLink.textContent = '작성한 리뷰 보기';
+                } else {
+                    reviewLink.href = '/reg_review/' + "{{ chat_room.itemId }}";
+                    reviewLink.textContent = '리뷰 작성하기';
+                }
+                
                 contentDiv.appendChild(titleP);
                 contentDiv.appendChild(textP);
                 infoDiv.appendChild(contentDiv);

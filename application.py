@@ -357,6 +357,10 @@ def item_detail(itemId):
 def review_detail(reviewId):
     item_review = DB.find_review_by_id(reviewId)
     item = DB.find_item_by_id(reviewId)
+
+    if not item:
+        return "Item not found", 404
+
     return render_template("review_detail.html", data=item, reviewdata=item_review)
 
 @application.route("/student_check")
@@ -375,6 +379,9 @@ def sellPage():
 
 @application.route("/selling")
 def sellingPage():
+    user_id = session.get("id")
+    data = DB.get_items()
+
     return render_template("sell_Page_selling.html")
 
 @application.route("/like")
@@ -456,7 +463,10 @@ def chat_room_page(chat_room_id):
         counterpartId = chat_room_data['sellerId']
         counterpartImg = chat_room_data['sellerImg']
     
-    return render_template('dm.html', chat_room=chat_room_data, counterpartId=counterpartId, counterpartImg=counterpartImg)
+    itemID = chat_room_data['itemId']
+    review_complete = DB.get_review_status_by_id(itemID)
+    
+    return render_template('dm.html', chat_room=chat_room_data, counterpartId=counterpartId, counterpartImg=counterpartImg, rc= review_complete)
 
 @application.route('/complete/<chat_room_id>', methods=['POST'])
 def complete_chat_room(chat_room_id):
