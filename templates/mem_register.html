@@ -96,7 +96,7 @@
             </script>
             <hr>
 
-            <!--재학생 인증 수정중
+            <!--재학생 인증 수정중 / 초록색으로 버튼 변경 구현해야함
             -->
             <h4>Ewha Email</h4>
             <input id="Ewha Mail" type="text" name="Ewha Mail" style="border:none" required>
@@ -104,6 +104,7 @@
             onclick="student_check()">check</button>
             <script>
                 function student_check(){
+                    var btn=document.getElementById('check_email_button');
                     var email=document.getElementById('Ewha Mail');
                     if(email.value.slice(-11) != "@ewhain.net"){
                         alert("Ewha Mail이 아닙니다! 다시 입력해주세요");
@@ -116,11 +117,17 @@
 
                         var random_num=rand(1000,9999);//랜덤 4자리 수 생성
                         alert(random_num);//랜덤 수 생성 되는지 확인을 위해 임시로
+                        localStorage.setItem('인증번호',random_num);
+
+                        alert("Email로 인증번호를 전송하였습니다!");
                         window.location.href = '/student_check'; //재학생 인증 화면으로 넘어가도록
                     }
+
                 }
             </script>
             <hr><br><br>
+
+        
 
         
         
