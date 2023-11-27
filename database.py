@@ -228,6 +228,13 @@ class DBhandler:
     def insert_review(self, review_id, data, review_img_path, userId):
         current_time = datetime.utcnow().isoformat() + 'Z'
 
+        if 'rating' not in data:
+        # 'rating' 키가 없는 경우에 대한 처리
+        # 여기서는 기본값으로 0을 사용하도록 가정
+            rating_value = 0
+        else:
+            rating_value = data['rating']
+        
         review_info = {
             # 리뷰 form 목록 설정하기
             "userId": userId,
@@ -235,22 +242,17 @@ class DBhandler:
             "review_img_path": review_img_path,
             "review": data['reviewContent'],
             "createdAt": current_time,
-            "rate": data['rating'],
+            "rate": rating_value
         }
 
-        if data['keywordNo'] == "nokeyword":
-            review_info["keywordNo"] = 1
+        keyword_no_value = data.get('keywordNo', 'unchecked')
+            
+        if keyword_no_value == "unchecked":
+            keyword_values = [int(data.get(f'keywordSeller{i}', "0")) for i in range(1, 6)] + [int(data.get(f'keywordItem{i}', "0")) for i in range(1, 4)]
+            review_info["keyword"] = keyword_values
         else:
-            Seller1 = 1 if data['keywordSeller1'] == "1" else 0
-            Seller2 = 1 if data['keywordSeller2'] == "1" else 0
-            Seller3 = 1 if data['keywordSeller3'] == "1" else 0
-            Seller4 = 1 if data['keywordSeller4'] == "1" else 0
-            Seller5 = 1 if data['keywordSeller5'] == "1" else 0
-            Item1 = 1 if data['keywordItem1'] == "1" else 0
-            Item2 = 1 if data['keywordItem2'] == "1" else 0
-            Item3 = 1 if data['keywordItem3'] == "1" else 0
+            review_info["keywordNo"] = 1
 
-            review_info["keyword"] = [Seller1, Seller2, Seller3, Seller4, Seller5, Item1, Item2, Item3]
 
         self.db.child("review").child(review_id).set(review_info)
         return True

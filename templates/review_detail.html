@@ -47,6 +47,13 @@
     for (let i = 0; i < starCount; i++) {
         const starIcon = document.createElement('i');
         starIcon.className = 'fa-solid fa-star fa-sm';
+        starIcon.style.color = '#BF190E'
+        reviewStarContainer.appendChild(starIcon);
+    }
+    for (let i =starCount; i<5; i++){
+        const starIcon = document.createElement('i');
+        starIcon.className = 'fa-solid fa-star fa-sm';
+        starIcon.style.color = '#d9d9d9'
         reviewStarContainer.appendChild(starIcon);
     }
         </script>
@@ -57,15 +64,9 @@
 
     <main>
       <div class="review_img__section">
-        <button id="left" class="btn" type="button" onclick="">
-          <i class="fa-solid fa-chevron-left fa-xl"></i>
-        </button>
         <div class="review_img__box">
           <img src="{{ url_for('static', filename=reviewdata.review_img_path) }}" width="342px" />
         </div>
-        <button id="right" class="btn" type="button" onclick="">
-          <i class="fa-solid fa-chevron-right fa-xl"></i>
-        </button>
       </div>
 
       <div id="simple_review">
@@ -81,14 +82,17 @@
 <script>
     // JavaScript 코드
     document.addEventListener("DOMContentLoaded", function() {
-        var data = data.keyword
+        var data = {{ reviewdata.keyword }}
 
         // 버튼들의 ID 배열
         var buttonIds = ["time", "response", "kind", "come", "give", "condition", "detail", "resonable"];
 
         // 각 버튼을 순회하면서 data.keyword 값을 확인하여 표시 여부 결정
-        for (var i = 0; i < data.keyword.length; i++) {
-            if (data.keyword[i] === 1) {
+        for (var i = 0; i < data.length; i++) {
+            if (data[i] === 0) {
+                document.getElementById(buttonIds[i]).style.display = "none";
+            }
+            else{
                 document.getElementById(buttonIds[i]).style.display = "flex";
             }
         }
