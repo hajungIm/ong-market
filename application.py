@@ -237,7 +237,7 @@ def reg_item_submit_post():
     
     data=request.form 
     DB.insert_item(current_id, data, image_file_path)
-    return render_template("result.html", data=data, img_path="static/images/regItem/{}".format(image_file.filename))
+    return render_template("result.html", data=data, img_path=image_file_path)
 
 @application.route("/find_id")
 def find_id():

@@ -17,7 +17,7 @@
   </head>
   <body>
     <div class="item_detail__img">
-      <img src="{{ img_path }}" alt="item image" />
+      <img src={{ url_for('static', filename=img_path) }} alt="item image" />
     </div>
 
     <!-- <button class="return_btn" type="button" onclick="return_btn()">
