@@ -1,6 +1,5 @@
 const transLocation = document.getElementById("transaction_location");
 const locationValue = transLocation.innerHTML;
-
 let value = "";
 switch (locationValue.trim()) {
   case "ecc":
