@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>상품 상세 화면</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='item_detail.css') }}"
-    />
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>상품 상세 화면</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='item_detail.css') }}" />
 
     <!--아이콘 집어넣기 위한 코드-->
     <script
@@ -36,27 +33,27 @@
       }
     </script>
 
-    <main>
-      <h2 class="title">{{ data.itemName }}</h2>
+        <main>
+            <h2 class="title">{{ data.itemName }}</h2>
 
-      <div class="detail">
-        <div class="use">
-          <span>
-            <i class="fa-solid fa-won-sign fa-lg"></i>
-            <span class="commas_price">{{ data.price }}원</span>
-          </span>
-          <span>
-            <i class="fa-solid fa-square-check fa-lg"></i>
-            {{ data.status }}
-          </span>
-          <span>
-            <i class="fa-sharp fa-solid fa-location-dot fa-lg"></i>
-            {% if data['transaction'] == "대면" %} {{data.location}} {% endif %}
-            {% if data['transaction']== "비대면 (택배, 우편)" %}
-            {{data.transaction}} {% endif %}
-          </span>
-        </div>
-      </div>
+            <div class="detail">
+                <div class="use">
+                    <span>
+                        <i class="fa-solid fa-won-sign fa-lg"></i>
+                        <span class="commas_price">{{ data.price }}원</span>
+                    </span>
+                    <span>
+                        <i class="fa-solid fa-square-check fa-lg"></i>
+                        {{ data.status }}
+                    </span>
+                    <span>
+                        <i class="fa-sharp fa-solid fa-location-dot fa-lg"></i>
+                        {% if data['transaction'] == "대면" %} {{data.location}} {% endif %} {% if
+                        data['transaction']== "비대면 (택배, 우편)" %} {{data.transaction}} {% endif
+                        %}
+                    </span>
+                </div>
+            </div>
 
       <div class="detail_info">
         <div class="detail_info__seller">
@@ -166,6 +163,10 @@
         }
 
         function startChat() {
+          if ('{{ session['id'] }}' == '') {
+            alert("로그인 후 거래 가능합니다!");
+            return;
+          }
           document.getElementById("chatForm").submit();
         }
 

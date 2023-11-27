@@ -123,6 +123,13 @@ class DBhandler:
             return item.val()
         else:
             return None
+    
+    def find_location(self, locationId):
+        location_data = self.db.child("location").child(locationId).get()
+        if location_data.val():
+            return location_data.val()
+        else:
+            return None
 
     def get_chat_room(self, item_data, seller_id, seller_img, buyer_id, buyer_img):
         chat_room_id = f"{seller_id}_{buyer_id}_{item_data['itemId']}"
@@ -141,7 +148,9 @@ class DBhandler:
                 "imgPath": item_data.get('img_path', 'no_image.png'),
                 "messages": [],
                 "lastMessageText": "",
-                "lastTimestamp": ""
+                "lastTimestamp": "",
+                "transaction": item_data.get('transaction'),
+                "location": item_data.get('location')
             }
             self.db.child("chats").child(chat_room_id).set(chat_room_info)
             chat_room = chat_room_info
