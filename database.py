@@ -235,14 +235,27 @@ class DBhandler:
             "review_img_path": review_img_path,
             "review": data['reviewContent'],
             "createdAt": current_time,
-            "rate": data['rating']
+            "rate": data['rating'],
         }
         
-        # if data['transaction'] == "대면":
-        #     review_info["rating"] = data['location']
+         keyword_no = 1 if data['keywordNo'] == "1" else 0
+    
+        if keyword_no == 1 :
+            item_info["keywordNo"] = 1
+        else
+            time = 1 if data['keywordNo'] == "1" else 0
+            time = 1 if data['keywordNo'] == "1" else 0
+            time = 1 if data['keywordNo'] == "1" else 0
+            time = 1 if data['keywordNo'] == "1" else 0
+            time = 1 if data['keywordNo'] == "1" else 0
+            time = 1 if data['keywordNo'] == "1" else 0
+            time = 1 if data['keywordNo'] == "1" else 0
+            time = 1 if data['keywordNo'] == "1" else 0
+            time = 1 if data['keywordNo'] == "1" else 0
+
+
+            item_info["keyword"] = {,,,,,,}
             
-        # if data['transaction'] == "대면":
-        #     review_info["keyword"] = data['location']
             
         self.db.child("review").child(review_id).set(review_info)
         return True
