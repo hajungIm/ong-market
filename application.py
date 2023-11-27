@@ -130,7 +130,11 @@ def view_list():
 
     page_count = math.ceil(item_counts / per_page)
 
-    return render_template("list.html", datas=data_slice, rows=rows, page=page, page_count=page_count, total=item_counts)
+    #찜한 목록 FE로 넘기기
+    user_id = session.get('id')
+    like_items = DB.get_like_items(user_id)
+
+    return render_template("list.html", datas=data_slice, rows=rows, page=page, page_count=page_count, total=item_counts, like_items = like_items)
 
 @application.route("/review_list")
 def review_list():
@@ -337,8 +341,12 @@ def item_detail(itemId):
     
     item_data_json = escape(json.dumps(item))
     item_json = json.dumps(item)
+
+
+    like_items = DB.get_like_items(user_id)
+    like_items = sorted(like_items, key=lambda x: x['createdAt'], reverse=True)
     
-    return render_template("item_detail.html", data=item, item_data_json=item_data_json, userId=user_id)
+    return render_template("item_detail.html", data=item, item_data_json=item_data_json, userId=user_id, like_items=like_items)
 
 @application.route("/review_detail")
 def review_detail():
@@ -383,7 +391,12 @@ def update_like(item_id):
     item = DB.find_item_by_id(item_id)
     DB.update_like_to_item(item, flag)
     DB.update_like_to_user(user_id, item, flag)
-    return jsonify({"status": "success", "message": "like update complete"})
+    if(flag==1):
+        return jsonify({"status": "success", "message": "like plus update complete"})
+    
+    if(flag==-1):
+        return jsonify({"status": "success", "message": "like minus update complete"})
+    
 
 @application.route("/user_Page")
 def userPage():

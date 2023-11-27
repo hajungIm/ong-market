@@ -14,6 +14,10 @@
       src="https://kit.fontawesome.com/a1969e7b61.js"
       crossorigin="anonymous"
     ></script>
+    <script>
+      const likeItems = {{like_items|tojson|safe }};
+      const likeItemIds = likeItems.map((item) => item.itemId);
+    </script>
   </head>
   <body>
     <div class="item_detail__img">
@@ -70,25 +74,53 @@
     </main>
       
     <div class="item_detail__button item_box1_like">
-      <!--bookmark action을 일괄 적용위한 클래스 명 설정-->
-      <button class="bookmark_btn" id="bookmark_btn" type="button">
-        <i class="fa-regular fa-bookmark fa-xl"></i>
-      </button>
+      <div class="like_icon_box">
+        <!--bookmark action을 일괄 적용위한 클래스 명 설정-->
+        <button class="bookmark_btn" id="bookmark_btn" type="button">
+          <i class="fa-regular fa-bookmark fa-xl"></i>
+        </button>
+      </div>
       <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const itemId = {{ data.itemId }};
+          const bookmarkIcon = document.querySelector(
+                ".item_box1_like .fa-bookmark"
+           );
+          if (likeItemIds.includes(itemId)) {
+            bookmarkIcon.classList.remove("fa-regular");
+            bookmarkIcon.classList.add("fa-solid");
+            bookmarkIcon.style.color = "#242424";
+          }
+        });
+      </script>
+      <script>
+        //---------찜하기 업데이트를 위한 코드----------//
         document
           .getElementById("bookmark_btn")
           .addEventListener("click", function () {
+            console.log("click");
             var itemId = "{{ data.itemId }}";
-            var flag = 1; // 좋아요를 증가시키려면 1, 감소시키려면 -1로 설정
+            let flag; // 좋아요를 증가시키려면 1, 감소시키려면 -1로 설정
+            if (
+              document
+                .getElementsByClassName("fa-bookmark")[0]
+                .classList.contains("fa-solid")
+            ) {
+              flag = -1;
+            } else {
+              flag = 1;
+            }
+            console.log(flag);
 
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "/like/" + itemId, true);
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.onload = function () {
               if (xhr.status === 200) {
-                console.log("찜하기 업데이트 성공");
+                var response = JSON.parse(xhr.responseText);
+                console.log("찜하기 업데이트 성공: " + response.message);
               } else {
-                alert("오류가 발생했습니다:", xhr.status);
+                alert("오류가 발생했습니다: " + xhr.status);
               }
             };
             xhr.send(JSON.stringify({ itemId: itemId, flag: flag }));
