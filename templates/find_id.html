@@ -20,28 +20,36 @@
     <form method="post" action="">
         <br><br>
         <h4>Ewha Email</h4>
-        <input id="Ewha Mail" type="text" name="Ewha Mail" style="border:none;" required>
+        <input id="ewhaMail" type="text" name="Ewha Mail" style="border:none;" required>
         <br><hr><br><br>
     
 
-    <button id="find_id_button" type="submit" onclick="find_id()"><b>Id 찾기</b></button>
-    <!-- <script>
+    <button id="find_id_button" type="button" onclick="find_id()"><b>Id 찾기</b></button>
+    <script>
         function find_id(){
-            var email=document.getElementById("Ewha Mail");
-
-            /*기능 확인을 위해 임의로 정한 if문*/
-            /*id 찾기 성공*/
-            if(email.value=="ewha@ewhain.net"){
-                alert("성공");
-                window.location.href="find_id_success.html"
-            }
-            /*id 찾기 실패*/
-            else{
-                alert("fail");
-                window.location.href="find_id_fail.html"
-            }
+            var email=document.getElementById("ewhaMail").value;
+            
+            fetch('/find_id', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: email }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = "/find_id_success"
+                } else {
+                    window.location.href = "find_id_fail";
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert("오류가 발생했습니다.");
+            });
         }
-    </script> -->
+    </script>
     </form>
     <p><a id="회원가입" href="/mem_register"><b>회원가입</b></a></p>
     </div>

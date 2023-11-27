@@ -10,9 +10,9 @@
     />
   </head>
   <body>
-    <header class="base_header base_header__back">
+    <header class="base_header">
       <a href="#" class="base_header__icon">
-        <!--뒤로 가기 링크 추후 수정 필요(dm창으로 이동해야 함)-->
+        <!--뒤로 가기 링크 추후 수정 필요(dm창으로 이동해야 함) 완.-->
         <i class="fa-solid fa-chevron-left fa-xl" style="color: #242424"></i>
       </a>
       <div>
@@ -27,20 +27,21 @@
       <div class="review_img__box">
         <img
           class="review_item__img"
-          src="static/images/item1_image.jpeg"
+          src="{{ url_for('static', filename=data.img_path) }}"
           alt="상품 이미지"
         />
       </div>
       <div class="review_item__content">
-        <p class="review_item__title">원형 테이블</p>
-        <p class="review_item__price">15,000원</p>
+        <p class="review_item__title">{{ data.itemName }}</p>
+        <p class="review_item__price">{{ data.price }}원</p>
       </div>
     </div>
 
     <form
       class="reg_review_form reg_item_form"
-      action="/submit_review_post"
+      action="/submit_review_post/{{data.itemId}}"
       method="post"
+        enctype="multipart/form-data"
     >
       <div class="reg_review_form_section">
         <p class="reg_item-form__label">거래가 어떠셨나요?</p>
@@ -48,8 +49,9 @@
           <input
             class="checkbox_hidden checkbox_rate"
             type="checkbox"
-            name="rating1"
+            name="rating"
             id="star1"
+            value="1"
           />
           <label for="star1" class="star"
             ><i
@@ -60,8 +62,9 @@
           <input
             class="checkbox_hidden checkbox_rate"
             type="checkbox"
-            name="rating2"
+            name="rating"
             id="star2"
+            value="2"
           />
           <label for="star2" class="star"
             ><i
@@ -72,8 +75,9 @@
           <input
             class="checkbox_hidden checkbox_rate"
             type="checkbox"
-            name="rating3"
+            name="rating"
             id="star3"
+            value="3"
           />
           <label for="star3" class="star"
             ><i
@@ -84,8 +88,9 @@
           <input
             class="checkbox_hidden checkbox_rate"
             type="checkbox"
-            name="rating4"
+            name="rating"
             id="star4"
+            value="4"
           />
           <label for="star4" class="star"
             ><i
@@ -96,8 +101,9 @@
           <input
             class="checkbox_hidden checkbox_rate"
             type="checkbox"
-            name="rating5"
+            name="rating"
             id="star5"
+            value="5"
           />
           <label for="star5" class="star"
             ><i
@@ -229,24 +235,111 @@
           readonly
         />
       </div>
-
+        
       <div class="reg_item_form__section">
-        <label class="upload-container" for="review_imgInput">
-          <div class="upload-container__icon">
-            <i class="fas fa-camera fa-2x"></i>
-          </div>
-          <p class="upload-container__cnt">0/10</p>
-        </label>
-        <input
-          class="input-hidden"
-          id="review_imgInput"
-          type="file"
-          name="reveiwItemImg"
-          accept="image/*"
-          multiple
-        />
+        <div>
+          <label class="upload-container" for="review_imgInput">
+            <div class="upload-container__icon">
+              <i class="fas fa-camera fa-2x"></i>
+            </div>
+            <p class="upload-container__cnt" style="margin-left: 18px">
+              제품 사진
+            </p>
+          </label>
+          <input
+            class="input-hidden"
+            id="review_imgInput"
+            type="file"
+            name="itemImg"
+            accept="image/*"
+            onchange="setThumbnail(event);"
+          />
+          <div id="image_container"></div>
+        </div>
+
+        <style>
+          .upload-container {
+            display: inline-block;
+            vertical-align: top;
+            margin-bottom: 10px; /* 간격 조절 */
+          }
+
+          #image_container {
+            display: inline-block;
+            vertical-align: top;
+            margin-left: 20px;
+          }
+
+          #image_container img {
+            width: 100px;
+            height: 100px; /*사진크기 100px*/
+            object-fit: cover;
+          }
+
+          .upload-container__icon {
+            display: flex;
+            align-items: center;
+            margin-left: 30px;
+            margin-top: 20px;
+          }
+
+          .input-hidden {
+            display: none; /* 기본 파일 선택 input 숨김 */
+          }
+        </style>
+        <script>
+          function setThumbnail(event) {
+            var reader = new FileReader();
+
+            reader.onload = function (event) {
+              var imgContainer = document.querySelector("div#image_container");
+
+              // 기존 이미지 삭제
+              while (imgContainer.firstChild) {
+                imgContainer.removeChild(imgContainer.firstChild);
+              }
+
+              // 새로운 이미지 추가
+              var img = document.createElement("img");
+              img.setAttribute("src", event.target.result);
+              imgContainer.appendChild(img);
+            };
+
+            reader.readAsDataURL(event.target.files[0]);
+          }
+        </script>
       </div>
+      <!-- 사진 변경 가능하도록 수정-->
+
       <div id="imagePreviews"></div>
+      <div class="enroll_container">
+        <button class="enroll_btn" id="submit_btn" type="submit">
+          등록하기
+        </button>
+      </div>
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          // Function to handle form submission
+          function handleSubmit(event) {
+            // Get the value of the description textarea
+            var descriptionValue = document.getElementById("description").value;
+
+            // Check if the length is less than 10
+            if (descriptionValue.length < 10) {
+              // Display a warning message
+              alert("상품 설명은 10자 이상이어야 합니다.");
+              // Prevent the form submission
+              event.preventDefault();
+            }
+            // Otherwise, the form will be submitted as usual
+          }
+
+          // Attach the handleSubmit function to the form's submit event
+          document
+            .getElementById("submit_btn")
+            .addEventListener("click", handleSubmit);
+        });
+      </script>
 
       <div class="reg_item_form__section">
         <label class="reg_item-form__label" for="reveiw_content"
@@ -274,5 +367,5 @@
     crossorigin="anonymous"
   ></script>
   <script src="../static/components/img_btn.js"></script>
-  <script src="../static/components/base_header.js"></script>
+  <!-- <script src="../static/components/base_header.js"></script> -->
 </html>

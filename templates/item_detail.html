@@ -6,22 +6,32 @@
         <title>상품 상세 화면</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='item_detail.css') }}" />
 
-        <!--아이콘 집어넣기 위한 코드-->
-        <script src="https://kit.fontawesome.com/a1969e7b61.js" crossorigin="anonymous"></script>
-    </head>
-    <body>
-        <div class="item_detail__img">
-            <img src="{{ url_for('static', filename=data.img_path) }}" alt="item image" />
-        </div>
-        <button class="return_btn" type="button" onclick="return_btn()">
-            <i class="fa-solid fa-chevron-left"></i>
-        </button>
-        <!--뒤로 가기 버튼 함수-->
-        <script>
-            function return_btn() {
-                window.history.go(-1);
-            }
-        </script>
+    <!--아이콘 집어넣기 위한 코드-->
+    <script
+      src="https://kit.fontawesome.com/a1969e7b61.js"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      const likeItems = {{like_items|tojson|safe }};
+      const likeItemIds = likeItems.map((item) => item.itemId);
+    </script>
+  </head>
+  <body>
+    <div class="item_detail__img">
+      <img
+        src="{{ url_for('static', filename=data.img_path) }}"
+        alt="item image"
+      />
+    </div>
+    <button class="return_btn" type="button" onclick="return_btn()">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <!--뒤로 가기 버튼 함수-->
+    <script>
+      function return_btn() {
+        location.href = document.referrer; //뒤로가기 + 새로고침
+      }
+    </script>
 
         <main>
             <h2 class="title">{{ data.itemName }}</h2>
@@ -45,66 +55,129 @@
                 </div>
             </div>
 
-            <div class="detail_info">
-                <div class="detail_info__seller">
-                    <span>ID :</span>
-                    <span class="seller_id">{{ data.userId }}</span>
-                    <span class="seller_rank">
-                        학점
-                        <span class="rank_eng">{{ data.seller_rank }}</span>
-                    </span>
-                </div>
-                <p class="detail_info__date item_reg_date">{{ data.createdAt }}</p>
-                <!-- 줄바꿈 적용을 위해 pre 태그 사용 -->
-                <pre class="detail_info__item">{{ data.description }}</pre>
-            </div>
-        </main>
-
-        <div class="item_detail__button item_box1_like">
-            <!--bookmark action을 일괄 적용위한 클래스 명 설정-->
-            <button class="bookmark_btn" id="bookmark_btn" type="button">
-                <i class="fa-regular fa-bookmark fa-xl"></i>
-            </button>
-            <script>
-                document.getElementById('bookmark_btn').addEventListener('click', function () {
-                    var itemId = '{{ data.itemId }}';
-                    var flag = 1; // 좋아요를 증가시키려면 1, 감소시키려면 -1로 설정
-
-                    var xhr = new XMLHttpRequest();
-                    xhr.open('POST', '/like/' + itemId, true);
-                    xhr.setRequestHeader('Content-Type', 'application/json');
-                    xhr.onload = function () {
-                        if (xhr.status === 200) {
-                            console.log('찜하기 업데이트 성공');
-                        } else {
-                            alert('오류가 발생했습니다:', xhr.status);
-                        }
-                    };
-                    xhr.send(JSON.stringify({ itemId: itemId, flag: flag }));
-                });
-            </script>
-            <!-- DM을 위한 POST input-->
-            <form id="chatForm" action="/dm_to_seller" method="POST" style="display: none;">
-                <input type="hidden" name="sellerId" value="{{ data.userId }}" />
-                <input type="hidden" name="buyerId" value="{{ session['id'] }}" />
-                <input type="hidden" name="itemData" value="{{ item_data_json }}" />
-            </form>
-            <button class="dm_btn" type="button" onclick="startChat()">
-                채팅하기
-            </button>
-            <script>
-                function startChat() {
-                    if ('{{ session['id'] }}' == '') {
-                        alert("로그인 후 거래 가능합니다!");
-                        return;
-                    }
-                  document.getElementById("chatForm").submit();
-                }
-            </script>
+      <div class="detail_info">
+        <div class="detail_info__seller">
+          <span>ID :</span>
+          <span class="seller_id">{{ data.userId }}</span>
+          <span class="seller_rank">
+            학점
+            <span class="rank_eng">{{ data.seller_rank }}</span>
+          </span>
         </div>
-    </body>
-    <script src="../static/components/simple_like_press.js"></script>
-    <script src="../static/components/base_header.js"></script>
-    <script src="../static/components/commas_to_price.js"></script>
-    <script src="../static/components/calcDate.js"></script>
+        <p class="detail_info__date item_reg_date">{{ data.createdAt }}</p>
+        <!-- 줄바꿈 필요한 부분에 line_break 클래스 명 추가 & applyLineBreak.js 스크립트 추가하기 -->
+        <p class="detail_info__item line_break">{{ data.description }}</p>
+      </div>
+    </main>
+      
+    <div class="item_detail__button item_box1_like">
+      <div class="like_icon_box">
+        <!--bookmark action을 일괄 적용위한 클래스 명 설정-->
+        <button class="bookmark_btn" id="bookmark_btn" type="button">
+          <i class="fa-regular fa-bookmark fa-xl"></i>
+        </button>
+      </div>
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const itemId = {{ data.itemId }};
+          const bookmarkIcon = document.querySelector(
+                ".item_box1_like .fa-bookmark"
+           );
+          if (likeItemIds.includes(itemId)) {
+            bookmarkIcon.classList.remove("fa-regular");
+            bookmarkIcon.classList.add("fa-solid");
+            bookmarkIcon.style.color = "#242424";
+          }
+        });
+      </script>
+      <script>
+        //---------찜하기 업데이트를 위한 코드----------//
+        document
+          .getElementById("bookmark_btn")
+          .addEventListener("click", function () {
+            console.log("click");
+            var itemId = "{{ data.itemId }}";
+            let flag; // 좋아요를 증가시키려면 1, 감소시키려면 -1로 설정
+            if (
+              document
+                .getElementsByClassName("fa-bookmark")[0]
+                .classList.contains("fa-solid")
+            ) {
+              flag = -1;
+            } else {
+              flag = 1;
+            }
+            console.log(flag);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/like/" + itemId, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onload = function () {
+              if (xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                console.log("찜하기 업데이트 성공: " + response.message);
+              } else {
+                alert("오류가 발생했습니다: " + xhr.status);
+              }
+            };
+            xhr.send(JSON.stringify({ itemId: itemId, flag: flag }));
+          });
+      </script>
+      <!-- DM을 위한 POST input-->
+      <form
+        id="chatForm"
+        action="/dm_to_seller"
+        method="POST"
+        style="display: none"
+      >
+        <input type="hidden" name="sellerId" value="{{ data.userId }}" />
+        <input type="hidden" name="buyerId" value="{{ session['id'] }}" />
+        <input type="hidden" name="itemData" value="{{ item_data_json }}" />
+      </form>
+      <button id="dm_btn" class="dm_btn" type="button">채팅하기</button>
+      <script>
+        const dmButton = document.getElementById("dm_btn");
+        //문서가 로드될때 상품이 내 아이템인지 아닌지 확인
+        document.addEventListener("DOMContentLoaded", isMyItem);
+
+        dmButton.addEventListener("click", () => {
+          if (dmButton.innerHTML === "채팅하기") {
+            startChat();
+          } else {
+            moveToChattinglist();
+          }
+        });
+
+        function isMyItem() {
+          // 여기에 현재 로그인한 사용자 ID를 가져온다.
+          var currentUserID = "{{ userId }}";
+          console.log(currentUserID);
+          //item_detail 페이지에서 가져온 상품의 등록자 ID를 가져온다.
+          var itemUserID = "{{data.userId}}";
+          console.log(itemUserID);
+
+          if (currentUserID === itemUserID) {
+            console.log("같음");
+            dmButton.innerHTML = "채팅 목록으로 이동하기";
+          }
+        }
+
+        function startChat() {
+          if ('{{ session['id'] }}' == '') {
+            alert("로그인 후 거래 가능합니다!");
+            return;
+          }
+          document.getElementById("chatForm").submit();
+        }
+
+        function moveToChattinglist() {
+          window.location.href = "/chatting_list";
+        }
+      </script>
+    </div>
+  </body>
+  <script src="../static/components/simple_like_press.js"></script>
+  <script src="../static/components/commas_to_price.js"></script>
+  <script src="../static/components/calcDate.js"></script>
+  <script src="../static/components/applyLineBreak.js"></script>
 </html>

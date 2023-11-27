@@ -1,64 +1,82 @@
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>채팅 목록</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='chatting_list_style.css') }}" />
-    </head>
-    <body>
-        <header class="base_header">
-            <div class="base_header__icon">
-                <!--레이아웃 배치용-->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>채팅 목록</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='chatting_list_style.css') }}"
+    />
+  </head>
+  <body>
+    <header class="base_header">
+      <div class="base_header__icon">
+        <!--레이아웃 배치용-->
+      </div>
+      <div>
+        <h2 class="base_header__title">채팅</h2>
+      </div>
+      <div class="base_header__icon">
+        <!--레이아웃 배치용-->
+      </div>
+    </header>
+    <main class="list_page_box">
+      {% for chat_room in chat_rooms %}
+      <a
+        href="{{ url_for('chat_room_page', chat_room_id=chat_room.chatRoomId) }}"
+      >
+        <div class="item_box1">
+          <div class="item_selection">
+            <div
+              class="item_box1__img"
+              style="border-radius: 9999px; width: 80px; height: 80px"
+            >
+              <img
+                src="{% if chat_room.sellerId != session['id'] %}{{ url_for('static', filename=chat_room.sellerImg) }}{% else %}{{ url_for('static', filename=chat_room.buyerImg) }}{% endif %}"
+                alt="profile"
+              />
             </div>
-            <div>
-                <h2 class="base_header__title">채팅</h2>
-            </div>
-            <div class="base_header__icon">
-                <!--레이아웃 배치용-->
-            </div>
-        </header>
-        <main class="list_page_box">
-            {% for chat_room in chat_rooms %}
-            <a href="{{ url_for('chat_room_page', chat_room_id=chat_room.chatRoomId) }}">
-                <div class="item_box1">
-                    <div class="item_selection">
-                        <!-- 프로필 이미지 (예시로 static images 사용) -->
-                        <div
-                            class="item_box1__img"
-                            style="border-radius: 9999px; width: 50px; height: 50px;"
-                        >
-                            <img src="{% if chat_room.sellerId != session['id'] %}{{ url_for('static', filename=chat_room.sellerImg) }}{% else %}{{ url_for('static', filename=chat_room.buyerImg) }}{% endif %}"  
-                                 alt="profile" />
-                        </div>
 
-                        <!-- 채팅 정보 -->
-                        <div class="item_box1__info">
-                            <div class="item_box1__upload" style="margin-bottom: 5px;">
-                                {% if chat_room.sellerId != session['id'] %}
-                                <p class="item_box1__seller">{{ chat_room.sellerId }}</p>
-                                {% else %}
-                                <p class="item_box1__seller">{{ chat_room.buyerId }}</p>
-                                {% endif %}
-                                <p class="item_box1__date">{{ chat_room.lastTimestamp }}</p>
-                            </div>
-                            <!-- 마지막 메시지 텍스트 -->
-                            <p style="color: #242424; font-size: 14px;">
-                                {{ chat_room.lastMessageText }}
-                            </p>
-                        </div>
-                    </div>
+            <!-- 채팅 정보 -->
+            <div class="item_box1__info">
+              <div class="item_box1__upload" style="margin-bottom: 5px">
+                {% if chat_room.sellerId != session['id'] %}
+                <p class="item_box1__seller">{{ chat_room.sellerId }}</p>
+                {% else %}
+                <p class="item_box1__seller">{{ chat_room.buyerId }}</p>
+                {% endif %}
+                <p class="item_box1__date chat timeformat">
+                  {{ chat_room.lastTimestamp }}
+                </p>
+              </div>
+              <!-- 마지막 메시지 텍스트 -->
+              <p class="last_message maxLength">
+                {{ chat_room.lastMessageText }}
+              </p>
+            </div>
+          </div>
 
-                    <!-- 채팅방의 상품 이미지 (예시로 static images 사용) -->
-                    <div class="item_box1__img" style="width: 50px; height: 50px; display: flex;">
-                        <img src="{{ url_for('static', filename=chat_room.imgPath) }}" alt="item image" />
-                    </div>
-                </div>
-            </a>
-            {% endfor %}
-        </main>
-        {% include 'nav_bar.html' %}
-    </body>
-    <script src="https://kit.fontawesome.com/afee348a73.js" crossorigin="anonymous"></script>
-    <script src="../static/screens/list.js"></script>
-    <script src="../static/components/like_press.js"></script>
+          <!-- 채팅방의 상품 이미지 (예시로 static images 사용) -->
+          <div
+            class="item_box1__img"
+            style="width: 90px; height: 90px; display: flex"
+          >
+            <img
+              src="{{ url_for('static', filename=chat_room.imgPath) }}"
+              alt="item image"
+            />
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </main>
+    {% include 'nav_bar.html' %}
+  </body>
+  <script
+    src="https://kit.fontawesome.com/afee348a73.js"
+    crossorigin="anonymous"
+  ></script>
+  <script src="../static/components/like_press.js"></script>
+  <script src="../static/components/timestamp.js"></script>
+  <script src="../static/components/textMaxLength.js"></script>
 </html>

@@ -25,13 +25,60 @@
     </form>
 
     <!--타이머 만들어야함-->
-   <p style="padding-left: 140px;">
-        00:00<button class="retx_button" id="retx_button" type="button" onclick="" style="margin: 0 0 0 30px;">재전송</button>
-    </p>
+    <div style="padding-left: 140px;">
+        <div style="width:30%; text-align: center;" id="timer">01:00</div>
+        <button class="retx_button" id="retx_button" type="button" onclick="" style="margin-left:100px; margin-top: -50px; display: inline;">재전송</button>
+    </div>
+    <script>
+        // 시작 시간 (3분)
+        let remainingTime = 1 * 60;
+      
+        // 타이머 업데이트 함수
+        function updateTimer() {
+          const minutes = Math.floor(remainingTime / 60);
+          const seconds = remainingTime % 60;
+      
+          // 시간을 두 자리로 표시하기 위해 0을 추가
+          const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      
+          // 타이머 업데이트
+          document.getElementById('timer').innerText = formattedTime;
+      
+          // 남은 시간이 0보다 크면 1초 감소
+          if (remainingTime > 0) {
+            remainingTime--;
+          } else {
+            // 타이머 종료 시 처리 (예: 메시지 표시 등)
+            clearInterval(timerInterval);
+            alert('인증 시간 종료!');
+          }
+        }
+      
+        // 1초마다 타이머 업데이트 함수 호출
+        const timerInterval = setInterval(updateTimer, 1000);
+      </script>
+      
+
     
 
     <br><br>
-    <button id="check_button" type="submit" onclick=""><b>인증하기</b></button>
+    <button id="check_button" type="submit" onclick="check_num()"><b>인증하기</b></button>
+    <script>
+        function check_num(){
+            if(localStorage.getItem('validateNum')){
+            var validateNum = localStorage.getItem('validateNum');
+            }
+            var input_num=document.getElementById("number");
+            
+            if(input_num.value!=num){
+                alert("인증번호가 틀립니다!");
+            }
+            else{
+                alert("인증 완료!");
+                window.history.go(-1)
+            }
+        }
+    </script>
     
     <button id="cancel_button" onclick="cancel()"><b>cancel</b></button>
     <script>
@@ -43,5 +90,27 @@
     </div>
     </div>
     <br><br><br>
+    
+    <script>
+        function sendEmail() {
+            var validateNum = localStorage.getItem('validateNum');
+            var email = localStorage.getItem('email');
+            
+            fetch('/send_email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({validateNum: validateNum, email: email}),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
 </body>
 </html>

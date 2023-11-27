@@ -17,7 +17,7 @@
   </head>
   <body>
     <div class="item_detail__img">
-      <img src="{{img_path}}" alt="item image" />
+      <img src={{ url_for('static', filename=img_path) }} alt="item image" />
     </div>
 
     <!-- <button class="return_btn" type="button" onclick="return_btn()">
@@ -60,44 +60,8 @@
             <span class="rank_eng">{{ data.seller_rank }}</span>
           </span>
         </div>
-        <p class="detail_info__date">{{ data.createdAt }}</p>
-        <script>
-          document.addEventListener("DOMContentLoaded", function () {
-            var dateElements = document.querySelectorAll(".detail_info__date");
-            dateElements.forEach(function (elem) {
-              // HTML 요소에서 날짜 문자열 읽기
-              var dateString = elem.textContent;
-
-              // 날짜 문자열 파싱
-              var dateParts = dateString.split("T");
-              var date = dateParts[0].split("-");
-              var time = dateParts[1].split(":");
-              var seconds = time[2].split(".");
-
-              // Date 객체 생성
-              var createdAt = new Date(
-                Date.UTC(
-                  parseInt(date[0]), // 년
-                  parseInt(date[1]) - 1, // 월 (0부터 시작)
-                  parseInt(date[2]), // 일
-                  parseInt(time[0]), // 시
-                  parseInt(time[1]), // 분
-                  parseInt(seconds[0]) // 초
-                )
-              );
-
-              // 현재 시간과의 차이 계산
-              var now = new Date();
-              var timeDiff = now.getTime() - createdAt.getTime();
-
-              // 차이를 일 단위로 변환
-              var daysAgo = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-
-              elem.textContent = daysAgo + "일 전";
-            });
-          });
-        </script>
-        <pre class="detail_info__item">{{data.description}}</pre>
+        <p class="detail_info__date item_reg_date">{{ data.createdAt }}</p>
+        <p class="detail_info__item line_break">{{data.description}}</p>
       </div>
     </main>
 
@@ -114,4 +78,6 @@
   <script src="../static/components/simple_like_press.js"></script>
   <script src="../static/components/base_header.js"></script>
   <script src="../static/components/commas_to_price.js"></script>
+  <script src="../static/components/applyLineBreak.js"></script>
+  <script src="../satic/components/calcDate.js"></script>
 </html>

@@ -17,16 +17,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 두 날짜의 차이 계산
     const timeDiff = currentDate - userDate;
-    const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+    const secondsDiff = Math.floor(timeDiff / 1000);
+    const minutesDiff = Math.floor(secondsDiff / 60);
+    const hoursDiff = Math.floor(minutesDiff / 60);
+    const daysDiff = Math.floor(hoursDiff / 24);
+    const weeksDiff = Math.floor(daysDiff / 7);
+    const monthsDiff = Math.floor(daysDiff / 30);
+    const yearsDiff = Math.floor(daysDiff / 365);
 
-    // '며칠 전'을 표시
+    // 결과를 HTML 요소에 적용
     let displayText = "";
-    if (daysDiff === 0) {
-      displayText = "오늘";
-    } else if (daysDiff === 1) {
-      displayText = "1일 전";
-    } else {
+    if (secondsDiff < 60) {
+      displayText = `${secondsDiff}초 전`;
+    } else if (minutesDiff < 60) {
+      displayText = `${minutesDiff}분 전`;
+    } else if (hoursDiff < 24) {
+      displayText = `${hoursDiff}시간 전`;
+    } else if (daysDiff < 7) {
       displayText = `${daysDiff}일 전`;
+    } else if (weeksDiff < 4) {
+      displayText = `${weeksDiff}주 전`;
+    } else if (monthsDiff < 12) {
+      displayText = `${monthsDiff}달 전`;
+    } else {
+      displayText = `${yearsDiff}년 전 이상`;
     }
 
     // 결과를 HTML 요소에 적용
