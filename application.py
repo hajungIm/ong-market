@@ -68,7 +68,24 @@ def send_email_function(content, receiver_email):
     message["To"] = receiver_email
     message["Subject"] = "ong market service email"
     
-    message.attach(MIMEText(content, "plain"))
+    email_body = f"""
+    <html>
+        <body>
+            <div style="font-family: Arial, sans-serif; font-size: 14px;">
+                <p>옹 마켓 가입 인증번호는</p>
+                <h1><i>{content}</i></h1>
+                <p>입니다.</p>
+                <br>
+                <p>감사합니다.</p>
+                <p>Ong-market Service Team</p>
+            </div>
+        </body>
+    </html>
+    """
+
+    # HTML 본문을 MIMEText 객체로 생성
+    body = MIMEText(email_body, "html")
+    message.attach(body)
     
     with smtplib.SMTP("smtp.gmail.com", 587) as server:
         server.starttls()
