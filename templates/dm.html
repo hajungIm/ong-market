@@ -110,30 +110,23 @@
                 </script>
             </form>
             <div class="dm_function" id="dm_function__menu">
-                <div class="dm_function__icon">
-                    <div class="dm_icon__box" id="dm_function_emoji">
-                        <i class="fa-regular fa-face-smile"></i>
-                    </div>
-                    <span>이모티콘</span>
-                </div>
-                <div class="dm_function__icon">
-                    <div class="dm_icon__box" id="dm_function_img">
-                        <i class="fa-regular fa-image"></i>
-                    </div>
-                    <span>사진</span>
-                </div>
-                <div class="dm_function__icon">
-                    <div class="dm_icon__box" id="dm_function_camera">
-                        <i class="fa-solid fa-camera"></i>
-                    </div>
-                    <span>카메라</span>
-                </div>
-                <div class="dm_function__icon">
+                <div class="dm_function__icon" id="placeButton">
                     <div class="dm_icon__box" id="dm_function_place">
                         <i class="fa-solid fa-location-dot"></i>
                     </div>
-                    <span>장소</span>
+                    <span>거래 장소 보기</span>
                 </div>
+                <script>
+                    document.getElementById('placeButton').addEventListener('click', function () {
+                        if ('{{ chat_room.transaction }}' == '대면') {
+                            var locationId = '{{ chat_room.location }}';
+                            window.location.href = '/map?locationId=' + encodeURIComponent(locationId);
+                        } else {
+                            alert('비대면 (택배, 우편) 거래입니다!');
+                        }
+                    });
+                </script>
+
                 {% if session['id'] == chat_room.sellerId %}
                 <div class="dm_function__icon">
                     <div class="dm_icon__box" id="dm_function_complete">

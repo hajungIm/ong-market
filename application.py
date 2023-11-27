@@ -187,6 +187,11 @@ def reg_item_submit():
     print(createdAt, userId, itemName, price, status, description, transaction, location)
     return render_template("")
 
+@application.route("/map")
+def map():
+    location_id = request.args.get('locationId')
+    data = DB.find_location(location_id)
+    return render_template("map.html", data=data)
 
 #사용자가 등록한 상품 이미지는 images 폴더 아래에 있는 regItem에 들어가도록 경로 설정
 @application.route("/reg_item_post", methods=['POST'])
@@ -389,10 +394,6 @@ def error404():
 @application.route("/error500")
 def error500():
     return render_template("error_500.html")
-
-@application.route("/map")
-def map():
-    return render_template("map.html")
 
 if __name__ == "__main__":
     application.run(host='0.0.0.0', debug=True)
