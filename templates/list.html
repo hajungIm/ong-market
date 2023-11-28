@@ -1,51 +1,41 @@
 <!DOCTYPE html>
 <html lang="kr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
-    <title>상품 전체 조회</title>
-    <script>
-      const likeItems = {{like_items|tojson|safe }};
-      const likeItemIds = likeItems.map((item) => item.itemId);
-    </script>
-  </head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+        <title>상품 전체 조회</title>
+        <script>
+            const likeItems = {{like_items|tojson|safe }};
+            const likeItemIds = likeItems.map((item) => item.itemId);
+        </script>
+    </head>
 
-  <body>
-    <header class="base_header">
-      <div class="item_option">
-        <button class="item_option__btn" id="item_option_btn">
-          <i class="fa-solid fa-check" style="color: #ffffff"></i>
-          <p>대면</p>
-        </button>
-
+    <body>
+        <header class="base_header">
+            <div class="item_option">
+                <button class="item_option__btn" id="item_option_btn">
+                    <i class="fa-solid fa-check" style="color: #ffffff;"></i>
+                    <p>대면</p>
+                </button>
         <select
           class="item_option__select"
           id="select_place"
           name="select_place"
         >
           <option value="all" selected>모두</option>
-          <option value="ecc">ECC</option>
-          <option value="asan">
-            아산공학관
-          </option>
-          <option value="newEng">
-            신공학관
-          </option>
-          <option value="edu">교육관</option>
-          <option value="eHouse">
-            기숙사(E-house, 한우리)
-          </option>
-          <option value="iHouse">기숙사(I-house)</option>
-          <option value="mainGate">정문</option>
-          <option value="science">종합과학관</option>
-          <option value="library">중앙도서관</option>
-          <option value="art">조형예술관</option>
-          <option value="posco">포스코관</option>
-          <option value="student">학관</option>
+                    <option value="mainGate">정문</option>
+                    <option value="ecc">ECC</option>
+                    <option value="art">조형예술관</option>
+                    <option value="asan">아산공학관</option>
+                    <option value="newEng">신공학관</option>
+                    <option value="edu">교육관</option>
+                    <option value="library">중앙도서관</option>
+                    <option value="eHouse">기숙사(E-house)</option>
+                    <option value="iHouse">기숙사(I-house)</option>
+                    <option value="science">종합과학관</option>
+                    <option value="posco">포스코관</option>
+                    <option value="student">학관</option>
         </select>
       </div>
       <input
@@ -70,46 +60,72 @@
                 alt="{{ key }}"
               />
             </div>
-            <div class="item_box1__info">
-              <p class="item_box1__title">{{ value.itemName }}</p>
-              <div class="item_box1__upload">
-                <p class="item_box1__seller">{{ value.userId }}</p>
-                <p class="item_box1__date item_reg_date">
-                  {{ value.createdAt }}
-                </p>
-              </div>
-              <p class="item_box1__price commas_price">{{ value.price }}원</p>
-            </div>
-          </div>
-          <div class="item_box1__icon">
-            <div class="item_box1_like">
-              <div class="like_icon_box">
-                <i class="fa-regular fa-bookmark fa-lg"></i>
-              </div>
-              <p class="item_like_num">{{ value.like_count }}</p>
-            </div>
-          </div>
-        </div>
-        <script>
-          document.addEventListener("DOMContentLoaded", function () {
-            const itemId = {{ value.itemId }};
-            const bookmarkIcon = document.querySelector(
-              `#item-${itemId} .item_box1_like .fa-bookmark`
-            );
-            if (likeItemIds.includes(itemId)) {
-              bookmarkIcon.classList.remove("fa-regular");
-              bookmarkIcon.classList.add("fa-solid");
-              bookmarkIcon.style.color = "#242424";
-            }
-          });
-        </script>
-      </a>
-      {% endfor %} {% else %}
-      <p>등록된 상품이 없습니다.</p>
-      {% endfor %} {% include 'pagination.html' %}
-    </main>
+            <input
+                class="reg_item_btn"
+                type="button"
+                onclick="window.location.href='/reg_item'"
+                value="상품등록"
+            />
+            <!--레이아웃 배치용-->
+        </header>
+        <main class="list_page_box">
+            {% for row in rows %} {% for key, value in row.items() %}
+            <a href="{{ url_for('item_detail', itemId=value.itemId) }}" class="item_box_link">
+                <div class="item_box1" id="item-{{ value.itemId }}">
+                    <div class="item_selection">
+                        <div class="item_box1__img">
+                            <img
+                                src="{{ url_for('static', filename=value.img_path) }}"
+                                alt="{{ key }}"
+                            />
+                        </div>
+                        <div class="item_box1__info">
+                            <p class="item_box1__title">{{ value.itemName }}</p>
+                            <div class="item_box1__upload">
+                                <p class="item_box1__seller">{{ value.userId }}</p>
+                                <p class="item_box1__date item_reg_date">
+                                    {{ value.createdAt }}
+                                </p>
+                            </div>
+                            <p class="item_box1__price commas_price">{{ value.price }}원</p>
+                        </div>
+                    </div>
+                    <div class="item_box1__icon">
+                        <div class="item_box1_like">
+                            <div class="like_icon_box">
+                                <i class="fa-regular fa-bookmark fa-lg"></i>
+                            </div>
+                            <p class="item_like_num">{{ value.like_count }}</p>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                      const itemId = {{ value.itemId }};
+                      const bookmarkIcon = document.querySelector(
+                        `#item-${itemId} .item_box1_like .fa-bookmark`
+                      );
+                      if (likeItemIds.includes(itemId)) {
+                        bookmarkIcon.classList.remove("fa-regular");
+                        bookmarkIcon.classList.add("fa-solid");
+                        bookmarkIcon.style.color = "#242424";
+                      }
+                    });
+                </script>
+            </a>
+            {% endfor %} {% else %}
+            <p>등록된 상품이 없습니다.</p>
+            {% endfor %}
+            
+            // new chat 알림 확인을 위한 임시 표기 코드
+            <p>
+                {{ session['newChat'] if session['newChat'] else 'no new chat' }}
+            </p>
+            
+            {% include 'pagination.html' %}
+        </main>
 
-    {% include 'nav_bar.html' %}
+        {% include 'nav_bar.html' %}
   </body>
   <script
     src="https://kit.fontawesome.com/afee348a73.js"
@@ -119,4 +135,60 @@
   <script src="{{ url_for('static', filename='components/like_press.js') }}"></script>
   <script src="{{ url_for('static', filename='components/commas_to_price.js') }}"></script>
   <script src="{{ url_for('static', filename='components/calcDate.js') }}"></script>
+    <!-- Firebase 스크립트와 초기화 코드 -->
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: 'AIzaSyDWz1_ZttmWjc1IzQRI8wMAe-IqeYDzark',
+            authDomain: 'ong-market.firebaseapp.com',
+            databaseURL: 'https://ong-market-default-rtdb.firebaseio.com',
+            projectId: 'ong-market',
+            storageBucket: 'ong-market.appspot.com',
+            messagingSenderId: '464409088344',
+            appId: '1:464409088344:web:bd00bf2f298988db2c552d',
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        // 새 채팅방 생성 여부 감지
+        var userKey = '{{ user_key }}';
+        var userChatRoomsRef = firebase.database().ref("user/" + userKey + "/chatRooms");
+        userChatRoomsRef.on('child_added', function(snapshot) {
+            fetch('/notify_new_chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Session updated with new chat room flag');
+            })
+            .catch(error => console.error('Error:',error));
+        });
+      
+        // 기존 채팅방 새로운 메시지 감지
+        var chatRoomIds = {{ chat_room_ids|tojson }};
+        function listenToChatRoomMessage(chatRoomId) {
+            var messagesRef = firebase.database().ref("chats/" + chatRoomId + "/messages");
+            messagesRef.on('child_added', function(snapshot) {
+                fetch('/notify_new_chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Session updated with new chat room flag');
+            })
+            .catch(error => console.error('Error:',error));
+            });
+        }
+        
+        chatRoomIds.forEach(function(chatRoomId) {
+            listenToChatRoomMessage(chatRoomId);
+        });
+    </script>
 </html>

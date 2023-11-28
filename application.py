@@ -134,8 +134,13 @@ def view_list():
     #찜한 목록 FE로 넘기기
     user_id = session.get('id')
     like_items = DB.get_like_items(user_id)
+    
+    user_key, user_data = DB.find_user_by_id(user_id)
+    chat_rooms_data = DB.get_chat_rooms_for_user(user_id)
+    
+    chat_room_ids = [chat_room['chatRoomId'] for chat_room in chat_rooms_data]
 
-    return render_template("list.html", datas=data_slice, rows=rows, page=page, page_count=page_count, total=item_counts, like_items = like_items)
+    return render_template("list.html", datas=data_slice, user_key=user_key, chat_room_ids=chat_room_ids, rows=rows, page=page, page_count=page_count, total=item_counts, like_items = like_items)
 
 @application.route("/review_list")
 def review_list():
@@ -162,7 +167,7 @@ def submit_review(itemId):
     item = DB.find_item_by_id(itemId)
     reviewId = itemId
     
-    image_file=request.files["reveiwItemImg"]
+    image_file=request.files["itemImg"]
     file_extension = image_file.filename.rsplit('.',1)[1].lower()
     image_file_path = "images/regReview/{}.{}".format(reviewId, file_extension)
     save_path = "static/" + image_file_path
@@ -353,9 +358,15 @@ def item_detail(itemId):
     
     return render_template("item_detail.html", data=item, item_data_json=item_data_json, userId=user_id, like_items=like_items)
 
-@application.route("/review_detail")
-def review_detail():
-    return render_template("review_detail.html")
+@application.route("/review_detail/<reviewId>")
+def review_detail(reviewId):
+    item_review = DB.find_review_by_id(reviewId)
+    item = DB.find_item_by_id(reviewId)
+
+    if not item:
+        return "Item not found", 404
+
+    return render_template("review_detail.html", data=item, reviewdata=item_review)
 
 @application.route("/student_check")
 def student_check():
@@ -373,6 +384,9 @@ def sellPage():
 
 @application.route("/selling")
 def sellingPage():
+    user_id = session.get("id")
+    data = DB.get_items()
+
     return render_template("sell_Page_selling.html")
 
 @application.route("/like")
@@ -439,6 +453,8 @@ def chattingListPage():
         # 사용자 ID가 세션에 없는 경우, 로그인 페이지나 오류 페이지로 리디렉트
         return redirect(url_for('login'))
     
+    session['newChat'] = False
+    
     chat_rooms = DB.get_chat_rooms_for_user(user_id)
     chat_rooms = sorted(chat_rooms, key=lambda x: x['lastTimestamp'], reverse=True)
     return render_template("chatting_list.html", chat_rooms=chat_rooms)
@@ -454,12 +470,20 @@ def chat_room_page(chat_room_id):
         counterpartId = chat_room_data['sellerId']
         counterpartImg = chat_room_data['sellerImg']
     
-    return render_template('dm.html', chat_room=chat_room_data, counterpartId=counterpartId, counterpartImg=counterpartImg)
+    itemID = chat_room_data['itemId']
+    review_complete = DB.get_review_status_by_id(itemID)
+    
+    return render_template('dm.html', chat_room=chat_room_data, counterpartId=counterpartId, counterpartImg=counterpartImg, rc= review_complete)
 
 @application.route('/complete/<chat_room_id>', methods=['POST'])
 def complete_chat_room(chat_room_id):
     DB.mark_chat_room_as_complete(chat_room_id)
     return jsonify({"status": "success", "message": "Chat room marked as complete"})
+
+@application.route('/notify_new_chat', methods=['POST'])
+def notify_new_chat_room():
+    session['newChat'] = True
+    return jsonify(success=True)
 
 @application.route("/keyword")
 def keywordPage():
