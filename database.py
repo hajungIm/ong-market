@@ -1,4 +1,3 @@
-
 import pyrebase
 import json
 from datetime import datetime
