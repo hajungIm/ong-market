@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Check if the reviewClass element exists
     if (reviewClass[i]) {
       // Get the numeric value from the review item
-      var reviewValue = parseInt(reviewItems[i].textContent, 0);
+      var reviewValue = parseInt(reviewItems[i].textContent, 10);
 
       // Check if the reviewValue is a valid number
       if (isNaN(reviewValue)) {
