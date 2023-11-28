@@ -68,14 +68,12 @@
 }
 
 .keyword_text{
-    position: absolute;
     color: #242424; 
     font-size: 15px; 
     font-family: Nunito Sans; 
     font-weight: 600; 
     word-wrap: break-word;
     z-index: 1;
-    text-align: center;
 }
 
 .keyword_num, .keyword_number{
@@ -88,11 +86,6 @@
     z-index: 1;
 }
 
-.keyword_num{
-    position:absolute;
-    text-align: right;
-    padding-left: 99%;
-}
 .keyword_title {
     display: flex;
     align-items: center;
