@@ -54,12 +54,12 @@
     height: 45px;
     background: rgba(76, 217, 100);
     opacity: 100%;
+    width: 0%;
 }
 
 .green_1::after, .green_2::after,.green_3::after,.green_4::after
 ,.green_0::after,.green_5::after,.green_6::after,.green_7::after{
     content: "";
-    width: 30%;
     height: 100%;
     position: absolute;
     top: 0;
@@ -114,5 +114,6 @@
     border-radius: 4px; 
     overflow: hidden;
     opacity: 100%;
-    background-color: none;   
+    background-color: none;
+    padding-left: 10px;   
 }
