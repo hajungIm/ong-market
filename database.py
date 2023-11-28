@@ -95,13 +95,9 @@ class DBhandler:
                 "img_path": img_path,
                 "like_count": 0,
                 "createdAt": data['itemRegDate'],
-<<<<<<< HEAD
-                "review_complete": "0"
-                #"createdAt": data['itemRegDate']
-=======
                 "review_complete": "0",
+                #"createdAt": data['itemRegDate']
                 "completed": "0"
->>>>>>> 496179c1567af7a203bbb4a6a74ca0af25afec29
             }
         if data['transaction'] == "대면":
             item_info["location"] = data['location']
