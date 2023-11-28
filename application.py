@@ -50,6 +50,10 @@ def login_user():
 def mem_register():
     return render_template("mem_register.html")
 
+@application.route("/mem_register_final")
+def mem_register_final():
+    return render_template("mem_register_final.html")
+
 @application.route('/send_email', methods=['POST'])
 def send_email():
     data = request.get_json()
@@ -133,6 +137,8 @@ def view_list():
 
     #찜한 목록 FE로 넘기기
     user_id = session.get('id')
+    if user_id is None:
+        user_id="no session"
     like_items = DB.get_like_items(user_id)
     
     user_key, user_data = DB.find_user_by_id(user_id)
@@ -140,7 +146,7 @@ def view_list():
     
     chat_room_ids = [chat_room['chatRoomId'] for chat_room in chat_rooms_data]
 
-    return render_template("list.html", datas=data_slice, user_key=user_key, chat_room_ids=chat_room_ids, rows=rows, page=page, page_count=page_count, total=item_counts, like_items = like_items)
+    return render_template("list.html", user_id=user_id, datas=data_slice, user_key=user_key, chat_room_ids=chat_room_ids, rows=rows, page=page, page_count=page_count, total=item_counts, like_items = like_items)
 
     return render_template("list.html", datas=data_slice, rows=rows, page=page, page_count=page_count, total=item_counts, like_items = like_items)
 

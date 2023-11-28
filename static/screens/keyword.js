@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
   ];
 
   // 'keyword_num'에서 숫자 값을 가져옵니다.
-  var keywordNumElement = document.querySelector('.keyword_number');
+  var keywordNumElement = document.querySelector('.total_review_number');
   console.log('keywordNumElement:', keywordNumElement); // 추가된 부분
   var keywordNumText = keywordNumElement.textContent.trim();
   var totalNumber = parseInt(keywordNumText.match(/\d+/)[0], 10);

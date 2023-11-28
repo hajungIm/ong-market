@@ -95,8 +95,13 @@ class DBhandler:
                 "img_path": img_path,
                 "like_count": 0,
                 "createdAt": data['itemRegDate'],
+<<<<<<< HEAD
                 "review_complete": "0"
                 #"createdAt": data['itemRegDate']
+=======
+                "review_complete": "0",
+                "completed": "0"
+>>>>>>> 496179c1567af7a203bbb4a6a74ca0af25afec29
             }
         if data['transaction'] == "대면":
             item_info["location"] = data['location']
@@ -193,6 +198,9 @@ class DBhandler:
     def mark_chat_room_as_complete(self, chat_room_id):
         complete_update = {"complete": True}
         self.db.child("chats").child(chat_room_id).update(complete_update)
+        itemId = self.db.child("chats").child(chat_room_id).get('itemId')
+        self.db.child("item").chile(itemId).update({"completed": "1"})
+        return True
     
     def update_profile_image(self, user_id, new_image):
         user_key, user_data = self.find_user_by_id(user_id)
