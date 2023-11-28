@@ -1,4 +1,3 @@
-
 import pyrebase
 import json
 from datetime import datetime
@@ -13,11 +12,16 @@ class DBhandler:
 
     def insert_user(self, data, pw):
         default_profile_image = "images/profile/default_profile_image.png" # 디폴트 프로필 이미지 경로
+        
+        keyword_stat =  [0, 0, 0, 0, 0, 0, 0, 0]
+        
         user_info={
             "id": data['id'],
             "pw": pw,
             "name": data['name'],
-            "profile_image":default_profile_image
+            "profile_image":default_profile_image,
+            "keyword_stat": keyword_stat,
+            "keyword_count": 0
         }
         if self.user_duplicate_check(str(data['id'])):
             self.db.child("user").push(user_info)
@@ -72,6 +76,8 @@ class DBhandler:
                     "id": value['id'],
                     "name": value['name'],
                     "profile_image": value['profile_image'],
+                    "keyword_stat": value['keyword_stat'],
+                    "keyword_count": value['keyword_count']
                     # 다른 필요한 사용자 정보...
                 }
         return None
@@ -194,6 +200,7 @@ class DBhandler:
     def mark_chat_room_as_complete(self, chat_room_id):
         complete_update = {"complete": True}
         self.db.child("chats").child(chat_room_id).update(complete_update)
+
         itemId = self.db.child("chats").child(chat_room_id).get('itemId')
         self.db.child("item").chile(itemId).update({"completed": "1"})
         return True
@@ -278,8 +285,8 @@ class DBhandler:
             "createdAt": current_time,
             "rate": rating_value,
             "sellerId": sellerId,
-            "price": data['price'],
-            "itemName": data['itemName'],
+            "price": price,
+            "itemName": itemName,
         }
 
         keyword_no_value = data.get('keywordNo', 'unchecked')
@@ -302,7 +309,7 @@ class DBhandler:
         self.db.child("user").child(seller_key).update({"keyword_count": keyword_count})
         self.db.child("user").child(seller_key).update({"keyword_stat": keyword_stat})
         return True
-    
+
     def find_review_by_id(self, reviewId):
         review = self.db.child("review").child(reviewId).get()
         if review.val():
