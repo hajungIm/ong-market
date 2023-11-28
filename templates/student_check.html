@@ -47,7 +47,7 @@
 
     </script>
 
-    <!--타이머 만들어야함-->
+    <!--타이머-->
     <div style="padding-left: 140px;">
         <div style="width:30%; text-align: center;" id="timer">01:00</div>
         <button class="retx_button" id="retx_button" type="button" onclick="retransmit()" style="margin-left:-35px; margin-top: 20px; width:120px; height: 35px;">
@@ -104,27 +104,29 @@
             alert(random_num);//랜덤 수 생성 되는지 확인을 위해 임시로
             alert("인증번호를 다시 전송하였습니다!");
             localStorage.setItem('validateNum',random_num);
+            var email=localStorage.getItem('EwhaMail');
+            alert(email)
             
-            // // 이메일 재전송
-            // // 서버로 POST 요청 보내기
-            // fetch('/send_email', {
-            //                 method: 'POST',
-            //                 headers: {
-            //                     'Content-Type': 'application/json',
-            //                 },
-            //                 body: JSON.stringify({
-            //                     validateNum: random_num,
-            //                     email: email.value,
-            //                 }),
-            //             })
-            //             .then(response => response.json())
-            //             .then(data => {
-            //                 console.log('Success:', data);
-            //             })
-            //             .catch((error) => {
-            //                 console.error('Error:', error);
-            // });
-            // sendEmail();
+            // 이메일 재전송
+            // 서버로 POST 요청 보내기
+            fetch('/send_email', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                validateNum: random_num,
+                                email: email,
+                            }),
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log('Success:', data);
+                        })
+                        .catch((error) => {
+                            console.error('Error:', error);
+            });
+            
 
             // 타이머 재시작
             timerInterval = setInterval(updateTimer, 1000);
@@ -166,5 +168,6 @@
     
    
 </body>
-</html>
+</html> 
+    
     
