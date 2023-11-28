@@ -104,27 +104,27 @@
             alert(random_num);//랜덤 수 생성 되는지 확인을 위해 임시로
             alert("인증번호를 다시 전송하였습니다!");
             localStorage.setItem('validateNum',random_num);
-            var email=localStorage.getItem('email');
-            localStorage.setItem('email',email);
-  
-            // 이메일 재전송
-            fetch('/send_email', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                validateNum: random_num,
-                                email: email.value,
-                            }),
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log('Success:', data);
-                        })
-                        .catch((error) => {
-                            console.error('Error:', error);
-                        });
+            
+            // // 이메일 재전송
+            // // 서버로 POST 요청 보내기
+            // fetch('/send_email', {
+            //                 method: 'POST',
+            //                 headers: {
+            //                     'Content-Type': 'application/json',
+            //                 },
+            //                 body: JSON.stringify({
+            //                     validateNum: random_num,
+            //                     email: email.value,
+            //                 }),
+            //             })
+            //             .then(response => response.json())
+            //             .then(data => {
+            //                 console.log('Success:', data);
+            //             })
+            //             .catch((error) => {
+            //                 console.error('Error:', error);
+            // });
+            // sendEmail();
 
             // 타이머 재시작
             timerInterval = setInterval(updateTimer, 1000);
@@ -148,9 +148,7 @@
             }
             else{
                 alert("인증 완료!");
-                window.opener.postMessage('verificationComplete', '*');
-                localStorage.setItem('rightEmail', 'true');
-                window.history.go(-1);
+                window.location.href = '/mem_register_final';
             }
         }
     </script>
@@ -169,3 +167,4 @@
    
 </body>
 </html>
+    
