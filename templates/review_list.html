@@ -28,7 +28,7 @@
       {% for row in rows %} {% for key, value in row.items() %}
       <div class="list_review__box">
           <a
-        href="{{ url_for('review_detail', reviewId=value.sellerId) }}"
+       href="{{ url_for('review_detail', reviewId=value.reviewId) }}" 
         class="review_item__link"
       >
         <p class="list_review__title">{{value.title}}</p>
