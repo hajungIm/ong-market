@@ -42,7 +42,7 @@
           </div>
           <div class="review_item__content">
             <p class="review_item__title">{{value.itemName}}</p>
-            <p class="review_item__price">{{ value.price }}</p>
+            <p class="review_item__price commas_price">{{ value.price }}원</p>
           </div>
         </div>
         <div class="review_rate">
@@ -70,5 +70,7 @@
 
 </body>
       <script src="{{ url_for('static', filename='components/base_header.js') }}"></script>
+      <script src="{{ url_for('static', filename='components/commas_to_price.js') }}"></script>
+
 
 </html>

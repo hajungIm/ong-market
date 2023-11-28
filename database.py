@@ -258,6 +258,8 @@ class DBhandler:
         seller_key, seller_data = self.find_user_by_id(sellerId)
         keyword_stat = seller_data.get('keyword_stat')
         keyword_count = seller_data.get('keyword_count')
+        price=item.get('price')
+        itemName=item.get('itemName')
 
         if 'rating' not in data:
         # 'rating' 키가 없는 경우에 대한 처리
@@ -275,7 +277,9 @@ class DBhandler:
             "review": data['reviewContent'],
             "createdAt": current_time,
             "rate": rating_value,
-            "sellerId": sellerId
+            "sellerId": sellerId,
+            "price": data['price'],
+            "itemName": data['itemName'],
         }
 
         keyword_no_value = data.get('keywordNo', 'unchecked')
