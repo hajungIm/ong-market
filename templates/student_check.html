@@ -47,7 +47,7 @@
 
     </script>
 
-    <!--타이머 만들어야함-->
+    <!--타이머-->
     <div style="padding-left: 140px;">
         <div style="width:30%; text-align: center;" id="timer">01:00</div>
         <button class="retx_button" id="retx_button" type="button" onclick="retransmit()" style="margin-left:-35px; margin-top: 20px; width:120px; height: 35px;">
@@ -101,13 +101,12 @@
             }
 
             var random_num=rand(1000,9999);//랜덤 4자리 수 생성
-            alert(random_num);//랜덤 수 생성 되는지 확인을 위해 임시로
             alert("인증번호를 다시 전송하였습니다!");
             localStorage.setItem('validateNum',random_num);
-            var email=localStorage.getItem('email');
-            localStorage.setItem('email',email);
-  
+            var email=localStorage.getItem('EwhaMail');
+            
             // 이메일 재전송
+            // 서버로 POST 요청 보내기
             fetch('/send_email', {
                             method: 'POST',
                             headers: {
@@ -115,7 +114,7 @@
                             },
                             body: JSON.stringify({
                                 validateNum: random_num,
-                                email: email.value,
+                                email: email,
                             }),
                         })
                         .then(response => response.json())
@@ -124,7 +123,8 @@
                         })
                         .catch((error) => {
                             console.error('Error:', error);
-                        });
+            });
+            
 
             // 타이머 재시작
             timerInterval = setInterval(updateTimer, 1000);
@@ -148,9 +148,7 @@
             }
             else{
                 alert("인증 완료!");
-                window.opener.postMessage('verificationComplete', '*');
-                localStorage.setItem('rightEmail', 'true');
-                window.history.go(-1);
+                window.location.href = '/mem_register_final';
             }
         }
     </script>
@@ -168,4 +166,6 @@
     
    
 </body>
-</html>
+</html> 
+    
+    
