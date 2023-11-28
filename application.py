@@ -134,8 +134,13 @@ def view_list():
     #찜한 목록 FE로 넘기기
     user_id = session.get('id')
     like_items = DB.get_like_items(user_id)
+    
+    user_key, user_data = DB.find_user_by_id(user_id)
+    chat_rooms_data = DB.get_chat_rooms_for_user(user_id)
+    
+    chat_room_ids = [chat_room['chatRoomId'] for chat_room in chat_rooms_data]
 
-    return render_template("list.html", datas=data_slice, rows=rows, page=page, page_count=page_count, total=item_counts, like_items = like_items)
+    return render_template("list.html", datas=data_slice, user_key=user_key, chat_room_ids=chat_room_ids, rows=rows, page=page, page_count=page_count, total=item_counts, like_items = like_items)
 
 @application.route("/review_list")
 def review_list():
@@ -439,6 +444,8 @@ def chattingListPage():
         # 사용자 ID가 세션에 없는 경우, 로그인 페이지나 오류 페이지로 리디렉트
         return redirect(url_for('login'))
     
+    session['newChat'] = False
+    
     chat_rooms = DB.get_chat_rooms_for_user(user_id)
     chat_rooms = sorted(chat_rooms, key=lambda x: x['lastTimestamp'], reverse=True)
     return render_template("chatting_list.html", chat_rooms=chat_rooms)
@@ -460,6 +467,11 @@ def chat_room_page(chat_room_id):
 def complete_chat_room(chat_room_id):
     DB.mark_chat_room_as_complete(chat_room_id)
     return jsonify({"status": "success", "message": "Chat room marked as complete"})
+
+@application.route('/notify_new_chat', methods=['POST'])
+def notify_new_chat_room():
+    session['newChat'] = True
+    return jsonify(success=True)
 
 @application.route("/keyword")
 def keywordPage():
