@@ -17,18 +17,17 @@ div.item_box1 {
 
 }
 
-
 .item_box1__seller {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
 }
 .item_box1__date {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
 }
 .last_message {
   margin-top: 5px;
-  font-size: 16px;
+  font-size: 15px;
   color: #242424;
-  font-weight: 300;
+  font-weight: 400;
 }

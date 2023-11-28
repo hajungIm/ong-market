@@ -48,6 +48,8 @@ body{
     padding: 10px 10px;
     font-size: 15px;
     font-weight: 400;
+    max-width: 570px;
+    line-height: 130%;
 }
 
 .dm_section__line {
@@ -65,13 +67,11 @@ body{
 .dm_section__me .dm_msg {
     background-color: black;
     color: white;
-    text-align: center;
 }
 
 .dm_section__you .dm_msg {
     background-color: var(--blur-gray);
     color: var(--black);
-    text-align: center;
 }
 
 .dm_time {

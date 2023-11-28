@@ -29,7 +29,7 @@
           <div class="item_selection">
             <div
               class="item_box1__img"
-              style="border-radius: 9999px; width: 80px; height: 80px"
+              style="border-radius: 9999px; width: 60px; height: 60px"
             >
               <img
                 src="{% if chat_room.sellerId != session['id'] %}{{ url_for('static', filename=chat_room.sellerImg) }}{% else %}{{ url_for('static', filename=chat_room.buyerImg) }}{% endif %}"
@@ -59,7 +59,7 @@
           <!-- 채팅방의 상품 이미지 (예시로 static images 사용) -->
           <div
             class="item_box1__img"
-            style="width: 90px; height: 90px; display: flex"
+            style="width: 70px; height: 70px; display: flex"
           >
             <img
               src="{{ url_for('static', filename=chat_room.imgPath) }}"
