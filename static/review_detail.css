@@ -113,8 +113,7 @@ main {
 
 
 #simple_review{
-    /* display: flex; */
-    display: none;
+    display: flex;
     gap: 12px;
     flex-wrap: wrap;
 

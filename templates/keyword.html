@@ -42,7 +42,7 @@
           </div>
         </div>
         <div class="for_layout"></div>
-        <button class="review_btn" href="/reg_review.html">
+        <button class="review_btn" onclick="window.location.href='/review_list'">
           받은 리뷰 보기
         </button>
       </div>
@@ -54,7 +54,7 @@
         >
           받은 리뷰 평가
         </div>
-        <div style="color: #707070; font-size: 15px; font-family: Nunito Sans; font-weight: 700; word-wrap: break-word">(<span class="total_review_number">10</span>명 참여)</div>
+        <div style="color: #707070; font-size: 15px; font-family: Nunito Sans; font-weight: 700; word-wrap: break-word">(<span class="total_review_number">{{ user_info.keyword_count }}</span>명 참여)</div>
       </div>
 
       <div class="keyword_box">
@@ -65,7 +65,7 @@
                 시간 약속을 잘 지켜요.
               </label>
             </div>
-            <div class="keyword_num" id="time">7</div>
+            <div class="keyword_num" id="time">{{ user_info['keyword_stat'][0] }}</div>
           </div>
         </div>
         <div class="keyword_box_1">
@@ -75,7 +75,7 @@
                 >상품 설명이 자세해요.</label
               >
             </div>
-            <div class="keyword_num" id="detail">5</div>
+            <div class="keyword_num" id="detail">{{ user_info['keyword_stat'][6] }}</div>
           </div>
         </div>
         <div class="keyword_box_1">
@@ -85,7 +85,7 @@
                 >가격이 합리적이에요.</label
               >
             </div>
-            <div class="keyword_num" id="resonable">5</div>
+            <div class="keyword_num" id="resonable">{{ user_info['keyword_stat'][7] }}</div>
           </div>
         </div>
         <div class="keyword_box_1">
@@ -95,7 +95,7 @@
                 >친절하고 매너가 좋아요.</label
               >
             </div>
-            <div class="keyword_num" id="kind">5</div>
+            <div class="keyword_num" id="kind">{{ user_info['keyword_stat'][2] }}</div>
           </div>
         </div>
         <div class="keyword_box_1">
@@ -105,7 +105,7 @@
                 >상품 상태가 설명한 것과 같아요.</label
               >
             </div>
-            <div class="keyword_num" id="condition">3</div>
+            <div class="keyword_num" id="condition">{{ user_info['keyword_stat'][5] }}</div>
           </div>
         </div>
         <div class="keyword_box_1">
@@ -113,7 +113,7 @@
             <div class="keyword_text">
               <label for="response" class="keyword_list1">응답이 빨라요.</label>
             </div>
-            <div class="keyword_num" id="response">2</div>
+            <div class="keyword_num" id="response">{{ user_info['keyword_stat'][1] }}</div>
           </div>
         </div>
         <div class="keyword_box_1">
@@ -121,7 +121,7 @@
             <div class="keyword_text">
               <label for="give" class="keyword_list1">나눔을 해주셨어요.</label>
             </div>
-            <div class="keyword_num" id="give">1</div>
+            <div class="keyword_num" id="give">{{ user_info['keyword_stat'][4] }}</div>
           </div>
         </div>
         <div class="keyword_box_1">
@@ -131,7 +131,7 @@
                 >제가 있는 곳까지 와서 거래했어요.</label
               >
             </div>
-            <div class="keyword_num" id="come">0</div>
+            <div class="keyword_num" id="come">{{ user_info.keyword_stat[3] }}</div>
           </div>
         </div>
       </div>
