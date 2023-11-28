@@ -96,6 +96,7 @@ class DBhandler:
                 "like_count": 0,
                 "createdAt": data['itemRegDate'],
                 "review_complete": "0"
+                #"createdAt": data['itemRegDate']
             }
         if data['transaction'] == "대면":
             item_info["location"] = data['location']
@@ -291,3 +292,18 @@ class DBhandler:
             return review_complete
         else:
             return None
+        
+    def get_reviews(self):
+        reviews = self.db.child("review").get().val()
+        return reviews
+    
+    def get_review_by_name(self, name):
+        reviews = self.db.child("review").get()
+        target_value=""
+        print("###########",name)
+        for res in reviews.each():
+            key_value = res.key()
+            
+            if key_value == name:
+                target_value=res.val()
+        return target_value
