@@ -280,7 +280,8 @@ class DBhandler:
             "review_img_path": review_img_path,
             "review": data['reviewContent'],
             "createdAt": current_time,
-            "rate": rating_value
+            "rate": rating_value,
+            "sellerId": sellerId
         }
 
         keyword_no_value = data.get('keywordNo', 'unchecked')
