@@ -46,28 +46,6 @@
       />
       <!--레이아웃 배치용-->
     </header>
-    <main class="list_page_box">
-      {% for row in rows %} {% for key, value in row.items() %}
-      <a
-        href="{{ url_for('item_detail', itemId=value.itemId) }}"
-        class="item_box_link"
-      >
-        <div class="item_box1" id="item-{{ value.itemId }}">
-          <div class="item_selection">
-            <div class="item_box1__img">
-              <img
-                src="{{ url_for('static', filename=value.img_path) }}"
-                alt="{{ key }}"
-              />
-            </div>
-            <input
-                class="reg_item_btn"
-                type="button"
-                onclick="window.location.href='/reg_item'"
-                value="상품등록"
-            />
-            <!--레이아웃 배치용-->
-        </header>
         <main class="list_page_box">
             {% for row in rows %} {% for key, value in row.items() %}
             <a href="{{ url_for('item_detail', itemId=value.itemId) }}" class="item_box_link">
@@ -117,8 +95,8 @@
             <p>등록된 상품이 없습니다.</p>
             {% endfor %}
             
-            // new chat 알림 확인을 위한 임시 표기 코드
             <p>
+                [ new chat 알림 확인을 위한 임시 표기 코드 ]<br>
                 {{ session['newChat'] if session['newChat'] else 'no new chat' }}
             </p>
             
