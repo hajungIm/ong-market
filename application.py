@@ -1,14 +1,20 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, session, jsonify
+from flask import Flask, render_template, request, flash, redirect, url_for, session, json, escape, jsonify
+
 from database import DBhandler
 import hashlib
 import uuid
 import math
 import os
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import config
 
 import sys
 
 application = Flask(__name__)
 application.config["SECRET_KEY"]="helloosp"
+application.config.from_object(config)
 
 DB = DBhandler()
 
@@ -39,19 +45,53 @@ def login_user():
     else:
         flash("Wrong ID or PW!")
         return render_template("login.html")
-    
-def find_user(self, id_, pw_):
-    users = self.db.child("user").get()
-    target_value=[]
-    for res in users.each():
-        value = res.val()
-        if value['id'] == id_ and value['pw'] == pw_:
-            return True
-    return False
 
 @application.route("/mem_register")
 def mem_register():
     return render_template("mem_register.html")
+
+@application.route('/send_email', methods=['POST'])
+def send_email():
+    data = request.get_json()
+    validateNum = data.get('validateNum')
+    email = data.get('email')
+    
+    send_email_function(validateNum, email)
+    
+    return jsonify({"message": "Email sent successfully"})
+
+def send_email_function(content, receiver_email):
+    sender_email = config.SENDER_EMAIL
+    sender_email_password = config.EMAIL_PASSWORD
+    
+    message = MIMEMultipart()
+    message["From"] = "Ong-market Service"
+    message["To"] = receiver_email
+    message["Subject"] = "ong market service email"
+    
+    email_body = f"""
+    <html>
+        <body>
+            <div style="font-family: Arial, sans-serif; font-size: 14px;">
+                <p>옹 마켓 가입 인증번호는</p>
+                <h1><i>{content}</i></h1>
+                <p>입니다.</p>
+                <br>
+                <p>감사합니다.</p>
+                <p>Ong-market Service Team</p>
+            </div>
+        </body>
+    </html>
+    """
+
+    # HTML 본문을 MIMEText 객체로 생성
+    body = MIMEText(email_body, "html")
+    message.attach(body)
+    
+    with smtplib.SMTP("smtp.gmail.com", 587) as server:
+        server.starttls()
+        server.login(sender_email, sender_email_password)
+        server.sendmail(sender_email, receiver_email, message.as_string())
 
 @application.route("/signup_post", methods=['POST'])
 def register_user():
@@ -91,31 +131,40 @@ def view_list():
 
     page_count = math.ceil(item_counts / per_page)
 
-    return render_template("list.html", datas=data_slice, rows=rows, page=page, page_count=page_count, total=item_counts)
+    #찜한 목록 FE로 넘기기
+    user_id = session.get('id')
+    like_items = DB.get_like_items(user_id)
+
+    return render_template("list.html", datas=data_slice, rows=rows, page=page, page_count=page_count, total=item_counts, like_items = like_items)
 
 @application.route("/review_list")
 def review_list():
-    page = request.args.get("page", 0, type=int)
-    per_page=6 # item count to display per page
-    per_row=3# item count to display per row
-    row_count=int(per_page/per_row)
-    start_idx=per_page*page
-    end_idx=per_page*(page+1)
-    data = DB.get_reviews() #read the table
-    item_counts = len(data)
-    data = dict(list(data.items())[start_idx:end_idx])
-    tot_count = len(data)
-    for i in range(row_count):#last row
-        if(i == row_count-1) and (tot_count % per_row != 0):
-            locals()['data_{}'.format(i)] = dict(list(data.items())[i*per_row:])
-        else:
-            locals()['data_{}'.format(i)] = dict(list(data.items())[i*per_row:(i+1)*per_row])
-    return render_template("review_list.html", datas=data.items(),
-                           row1=locals()['data_0'].items(),
-                           row2=locals()['data_1'].items(),
-                           limit=per_page, page=page,
-                           page_count=int((item_counts/per_page)+1),
-                           total=item_counts)
+    page = request.args.get("page", 1, type=int)
+    per_page=5
+    start_idx=per_page* (page - 1)
+    end_idx=start_idx+per_page
+     
+    data = DB.get_reviews()
+
+    # OrderedDict의 키 리스트 생성
+    data_keys = list(data.keys())
+
+    # 데이터가 없거나 비어있는 경우 처리
+    if not data_keys:
+        return render_template("review_list.html", datas=[], page=page, page_count=0, total=0)
+    
+    item_counts = len(data_keys)
+    data_slice_keys = data_keys[start_idx:end_idx]
+
+    # 슬라이스된 키를 사용하여 데이터 추출
+    data_slice = [data[key] for key in data_slice_keys]
+
+    # 각 행에 대한 데이터 딕셔너리 생성
+    rows = [{'data_{}'.format(i): item} for i, item in enumerate(data_slice, start=start_idx)]
+
+    page_count = math.ceil(item_counts / per_page)
+
+    return render_template("review_list.html", datas=data_slice, rows=rows, page=page, page_count=page_count, total=item_counts)
 
 
 @application.route("/reg_item")
@@ -136,9 +185,10 @@ def reg_review_init(itemId):
 def submit_review(itemId):
     user_id = session.get("id")
     item = DB.find_item_by_id(itemId)
+    createdAt=request.args.get("reviewRegDate")
     reviewId = itemId
     
-    image_file=request.files["reveiwItemImg"]
+    image_file=request.files["reviewItemImg"]
     file_extension = image_file.filename.rsplit('.',1)[1].lower()
     image_file_path = "images/regReview/{}.{}".format(reviewId, file_extension)
     save_path = "static/" + image_file_path
@@ -153,11 +203,12 @@ def submit_review(itemId):
 
 @application.route("/mypage")
 def my_page():
-    # 세션에서 사용자 정보 가져오기
-    user_id = session.get("id")
-    if user_id:
-        # 세션에 저장된 사용자 ID를 사용하여 사용자 정보 가져오기
-        user_info = DB.get_user_info(user_id)
+    user_id = session.get('id')
+    if user_id is None:
+        # 사용자 ID가 세션에 없는 경우, 로그인 페이지나 오류 페이지로 리디렉트
+        return redirect(url_for('login'))
+
+    user_info = DB.get_user_info(user_id)
     return render_template("mypage.html", user_info=user_info)
 
 # 임시로 만든 비밀번호 변경하는 엔드포인트입니다.
@@ -176,6 +227,7 @@ def change_password():
 
         # firebase 비밀번호 변경 로직
         
+        
         #비밀번호 변경 성공
         return jsonify({"message": "비밀번호 변경이 완료되었습니다."}), 200
 
@@ -184,13 +236,38 @@ def change_password():
         return jsonify({"message": f"비밀번호 변경 중 오류 발생: {str(e)}"}), 500
 
 
+@application.route("/dm_to_seller", methods=['POST'])
+def dm_to_seller():
+    if request.method == 'POST':
+        seller_id = request.form.get('sellerId')
+        buyer_id = request.form.get('buyerId')
+        item_data = json.loads(request.form.get('itemData', '{}'))
+        seller_img = DB.get_user_Img(seller_id)
+        buyer_img = DB.get_user_Img(buyer_id)
+    
+        chat_room = DB.get_chat_room(item_data, seller_id, seller_img, buyer_id, buyer_img)
+    
+        return render_template("dm.html", chat_room=chat_room, counterpartId=seller_id, counterpartImg=seller_img)
+
 @application.route("/dm")
 def dm():
     return render_template("dm.html")
 
+@application.route('/send_msg', methods=['POST'])
+def send_msg():
+    data = request.json
+    message = data.get('message')
+    chat_room_id = data.get('chatRoomId')
+    sender_id = data.get('senderId')
+    timestamp = data.get('timestamp')
+
+    DB.save_msg(chat_room_id, message, sender_id, timestamp)
+    
+    return jsonify({'status': 'success', 'message': '메시지 전송됨'}), 200
 
 @application.route("/submit_item")
 def reg_item_submit():
+    createdAt=request.args.get("itemRegDate")
     userId=request.args.get("userId")
     itemName=request.args.get("itemName")
     price=price.args.get("price")
@@ -198,10 +275,16 @@ def reg_item_submit():
     description=status.args.get("description")
     transaction=status.args.get("transaction")
     location=status.args.get("location")
+
     
-    print(userId, itemName, price, status, description, transaction, location)
+    print(createdAt, userId, itemName, price, status, description, transaction, location)
     return render_template("")
 
+@application.route("/map")
+def map():
+    location_id = request.args.get('locationId')
+    data = DB.find_location(location_id)
+    return render_template("map.html", data=data)
 
 #사용자가 등록한 상품 이미지는 images 폴더 아래에 있는 regItem에 들어가도록 경로 설정
 @application.route("/reg_item_post", methods=['POST'])
@@ -228,24 +311,48 @@ def reg_item_submit_post():
     
     data=request.form 
     DB.insert_item(current_id, data, image_file_path)
-    return render_template("result.html", data=data)
+    return redirect(url_for('item_detail', itemId=current_id))
 
-
-
-@application.route("/find_id")
+@application.route("/find_id", methods = ['GET', 'POST'])
 def find_id():
+    if request.method == 'POST':
+        data = request.get_json()
+        email = data['email']
+        
+        user = DB.find_user_by_email(email)
+        
+        if user:
+            session['find_user_email'] = email
+            session['find_user_id'] = user.get('id')
+            return jsonify(success=True)
+        else:
+            return jsonify(success=False)
+    
     return render_template("find_id.html")
 
 @application.route("/find_id_success")
 def find_id_success():
-    return render_template("find_id_success.html")
+    email = session.pop('find_user_email', None)
+    user_id = session.pop('find_user_id', None)
+    return render_template("find_id_success.html", user_email=email, user_id=user_id)
 
 @application.route("/find_id_fail")
 def find_id_fail():
     return render_template("find_id_fail.html")
 
-@application.route("/find_password")
+@application.route("/find_password", methods = ['GET', 'POST'])
 def find_password():
+    if request.method == 'POST':
+        data = request.get_json()
+        user_id = data['user_id']
+        email = data['email']
+        
+        user = DB.find_user_by_email(email)
+        
+        if (user_id == user.get('id')):
+            return jsonify(success=True)
+        return jsonify(success=False)
+        
     return render_template("find_password.html")
 
 @application.route("/find_password_success")
@@ -256,22 +363,25 @@ def find_password_success():
 def find_password_fail():
     return render_template("find_password_fail.html")
 
-@application.route("/item_detail/<itemId>/")
+@application.route("/item_detail/<itemId>")
 def item_detail(itemId):
     item = DB.find_item_by_id(itemId)
-
+    user_id = session.get("id")
+    
     if not item:
         return "Item not found", 404
+    
+    item_data_json = escape(json.dumps(item))
+    item_json = json.dumps(item)
 
-    return render_template("item_detail.html", data=item)
+    like_items = DB.get_like_items(user_id)
+    like_items = sorted(like_items, key=lambda x: x['createdAt'], reverse=True)
+    
+    return render_template("item_detail.html", data=item, item_data_json=item_data_json, userId=user_id, like_items=like_items)
 
 @application.route("/review_detail")
 def review_detail():
-    print("###name:",name)
-    data = DB.get_reviews_byname(str(name))
-    print("####data:",data)
-    return render_template("review_detail.html", name=name, data=data)
-
+    return render_template("review_detail.html")
 
 @application.route("/student_check")
 def student_check():
@@ -293,7 +403,31 @@ def sellingPage():
 
 @application.route("/like")
 def likePage():
-    return render_template("jjim_Page.html")
+    user_id = session.get('id')
+    if user_id is None:
+        # 사용자 ID가 세션에 없는 경우, 로그인 페이지나 오류 페이지로 리디렉트
+        return redirect(url_for('login'))
+    
+    like_items = DB.get_like_items(user_id)
+    like_items = sorted(like_items, key=lambda x: x['createdAt'], reverse=True)
+    
+    return render_template("jjim_Page.html", like_items=like_items)
+
+@application.route("/like/<item_id>", methods=['POST'])
+def update_like(item_id):
+    data = request.json
+    flag = data.get('flag')
+    user_id = session.get('id')
+    
+    item = DB.find_item_by_id(item_id)
+    DB.update_like_to_item(item, flag)
+    DB.update_like_to_user(user_id, item, flag)
+    if(flag==1):
+        return jsonify({"status": "success", "message": "like plus update complete"})
+    
+    if(flag==-1):
+        return jsonify({"status": "success", "message": "like minus update complete"})
+    
 
 @application.route("/user_Page")
 def userPage():
@@ -304,19 +438,54 @@ def userPage():
         user_info = DB.get_user_info(user_id)
     return render_template("user_Page.html", user_info=user_info)
 
-
-# @application.route("/upload_profile_image", methods=['POST'])
-# def upload_profile_image():
-#     try:
-#         if 'profile_image' in request.files:
-#             profile_image = request.files['profile_image']
-#     catch:
+@application.route('/update_profile_image', methods=['POST'])
+def update_profile_image():
+    if 'profileImg' not in request.files:
+        return redirect(request.url)
+    image_file = request.files['profileImg']
+    if image_file.filename == '':
+        return redirect(request.url)
     
-#     #user 경로에 대한 참조
+    user_id = session.get("id")
+    
+    file_extension = image_file.filename.rsplit('.',1)[1].lower()
+    image_file_path = "images/profile/{}.{}".format(user_id, file_extension)
+    save_path = "static/" + image_file_path
+    image_file.save(save_path)
+    
+    DB.update_profile_image(user_id, image_file_path)
+    DB.update_chats_profile_image(user_id, image_file_path)
+    return jsonify(success=True)
+    
 
 @application.route("/chatting_list")
 def chattingListPage():
-    return render_template("chatting_list.html")
+    user_id = session.get('id')
+    if user_id is None:
+        # 사용자 ID가 세션에 없는 경우, 로그인 페이지나 오류 페이지로 리디렉트
+        return redirect(url_for('login'))
+    
+    chat_rooms = DB.get_chat_rooms_for_user(user_id)
+    chat_rooms = sorted(chat_rooms, key=lambda x: x['lastTimestamp'], reverse=True)
+    return render_template("chatting_list.html", chat_rooms=chat_rooms)
+
+@application.route("/chat_room/<chat_room_id>")
+def chat_room_page(chat_room_id):
+    chat_room_data = DB.get_chat_room_data(chat_room_id)
+    
+    if chat_room_data['sellerId'] == session['id']:
+        counterpartId = chat_room_data['buyerId']
+        counterpartImg = chat_room_data['buyerImg']
+    else:
+        counterpartId = chat_room_data['sellerId']
+        counterpartImg = chat_room_data['sellerImg']
+    
+    return render_template('dm.html', chat_room=chat_room_data, counterpartId=counterpartId, counterpartImg=counterpartImg)
+
+@application.route('/complete/<chat_room_id>', methods=['POST'])
+def complete_chat_room(chat_room_id):
+    DB.mark_chat_room_as_complete(chat_room_id)
+    return jsonify({"status": "success", "message": "Chat room marked as complete"})
 
 @application.route("/keyword")
 def keywordPage():
