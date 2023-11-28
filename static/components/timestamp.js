@@ -47,3 +47,4 @@ document.addEventListener("DOMContentLoaded", function () {
     timestamp.textContent = displayText;
   });
 });
+document.getElementById;

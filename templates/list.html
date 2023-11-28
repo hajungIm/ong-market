@@ -8,6 +8,7 @@
         <script>
             const likeItems = {{like_items|tojson|safe }};
             const likeItemIds = likeItems.map((item) => item.itemId);
+            const user
         </script>
     </head>
 
@@ -38,12 +39,30 @@
                     <option value="student">학관</option>
         </select>
       </div>
-      <input
-        class="reg_item_btn"
-        type="button"
-        onclick="window.location.href='/reg_item'"
-        value="상품등록"
-      />
+      <div>
+        <input
+            class="login_btn"
+            id="login_btn"
+            type="button"
+            onclick="window.location.href='/login'"
+            value="로그인"
+        />
+        <input
+            class="reg_item_btn"
+            type="button"
+            onclick="window.location.href='/reg_item'"
+            value="상품등록"
+        />
+        <script>
+            //로그인 안한 상태
+            loginBtn = document.getElementById("login_btn");
+            if()
+
+
+        </script>
+      </div>
+      
+
       <!--레이아웃 배치용-->
     </header>
         <main class="list_page_box">
