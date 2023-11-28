@@ -1,4 +1,4 @@
-.reg_item_btn {
+.reg_item_btn, .login_btn {
     box-sizing: border-box;
     text-align: center;
     padding: 10px 18px;
@@ -10,6 +10,11 @@
     font-size: 13px;
     font-weight: 400;
     letter-spacing: 0.1px;
+    margin-left: 20px;
+}
+
+.login_btn {
+    background-color: var(--ewha-green);
 }
 
 .base_header {
@@ -46,7 +51,7 @@
     gap: 8px;
 
 }
-.item_option__btn:hover, .reg_item_btn:hover{
+.item_option__btn:hover, .reg_item_btn:hover, .login_btn:hover{
     cursor: pointer;
 }
 

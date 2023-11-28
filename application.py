@@ -50,6 +50,10 @@ def login_user():
 def mem_register():
     return render_template("mem_register.html")
 
+@application.route("/mem_register_final")
+def mem_register_final():
+    return render_template("mem_register_final.html")
+
 @application.route('/send_email', methods=['POST'])
 def send_email():
     data = request.get_json()
@@ -133,6 +137,8 @@ def view_list():
 
     #찜한 목록 FE로 넘기기
     user_id = session.get('id')
+    if user_id is None:
+        user_id="no session"
     like_items = DB.get_like_items(user_id)
     
     user_key, user_data = DB.find_user_by_id(user_id)
@@ -140,11 +146,48 @@ def view_list():
     
     chat_room_ids = [chat_room['chatRoomId'] for chat_room in chat_rooms_data]
 
-    return render_template("list.html", datas=data_slice, user_key=user_key, chat_room_ids=chat_room_ids, rows=rows, page=page, page_count=page_count, total=item_counts, like_items = like_items)
+    return render_template("list.html", user_id=user_id, datas=data_slice, user_key=user_key, chat_room_ids=chat_room_ids, rows=rows, page=page, page_count=page_count, total=item_counts, like_items = like_items)
+
+    return render_template("list.html", datas=data_slice, rows=rows, page=page, page_count=page_count, total=item_counts, like_items = like_items)
 
 @application.route("/review_list")
 def review_list():
-    return render_template("review_list.html")
+    # 현재 로그인한 사용자의 ID를 얻어옵니다.
+    user_id = session.get('id')
+
+    # 사용자 ID를 기반으로 리뷰를 가져옵니다.
+    data = DB.get_reviews(user_id)
+
+    page = request.args.get("page", 1, type=int)
+    per_page = 5
+    start_idx = per_page * (page - 1)
+    end_idx = start_idx + per_page
+    
+    data_keys = []
+
+    if data is not None:
+        data_keys = list(data.keys())
+        # 'data_keys'를 사용한 코드 계속 진행
+    else:
+        # 'data'가 None인 경우를 처리합니다.
+        print("Data가 None입니다. 이 경우를 적절히 처리하세요.")
+
+    # 데이터가 없거나 비어있는 경우 처리
+    if not data_keys:
+        return render_template("review_list.html", datas=[], page=page, page_count=0, total=0)
+
+    item_counts = len(data_keys)
+    data_slice_keys = data_keys[start_idx:end_idx]
+
+    # 슬라이스된 키를 사용하여 데이터 추출
+    data_slice = [data[key] for key in data_slice_keys]
+
+    # 각 행에 대한 데이터 딕셔너리 생성
+    rows = [{'data_{}'.format(i): item} for i, item in enumerate(data_slice, start=start_idx)]
+
+    page_count = math.ceil(item_counts / per_page)
+
+    return render_template("review_list.html", datas=data_slice, rows=rows, page=page, page_count=page_count, total=item_counts)
 
 
 @application.route("/reg_item")
@@ -165,9 +208,10 @@ def reg_review_init(itemId):
 def submit_review(itemId):
     user_id = session.get("id")
     item = DB.find_item_by_id(itemId)
+    createdAt=request.args.get("reviewRegDate")
     reviewId = itemId
     
-    image_file=request.files["itemImg"]
+    image_file=request.files["reviewItemImg"]
     file_extension = image_file.filename.rsplit('.',1)[1].lower()
     image_file_path = "images/regReview/{}.{}".format(reviewId, file_extension)
     save_path = "static/" + image_file_path
