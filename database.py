@@ -256,6 +256,7 @@ class DBhandler:
         
         review_info = {
             # 리뷰 form 목록 설정하기
+            "reviewId": review_id,
             "userId": userId,
             "title": data['reviewTitle'],
             "review_img_path": review_img_path,
