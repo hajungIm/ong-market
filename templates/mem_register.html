@@ -96,16 +96,31 @@
             </script>
             <hr>
 
-            <!--재학생 인증 수정중 / 초록색으로 버튼 변경 구현해야함
-            -->
+            <!--재학생 인증-->
             <h4>Ewha Email</h4>
             <input id="Ewha Mail" type="text" name="Ewha Mail" style="border:none" required>
             <button class="check_button" id="check_email_button" type="button" 
             onclick="student_check()">check</button>
+
             <script>
                 function student_check(){
                     var btn=document.getElementById('check_email_button');
                     var email=document.getElementById('Ewha Mail');
+
+                    /*input 값들 저장*/
+                    var name=document.getElementById('name').value;
+                    var id=document.getElementById('id').value;
+                    var password=document.getElementById('password').value;
+                    var confirm_password=document.getElementById('confirm_password').value;
+                    var EwhaMail=document.getElementById('Ewha Mail').value;
+
+                    localStorage.setItem('name',name);
+                    localStorage.setItem('id',id);
+                    localStorage.setItem('password',password);
+                    localStorage.setItem('confirm_password',confirm_password);
+                    localStorage.setItem('EwhaMail',EwhaMail);
+                
+                    /*이화 메일 확인*/
                     if(email.value.slice(-11) != "@ewhain.net"){
                         alert("Ewha Mail이 아닙니다! 다시 입력해주세요");
                         email.value=null;
@@ -116,7 +131,6 @@
                         }
 
                         var random_num=rand(1000,9999);//랜덤 4자리 수 생성
-                        alert(random_num);//랜덤 수 생성 되는지 확인을 위해 임시로
                         localStorage.setItem('validateNum',random_num);
                         localStorage.setItem('email',email);
 
@@ -145,6 +159,7 @@
 
                 }
             </script>
+            
             <hr><br><br>
 
         

@@ -38,12 +38,42 @@
                     <option value="student">학관</option>
         </select>
       </div>
-      <input
-        class="reg_item_btn"
-        type="button"
-        onclick="window.location.href='/reg_item'"
-        value="상품등록"
-      />
+      <div>
+        <input
+            class="login_btn"
+            id="login_btn"
+            type="button"
+            onclick="window.location.href='/login'"
+            value="로그인"
+        />
+        <input
+            class="reg_item_btn"
+            type="button"
+            onclick="window.location.href='/reg_item'"
+            value="상품등록"
+        />
+        <script>
+            //로그인 안한 상태
+            const userId = "{{user_id}}";
+            console.log(userId);
+            const loginBtn = document.getElementById("login_btn");
+            if(userId==="no session"){
+                loginBtn.value = "로그인";
+                loginBtn.addEventListener("click", ()=>{
+                    window.location.href="/login";
+                })
+            }
+            else {
+                loginBtn.value= "로그아웃";
+                loginBtn.addEventListener("click", ()=>{
+                    window.location.href="/logout";
+                })
+
+            }
+        </script>
+      </div>
+      
+
       <!--레이아웃 배치용-->
     </header>
         <main class="list_page_box">
