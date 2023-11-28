@@ -50,6 +50,10 @@ def login_user():
 def mem_register():
     return render_template("mem_register.html")
 
+@application.route("/mem_register_final")
+def mem_register_final():
+    return render_template("mem_register_final.html")
+
 @application.route('/send_email', methods=['POST'])
 def send_email():
     data = request.get_json()
