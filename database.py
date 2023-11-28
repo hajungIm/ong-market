@@ -1,4 +1,3 @@
-
 import pyrebase
 import json
 from datetime import datetime
@@ -193,10 +192,7 @@ class DBhandler:
     def mark_chat_room_as_complete(self, chat_room_id):
         complete_update = {"complete": True}
         self.db.child("chats").child(chat_room_id).update(complete_update)
-<<<<<<< HEAD
-        
-=======
->>>>>>> 9aa0a4d68d95a23bc1757ea43c37f3a00bc54067
+
         itemId = self.db.child("chats").child(chat_room_id).get('itemId')
         self.db.child("item").chile(itemId).update({"completed": "1"})
         return True
