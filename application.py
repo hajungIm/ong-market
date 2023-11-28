@@ -146,20 +146,30 @@ def view_list():
 
 @application.route("/review_list")
 def review_list():
-    page = request.args.get("page", 1, type=int)
-    per_page=5
-    start_idx=per_page* (page - 1)
-    end_idx=start_idx+per_page
-     
-    data = DB.get_reviews()
+    # 현재 로그인한 사용자의 ID를 얻어옵니다.
+    user_id = session.get('id')
 
-    # OrderedDict의 키 리스트 생성
-    data_keys = list(data.keys())
+    # 사용자 ID를 기반으로 리뷰를 가져옵니다.
+    data = DB.get_reviews(user_id)
+
+    page = request.args.get("page", 1, type=int)
+    per_page = 5
+    start_idx = per_page * (page - 1)
+    end_idx = start_idx + per_page
+    
+    data_keys = []
+
+    if data is not None:
+        data_keys = list(data.keys())
+        # 'data_keys'를 사용한 코드 계속 진행
+    else:
+        # 'data'가 None인 경우를 처리합니다.
+        print("Data가 None입니다. 이 경우를 적절히 처리하세요.")
 
     # 데이터가 없거나 비어있는 경우 처리
     if not data_keys:
         return render_template("review_list.html", datas=[], page=page, page_count=0, total=0)
-    
+
     item_counts = len(data_keys)
     data_slice_keys = data_keys[start_idx:end_idx]
 
