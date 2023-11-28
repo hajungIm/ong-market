@@ -4,6 +4,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const dateString = timestamp.textContent || timestamp.innerHTML;
     // 날짜 문자열 파싱
     const [datePart, timePart] = dateString.split(",");
+    if (datePart == null || timePart == null) {
+      return;
+    }
     const [day, month, year] = datePart.trim().split("/");
     const [hour, minute, second] = timePart.trim().split(":");
 

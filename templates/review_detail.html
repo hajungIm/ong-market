@@ -18,8 +18,7 @@
   <body>
     <header class="base_header">
       <div class="base_header__icon base_header__back">
-        <!--뒤로 가기 링크 추후 수정 필요(dm창으로 이동해야 함)
-            result_review.html 생성해야함.-->
+        <!--뒤로 가기 링크 추후 수정 필요(dm창으로 이동해야 함)-->
         <i class="fa-solid fa-chevron-left fa-xl" style="color: #242424"></i>
       </div>
       <div>
@@ -47,6 +46,13 @@
     for (let i = 0; i < starCount; i++) {
         const starIcon = document.createElement('i');
         starIcon.className = 'fa-solid fa-star fa-sm';
+        starIcon.style.color = '#BF190E'
+        reviewStarContainer.appendChild(starIcon);
+    }
+    for (let i =starCount; i<5; i++){
+        const starIcon = document.createElement('i');
+        starIcon.className = 'fa-solid fa-star fa-sm';
+        starIcon.style.color = '#d9d9d9'
         reviewStarContainer.appendChild(starIcon);
     }
         </script>
@@ -57,26 +63,40 @@
 
     <main>
       <div class="review_img__section">
-        <button id="left" class="btn" type="button" onclick="">
-          <i class="fa-solid fa-chevron-left fa-xl"></i>
-        </button>
         <div class="review_img__box">
           <img src="{{ url_for('static', filename=reviewdata.review_img_path) }}" width="342px" />
         </div>
-        <button id="right" class="btn" type="button" onclick="">
-          <i class="fa-solid fa-chevron-right fa-xl"></i>
-        </button>
       </div>
 
       <div id="simple_review">
-        <button class="review_btn" type="button">응답이 빨라요</button>
-        <button class="review_btn" type="button">
-          제가 있는 곳까지 와서 거래했어요.
-        </button>
-        <button class="review_btn" type="button">
-          친절하고 매너가 좋아요.
-        </button>
-        <button class="review_btn" type="button">가격이 합리적이에요</button>
+    <button class="review_btn" type="button" id="time">시간 약속을 잘 지켜요.</button>
+    <button class="review_btn" type="button" id="response">응답이 빨라요.</button>
+    <button class="review_btn" type="button" id="kind">친절하고 매너가 좋아요.</button>
+    <button class="review_btn" type="button" id="come">제가 있는 곳까지 와서 거래했어요.</button>
+    <button class="review_btn" type="button" id="give">나눔을 해주셨어요.</button>
+    <button class="review_btn" type="button" id="condition">상품 상태가 설명한 것과 같아요.</button>
+    <button class="review_btn" type="button" id="detail">상품 설명이 자세해요.</button>
+    <button class="review_btn" type="button" id="resonable">가격이 합리적이에요.</button>
+       
+<script>
+    // JavaScript 코드
+    document.addEventListener("DOMContentLoaded", function() {
+        var data = {{ reviewdata.keyword }}
+
+        // 버튼들의 ID 배열
+        var buttonIds = ["time", "response", "kind", "come", "give", "condition", "detail", "resonable"];
+
+        // 각 버튼을 순회하면서 data.keyword 값을 확인하여 표시 여부 결정
+        for (var i = 0; i < data.length; i++) {
+            if (data[i] === 0) {
+                document.getElementById(buttonIds[i]).style.display = "none";
+            }
+            else{
+                document.getElementById(buttonIds[i]).style.display = "flex";
+            }
+        }
+    });
+</script>
       </div>
 
       <div id="review_ment">
@@ -91,5 +111,5 @@
       </div>
     </main>
   </body>
-  <script src="../static/components/base_header.js"></script>
+  <script src="{{ url_for('static', filename='components/base_header.js') }}"></script>
 </html>

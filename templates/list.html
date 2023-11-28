@@ -18,24 +18,47 @@
                     <i class="fa-solid fa-check" style="color: #ffffff;"></i>
                     <p>대면</p>
                 </button>
-
-                <select class="item_option__select" id="select_place" name="select_place">
-                    <option value="all" selected>모두</option>
-                    <option value="ECC">ECC</option>
-                    <option value="공학관">공학관(아산공학관, 신공학관)</option>
-                    <option value="교육관">교육관</option>
-                    <option value="기숙사e">기숙사(E-house, 한우리)</option>
-                    <option value="기숙사i">기숙사(I-house)</option>
-                    <option value="대강당">대강당</option>
-                    <option value="신세계관">신세계관</option>
-                    <option value="음악관">음악관</option>
-                    <option value="정문">정문</option>
-                    <option value="종합과학관">종합과학관</option>
-                    <option value="중앙도서관">중앙도서관</option>
-                    <option value="조형예술관">조형예술관</option>
-                    <option value="포스코관">포스코관</option>
-                    <option value="학관">학관</option>
-                </select>
+        <select
+          class="item_option__select"
+          id="select_place"
+          name="select_place"
+        >
+          <option value="all" selected>모두</option>
+                    <option value="mainGate">정문</option>
+                    <option value="ecc">ECC</option>
+                    <option value="art">조형예술관</option>
+                    <option value="asan">아산공학관</option>
+                    <option value="newEng">신공학관</option>
+                    <option value="edu">교육관</option>
+                    <option value="library">중앙도서관</option>
+                    <option value="eHouse">기숙사(E-house)</option>
+                    <option value="iHouse">기숙사(I-house)</option>
+                    <option value="science">종합과학관</option>
+                    <option value="posco">포스코관</option>
+                    <option value="student">학관</option>
+        </select>
+      </div>
+      <input
+        class="reg_item_btn"
+        type="button"
+        onclick="window.location.href='/reg_item'"
+        value="상품등록"
+      />
+      <!--레이아웃 배치용-->
+    </header>
+    <main class="list_page_box">
+      {% for row in rows %} {% for key, value in row.items() %}
+      <a
+        href="{{ url_for('item_detail', itemId=value.itemId) }}"
+        class="item_box_link"
+      >
+        <div class="item_box1" id="item-{{ value.itemId }}">
+          <div class="item_selection">
+            <div class="item_box1__img">
+              <img
+                src="{{ url_for('static', filename=value.img_path) }}"
+                alt="{{ key }}"
+              />
             </div>
             <input
                 class="reg_item_btn"
@@ -103,12 +126,15 @@
         </main>
 
         {% include 'nav_bar.html' %}
-    </body>
-    <script src="https://kit.fontawesome.com/afee348a73.js" crossorigin="anonymous"></script>
-    <script src="../static/screens/list.js"></script>
-    <script src="../static/components/like_press.js"></script>
-    <script src="../static/components/commas_to_price.js"></script>
-    <script src="../static/components/calcDate.js"></script>
+  </body>
+  <script
+    src="https://kit.fontawesome.com/afee348a73.js"
+    crossorigin="anonymous"
+  ></script>
+  <script src="{{ url_for('static', filename='screens/list.js') }}"></script>
+  <script src="{{ url_for('static', filename='components/like_press.js') }}"></script>
+  <script src="{{ url_for('static', filename='components/commas_to_price.js') }}"></script>
+  <script src="{{ url_for('static', filename='components/calcDate.js') }}"></script>
     <!-- Firebase 스크립트와 초기화 코드 -->
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
@@ -141,7 +167,7 @@
             })
             .catch(error => console.error('Error:',error));
         });
-
+      
         // 기존 채팅방 새로운 메시지 감지
         var chatRoomIds = {{ chat_room_ids|tojson }};
         function listenToChatRoomMessage(chatRoomId) {

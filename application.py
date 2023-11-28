@@ -167,7 +167,7 @@ def submit_review(itemId):
     item = DB.find_item_by_id(itemId)
     reviewId = itemId
     
-    image_file=request.files["reveiwItemImg"]
+    image_file=request.files["itemImg"]
     file_extension = image_file.filename.rsplit('.',1)[1].lower()
     image_file_path = "images/regReview/{}.{}".format(reviewId, file_extension)
     save_path = "static/" + image_file_path
@@ -358,9 +358,15 @@ def item_detail(itemId):
     
     return render_template("item_detail.html", data=item, item_data_json=item_data_json, userId=user_id, like_items=like_items)
 
-@application.route("/review_detail")
-def review_detail():
-    return render_template("review_detail.html")
+@application.route("/review_detail/<reviewId>")
+def review_detail(reviewId):
+    item_review = DB.find_review_by_id(reviewId)
+    item = DB.find_item_by_id(reviewId)
+
+    if not item:
+        return "Item not found", 404
+
+    return render_template("review_detail.html", data=item, reviewdata=item_review)
 
 @application.route("/student_check")
 def student_check():
@@ -378,6 +384,9 @@ def sellPage():
 
 @application.route("/selling")
 def sellingPage():
+    user_id = session.get("id")
+    data = DB.get_items()
+
     return render_template("sell_Page_selling.html")
 
 @application.route("/like")
@@ -461,7 +470,10 @@ def chat_room_page(chat_room_id):
         counterpartId = chat_room_data['sellerId']
         counterpartImg = chat_room_data['sellerImg']
     
-    return render_template('dm.html', chat_room=chat_room_data, counterpartId=counterpartId, counterpartImg=counterpartImg)
+    itemID = chat_room_data['itemId']
+    review_complete = DB.get_review_status_by_id(itemID)
+    
+    return render_template('dm.html', chat_room=chat_room_data, counterpartId=counterpartId, counterpartImg=counterpartImg, rc= review_complete)
 
 @application.route('/complete/<chat_room_id>', methods=['POST'])
 def complete_chat_room(chat_room_id):

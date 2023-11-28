@@ -79,7 +79,6 @@
                     <label for="bad">나쁨</label>
                 </div>
             </div>
-
             <div class="reg_item_form__section">
                 <label class="reg_item-form__label" for="description">설명</label>
                 <textarea
@@ -243,9 +242,11 @@
                 document.getElementById('submit_btn').addEventListener('click', handleSubmit);
             });
         </script>
-    </body>
-    <script src="../static/screens/reg_item_select.js"></script>
-    <script src="https://kit.fontawesome.com/afee348a73.js" crossorigin="anonymous"></script>
-    <script src="../static/components/img_btn.js"></script>
-    <!-- <script src="../static/components/base_header.js"></script> -->
+  </body>
+  <script
+    src="https://kit.fontawesome.com/afee348a73.js"
+    crossorigin="anonymous"
+  ></script>
+  <script src="{{ url_for('static', filename='components/img_btn.js') }}"></script>
+  <script src="{{ url_for('static', filename='screens/reg_item_select.js') }}"></script>
 </html>
