@@ -1,4 +1,3 @@
-
 import pyrebase
 import json
 from datetime import datetime
@@ -13,11 +12,16 @@ class DBhandler:
 
     def insert_user(self, data, pw):
         default_profile_image = "images/profile/default_profile_image.png" # 디폴트 프로필 이미지 경로
+        
+        keyword_stat =  [0, 0, 0, 0, 0, 0, 0, 0]
+        
         user_info={
             "id": data['id'],
             "pw": pw,
             "name": data['name'],
-            "profile_image":default_profile_image
+            "profile_image":default_profile_image,
+            "keyword_stat": keyword_stat,
+            "keyword_count": 0
         }
         if self.user_duplicate_check(str(data['id'])):
             self.db.child("user").push(user_info)
@@ -72,6 +76,8 @@ class DBhandler:
                     "id": value['id'],
                     "name": value['name'],
                     "profile_image": value['profile_image'],
+                    "keyword_stat": value['keyword_stat'],
+                    "keyword_count": value['keyword_count']
                     # 다른 필요한 사용자 정보...
                 }
         return None
@@ -193,6 +199,7 @@ class DBhandler:
     def mark_chat_room_as_complete(self, chat_room_id):
         complete_update = {"complete": True}
         self.db.child("chats").child(chat_room_id).update(complete_update)
+
         itemId = self.db.child("chats").child(chat_room_id).get('itemId')
         self.db.child("item").chile(itemId).update({"completed": "1"})
         return True
@@ -251,13 +258,20 @@ class DBhandler:
     def insert_review(self, review_id, data, review_img_path, userId):
         current_time = datetime.utcnow().isoformat() + 'Z'
 
+        # userId : reviewer, sellerId: seller
+        item = self.find_item_by_id(review_id)
+        sellerId=item.get('userId')
+        seller_key, seller_data = self.find_user_by_id(sellerId)
+        keyword_stat = seller_data.get('keyword_stat')
+        keyword_count = seller_data.get('keyword_count')
+
         if 'rating' not in data:
         # 'rating' 키가 없는 경우에 대한 처리
         # 여기서는 기본값으로 0을 사용하도록 가정
             rating_value = 0
         else:
             rating_value = data['rating']
-        
+
         review_info = {
             # 리뷰 form 목록 설정하기
             "reviewId": review_id,
@@ -266,21 +280,31 @@ class DBhandler:
             "review_img_path": review_img_path,
             "review": data['reviewContent'],
             "createdAt": current_time,
-            "rate": rating_value
+            "rate": rating_value,
+            "sellerId": sellerId
         }
 
         keyword_no_value = data.get('keywordNo', 'unchecked')
-            
+
         if keyword_no_value == "unchecked":
             keyword_values = [int(data.get(f'keywordSeller{i}', "0")) for i in range(1, 6)] + [int(data.get(f'keywordItem{i}', "0")) for i in range(1, 4)]
+
             review_info["keyword"] = keyword_values
+
+            for i, value in enumerate(keyword_values):
+                keyword_stat[i] += value
         else:
-            review_info["keywordNo"] = 1
+            keyword_values = [0, 0, 0, 0, 0, 0, 0, 0]
+            review_info["keyword"] = keyword_values
+
+        keyword_count+=1
 
         self.db.child("item").child(review_id).update({"review_complete": "1"})
         self.db.child("review").child(review_id).set(review_info)
+        self.db.child("user").child(seller_key).update({"keyword_count": keyword_count})
+        self.db.child("user").child(seller_key).update({"keyword_stat": keyword_stat})
         return True
-    
+
     def find_review_by_id(self, reviewId):
         review = self.db.child("review").child(reviewId).get()
         if review.val():
