@@ -262,7 +262,7 @@ class DBhandler:
         item = self.find_item_by_id(review_id)
         sellerId=item.get('userId')
         seller_key, seller_data = self.find_user_by_id(sellerId)
-        keyword_stat = seller_data.get('keyword_stat')
+        keyword_stat = seller_data.get('keyword_stat', [0]*7)
         keyword_count = seller_data.get('keyword_count')
 
         if 'rating' not in data:
@@ -284,18 +284,12 @@ class DBhandler:
             "sellerId": sellerId
         }
 
-        keyword_no_value = data.get('keywordNo', 'unchecked')
+        keyword_values = [int(data.get(f'keywordSeller{i}', "0")) for i in range(1, 6)] + [int(data.get(f'keywordItem{i}', "0")) for i in range(1, 4)]
 
-        if keyword_no_value == "unchecked":
-            keyword_values = [int(data.get(f'keywordSeller{i}', "0")) for i in range(1, 6)] + [int(data.get(f'keywordItem{i}', "0")) for i in range(1, 4)]
+        review_info["keyword"] = keyword_values
 
-            review_info["keyword"] = keyword_values
-
-            for i, value in enumerate(keyword_values):
-                keyword_stat[i] += value
-        else:
-            keyword_values = [0, 0, 0, 0, 0, 0, 0, 0]
-            review_info["keyword"] = keyword_values
+        for i, value in enumerate(keyword_values):
+            keyword_stat[i] += value
 
         keyword_count+=1
 
