@@ -13,9 +13,9 @@
 
   <body>
     <header class="base_header">
-      <div class="base_header__icon base_header__back">
-        <i class="fa-solid fa-chevron-left fa-xl" style="color: #242424"></i>
-      </div>
+      <a href="javascript:location.href = document.referrer;" class="base_header__icon base_header__back">
+        <i class="fa-solid fa-chevron-left fa-xl" style="color: #242424;"></i>
+      </a>
       <div>
         <h2 class="base_header__title">받은 리뷰</h2>
       </div>
@@ -59,10 +59,6 @@
         <p class="list_review__date"> {{ value.createdAt }}</p>
           </a>
         </div>
-           <script
-      src="https://kit.fontawesome.com/a1969e7b61.js"
-      crossorigin="anonymous"
-    ></script>
       {% endfor %} {% else %}
       <p>등록된 상품이 없습니다.</p>
       {% endfor %} {% include 'review_pagination.html' %}
@@ -71,6 +67,10 @@
 </body>
       <script src="{{ url_for('static', filename='components/base_header.js') }}"></script>
       <script src="{{ url_for('static', filename='components/commas_to_price.js') }}"></script>
+      <script
+      src="https://kit.fontawesome.com/a1969e7b61.js"
+      crossorigin="anonymous"
+    ></script>
 
 
 </html>
