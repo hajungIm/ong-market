@@ -12,31 +12,38 @@
     </head>
 
     <body>
+        <script src="http://code.jquery.com/jquery-latest.js"></script> 
         <header class="base_header">
             <div class="item_option">
                 <button class="item_option__btn" id="item_option_btn">
                     <i class="fa-solid fa-check" style="color: #ffffff;"></i>
                     <p>대면</p>
                 </button>
-        <select
-          class="item_option__select"
-          id="select_place"
-          name="select_place"
-        >
-          <option value="all" selected>모두</option>
-                    <option value="mainGate">정문</option>
-                    <option value="ecc">ECC</option>
-                    <option value="art">조형예술관</option>
-                    <option value="asan">아산공학관</option>
-                    <option value="newEng">신공학관</option>
-                    <option value="edu">교육관</option>
-                    <option value="library">중앙도서관</option>
-                    <option value="eHouse">기숙사(E-house)</option>
-                    <option value="iHouse">기숙사(I-house)</option>
-                    <option value="science">종합과학관</option>
-                    <option value="posco">포스코관</option>
-                    <option value="student">학관</option>
+
+            <script>
+            $(document).ready(function () {
+                
+               //alert("select_place = {{select_place}}, selected_option = {{selected_option}}");
+            $('#select_place option:contains("{{select_place}}")').prop("selected", true);
+    });
+        </script>
+<div>
+        <select class="item_option__select" id="select_place" name="select_place" onchange="location = this.value;">
+          <option value="{{url_for('view_list', page=i, select_place='all')}}">모두</option>
+          <option value="{{url_for('view_list', page=i, select_place='mainGate')}}">정문</option>
+          <option value="{{url_for('view_list', page=i, select_place='ecc')}}">ECC</option>
+          <option value="{{url_for('view_list', page=i, select_place='art')}}">조형예술관</option>
+          <option value="{{url_for('view_list', page=i, select_place='asan')}}">아산공학관</option>
+          <option value="{{url_for('view_list', page=i, select_place='newEng')}}">신공학관</option>
+          <option value="{{url_for('view_list', page=i, select_place='edu')}}">교육관</option>
+          <option value="{{url_for('view_list', page=i, select_place='library')}}">중앙도서관</option>
+          <option value="{{url_for('view_list', page=i, select_place='eHouse')}}">기숙사(E-house)</option>
+          <option value="{{url_for('view_list', page=i, select_place='iHouse')}}">기숙사(I-house)</option>
+          <option value="{{url_for('view_list', page=i, select_place='science')}}">종합과학관</option>
+          <option value="{{url_for('view_list', page=i, select_place='posco')}}">포스코관</option>
+          <option value="{{url_for('view_list', page=i, select_place='student')}}">학관</option>
         </select>
+    </div>
       </div>
       <div>
         <input
@@ -77,6 +84,7 @@
       <!--레이아웃 배치용-->
     </header>
         <main class="list_page_box">
+            {% if rows %}
             {% for row in rows %} {% for key, value in row.items() %}
             <a href="{{ url_for('item_detail', itemId=value.itemId) }}" class="item_box_link">
                 <div class="item_box1" id="item-{{ value.itemId }}">
@@ -121,9 +129,13 @@
                     });
                 </script>
             </a>
-            {% endfor %} {% else %}
-            <p>등록된 상품이 없습니다.</p>
-            {% endfor %}
+            {% endfor %} {% endfor %}
+            {% else %}
+            
+            <div class="item_box1">
+                <p class = "item_box1__title">등록된 상품이 없습니다.</p>
+            </div>
+            {% endif %}
             
             <p>
                 [ new chat 알림 확인을 위한 임시 표기 코드 ]<br>
