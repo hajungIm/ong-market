@@ -319,7 +319,6 @@ class DBhandler:
             return review_complete
         else:
             return None
-<<<<<<< HEAD
         
     def get_reviews(self, user_id):
         reviews = self.db.child("review").get().val()
@@ -339,9 +338,6 @@ class DBhandler:
             if key_value == name:
                 target_value=res.val()
         return target_value
-    
-    
-=======
     
     def get_items_bytransaction(self, cate):
         items = self.db.child("item").get()
@@ -374,4 +370,3 @@ class DBhandler:
         for k,v in zip(target_key,target_value):
             new_dict[k]=v
         return new_dict
->>>>>>> origin/main

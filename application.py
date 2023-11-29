@@ -240,7 +240,7 @@ def submit_review(itemId):
     createdAt=request.args.get("reviewRegDate")
     reviewId = itemId
     
-    image_file=request.files["reviewItemImg"]
+    image_file=request.files["itemImg"]
     file_extension = image_file.filename.rsplit('.',1)[1].lower()
     image_file_path = "images/regReview/{}.{}".format(reviewId, file_extension)
     save_path = "static/" + image_file_path
