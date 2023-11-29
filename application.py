@@ -111,11 +111,17 @@ def register_user():
 @application.route("/list")
 def view_list():
     page = request.args.get("page", 1, type=int)
+    category = request.args.get("select_place", "all")
     per_page=5
     start_idx=per_page* (page - 1)
     end_idx=start_idx+per_page
      
-    data = DB.get_items()
+    if category == "all":
+        data = DB.get_items()  # read the table
+    else:
+        data = DB.get_items_bylocation(category)
+
+    data = dict(sorted(data.items(), key=lambda x: x[0], reverse=False))
 
     # OrderedDict의 키 리스트 생성
     data_keys = list(data.keys())
@@ -146,7 +152,8 @@ def view_list():
     
     chat_room_ids = [chat_room['chatRoomId'] for chat_room in chat_rooms_data]
 
-    return render_template("list.html", user_id=user_id, datas=data_slice, user_key=user_key, chat_room_ids=chat_room_ids, rows=rows, page=page, page_count=page_count, total=item_counts, like_items = like_items)
+    return render_template("list.html", user_id=user_id, datas=data_slice, user_key=user_key, chat_room_ids=chat_room_ids, rows=rows, page=page, page_count=page_count, total=item_counts, like_items = like_items,
+        select_place=category)
 
 @application.route("/review_list")
 def review_list():
