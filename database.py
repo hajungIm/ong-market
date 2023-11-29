@@ -320,7 +320,7 @@ class DBhandler:
             return review_complete
         else:
             return None
-        
+    
     def get_items_bytransaction(self, cate):
         items = self.db.child("item").get()
         target_value=[]
@@ -328,7 +328,7 @@ class DBhandler:
         for res in items.each():
             value = res.val()
             key_value = res.key()
-            if value['transaction'] == cate:
+            if 'transaction' in value and value['transaction'] == cate:
                 target_value.append(value)
                 target_key.append(key_value)
         print("######target_value",target_value)

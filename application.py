@@ -116,6 +116,8 @@ def view_list():
     start_idx=per_page* (page - 1)
     end_idx=start_idx+per_page
     
+    print(f"선택 된 장소값: {select_place}")
+    
     switcher = {
         'all': '모두',
         'mainGate': '정문',
@@ -134,10 +136,12 @@ def view_list():
     
     category = switcher.get(select_place, '모두')
     
-    if select_place == "all":
-        data = DB.get_items()  # read the table
-    else:
-        data = DB.get_items_bylocation(select_place)
+    if select_place == "none":
+        data = DB.get_items_bytransaction("비대면 (택배, 우편)")  # read the table
+    elif select_place == "all" :
+        data = DB.get_items_bytransaction("대면")
+    else :
+        data = data = DB.get_items_bylocation(select_place)
 
     data = dict(sorted(data.items(), key=lambda x: x[0], reverse=False))
 
@@ -171,7 +175,7 @@ def view_list():
     chat_room_ids = [chat_room['chatRoomId'] for chat_room in chat_rooms_data]
 
     return render_template("list.html", user_id=user_id, datas=data_slice, user_key=user_key, chat_room_ids=chat_room_ids, rows=rows, page=page, page_count=page_count, total=item_counts, like_items = like_items,
-        select_place=category)
+        select_place=category, selected_option = select_place)
 
 @application.route("/review_list")
 def review_list():
