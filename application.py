@@ -45,6 +45,15 @@ def login_user():
     else:
         flash("Wrong ID or PW!")
         return render_template("login.html")
+    
+@application.route("/reset_password", methods=['POST'])
+def reset_password():
+    data = request.get_json()
+    user_id = data['user_id']
+    new_password = data['new_password']
+    
+    success = DB.update_password(user_id, new_password)
+    return jsonify(success=success)
 
 @application.route("/mem_register")
 def mem_register():
@@ -263,11 +272,8 @@ def my_page():
     user_info = DB.get_user_info(user_id)
     return render_template("mypage.html", user_info=user_info)
 
-# 임시로 만든 비밀번호 변경하는 엔드포인트입니다.
-# 프론트에서 POST 요청으로 새로운 비밀번호를 받아 처리.
-# 처리 결과를 프론트로 응답해야 함.
-@application.route("/change_password", methods=["POST"])
-def change_password():
+@application.route("/update_password", methods=["POST"])
+def update_password():
     try:
         # 세션에서 사용자 ID 가져오기
         user_id = session.get("id")
@@ -275,17 +281,17 @@ def change_password():
             return jsonify({"message": "세션이 만료되었습니다. 다시 로그인해주세요."}), 401
 
         # 새로운 비밀번호 가져오기
-        new_password = request.json.get("newPassword")
+        data = request.get_json()
+        new_password = data.get('newPassword')
 
-        # firebase 비밀번호 변경 로직
-        
-        
-        #비밀번호 변경 성공
-        return jsonify({"message": "비밀번호 변경이 완료되었습니다."}), 200
+        # 사용자의 비밀번호 업데이트
+        if DB.update_password(user_id, new_password):
+            return jsonify({"success": True, "message": "비밀번호 변경이 완료되었습니다."}), 200
+        else:
+            return jsonify({"success": False, "message": "비밀번호 업데이트에 실패했습니다."}), 500
 
-    #오류 발생
     except Exception as e:
-        return jsonify({"message": f"비밀번호 변경 중 오류 발생: {str(e)}"}), 500
+        return jsonify({"success": False, "message": f"비밀번호 변경 중 오류 발생: {str(e)}"}), 500
 
 
 @application.route("/dm_to_seller", methods=['POST'])
@@ -400,8 +406,8 @@ def find_password():
         email = data['email']
         
         user = DB.find_user_by_email(email)
-        
-        if (user_id == user.get('id')):
+
+        if user and (user_id == user.get('id')):
             return jsonify(success=True)
         return jsonify(success=False)
         
@@ -517,7 +523,6 @@ def update_profile_image():
     DB.update_profile_image(user_id, image_file_path)
     DB.update_chats_profile_image(user_id, image_file_path)
     return jsonify(success=True)
-    
 
 @application.route("/chatting_list")
 def chattingListPage():

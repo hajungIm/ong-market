@@ -52,8 +52,8 @@
         </div>
       </div>
       <div style="padding-top: 30px"></div>
-      <form action="#" style="padding-left: 2%">
-        <div style="color: #909191; margin-left: 15%" class="pass_box__title">
+      <form id="updatePasswordForm" action="" style="padding-left: 2%" >
+        <div style="color: #909191; margin-left: 15%" class="pass_box__title" >
           비밀 번호 수정
           <span id="password_check__error"></span>
         </div>
@@ -147,6 +147,45 @@
             };
           }
         </script>
+          
+        <script>
+          function updatePassword(event) {
+  event.preventDefault();
+
+  const newPassword = document.getElementById("newPassword").value;
+  const newPasswordCheck = document.getElementById("newPasswordCheck").value;
+
+  // 클라이언트 측 유효성 검사
+  if (newPassword !== newPasswordCheck) {
+    document.getElementById("password_check__error").innerText =
+      "비밀번호가 일치하지 않습니다.";
+    return;
+  } else {
+    document.getElementById("password_check__error").innerText = "";
+  }
+
+  // 서버로 비밀번호 업데이트 요청
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", "/update_password", true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      const response = JSON.parse(xhr.responseText);
+      if (response.success) {
+        alert("비밀번호가 성공적으로 변경되었습니다!");
+        window.location.reload(); // 페이지 새로고침 또는 리디렉션
+      } else {
+        alert("비밀번호 업데이트에 실패했습니다.");
+      }
+    }
+  };
+
+  // JSON 데이터로 변환하여 전송
+  xhr.send(JSON.stringify({ newPassword: newPassword }));
+}
+</script>
+
       </div>
     </div>
   </body>
@@ -157,5 +196,6 @@
   ></script>
   <script src="{{ url_for('static', filename='components/like_press.js') }}"></script>
   <script src="{{ url_for('static', filename='components/password_check.js') }}"></script>
+  <script src="{{ url_for('static', filename='components/update_password.js') }}"></script>
   <script src="{{ url_for('static', filename='components/upload_profile_image.js') }}"></script>
 </html>
