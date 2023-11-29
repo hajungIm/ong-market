@@ -219,7 +219,6 @@ class DBhandler:
         pw_hash = hashlib.sha256(new_password.encode('utf-8')).hexdigest()
 
         if user_data:
-            # 사용자 데이터를 찾았으면 비밀번호 업데이트
             self.db.child("user").child(user_key).update({"pw": pw_hash})
             return True
         else:

@@ -45,6 +45,15 @@ def login_user():
     else:
         flash("Wrong ID or PW!")
         return render_template("login.html")
+    
+@application.route("/reset_password", methods=['POST'])
+def reset_password():
+    data = request.get_json()
+    user_id = data['user_id']
+    new_password = data['new_password']
+    
+    success = DB.update_password(user_id, new_password)
+    return jsonify(success=success)
 
 @application.route("/mem_register")
 def mem_register():
@@ -234,9 +243,6 @@ def my_page():
     user_info = DB.get_user_info(user_id)
     return render_template("mypage.html", user_info=user_info)
 
-# 임시로 만든 비밀번호 변경하는 엔드포인트입니다.
-# 프론트에서 POST 요청으로 새로운 비밀번호를 받아 처리.
-# 처리 결과를 프론트로 응답해야 함.
 @application.route("/update_password", methods=["POST"])
 def update_password():
     try:
@@ -371,8 +377,8 @@ def find_password():
         email = data['email']
         
         user = DB.find_user_by_email(email)
-        
-        if (user_id == user.get('id')):
+
+        if user and (user_id == user.get('id')):
             return jsonify(success=True)
         return jsonify(success=False)
         
