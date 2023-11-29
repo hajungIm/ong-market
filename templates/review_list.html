@@ -6,126 +6,71 @@
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='screens/list_review_style.css') }}"
+
     />
     <title>판매 리뷰 전체 조회</title>
   </head>
 
   <body>
     <header class="base_header">
-      <div class="base_header__icon base_header__back">
-        <i class="fa-solid fa-chevron-left fa-xl" style="color: #242424"></i>
-      </div>
+      <a href="javascript:location.href = document.referrer;" class="base_header__icon base_header__back">
+        <i class="fa-solid fa-chevron-left fa-xl" style="color: #242424;"></i>
+      </a>
       <div>
-        <h2 class="base_header__title">EwhaSeller님의 판매 리뷰</h2>
+        <h2 class="base_header__title">받은 리뷰</h2>
       </div>
       <div class="base_header__icon">
         <!--레이아웃 배치용-->
       </div>
     </header>
-
-    <main class="list_review__page">
-      <!--서버 연동시 동일 코드 삭제하고 반복문으로 해결할 예정 -->
+      
+      <main class="list_review__page">
+      {% for row in rows %} {% for key, value in row.items() %}
       <div class="list_review__box">
-        <p class="list_review__title">테이블 너무너무 예뻐요!!</p>
+          <a
+       href="{{ url_for('review_detail', reviewId=value.reviewId) }}" 
+        class="review_item__link"
+      >
+        <p class="list_review__title">{{value.title}}</p>
         <div class="review_item">
           <div class="review_img__box">
             <img
               class="review_item__img"
-              src="static/images/item1_image.jpeg"
+              src="{{ url_for('static', filename=value.review_img_path) }}"
               alt="상품 이미지"
             />
           </div>
           <div class="review_item__content">
-            <p class="review_item__title">원형 테이블</p>
-            <p class="review_item__price">15,000원</p>
+            <p class="review_item__title">{{value.itemName}}</p>
+            <p class="review_item__price commas_price">{{ value.price }}원</p>
           </div>
         </div>
         <div class="review_rate">
-          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
-          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
-          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
-          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
-          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
+        {% if value.rate is defined %}
+            {% for _ in range(value.rate | int) %}
+                <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
+            {% endfor %}
+        {% set empty_stars = (5 - value.rate | int) %}
+        {% for _ in range(empty_stars) %}
+            <i class="fa-regular fa-star" style="color: var(--star-gray)"></i>
+        {% endfor %}
+        {% endif %}
         </div>
-        <p class="list_review__date">2023.09.14</p>
-      </div>
-      <div class="list_review__box">
-        <p class="list_review__title">운동화 상태 괜찮습니다.</p>
-        <div class="review_item">
-          <div class="review_img__box">
-            <img
-              class="review_item__img"
-              src="static/images/item2_image.jpeg"
-              alt="상품 이미지"
-            />
-          </div>
-          <div class="review_item__content">
-            <p class="review_item__title">운동화</p>
-            <p class="review_item__price">35,000원</p>
-          </div>
+        <p class="list_review__date"> {{ value.createdAt }}</p>
+          </a>
         </div>
-        <div class="review_rate">
-          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
-          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
-          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
-          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
-          <i class="fa-solid fa-star" style="color: var(--star-gray)"></i>
-        </div>
-        <p class="list_review__date">2023.03.23</p>
-      </div>
-      <div class="list_review__box">
-        <p class="list_review__title">가성비 갑</p>
-        <div class="review_item">
-          <div class="review_img__box">
-            <img
-              class="review_item__img"
-              src="static/images/item6_image.jpeg"
-              alt="상품 이미지"
-            />
-          </div>
-          <div class="review_item__content">
-            <p class="review_item__title">심플 의자</p>
-            <p class="review_item__price">15,000원</p>
-          </div>
-        </div>
-        <div class="review_rate">
-          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
-          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
-          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
-          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
-          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
-        </div>
-        <p class="list_review__date">2023.01.27</p>
-      </div>
-      <div class="list_review__box">
-        <p class="list_review__title">생각보다 좀 꼬질꼬질하네요...</p>
-        <div class="review_item">
-          <div class="review_img__box">
-            <img
-              class="review_item__img"
-              src="static/images/item5_image.png"
-              alt="상품 이미지"
-            />
-          </div>
-          <div class="review_item__content">
-            <p class="review_item__title">미니 인형 키링</p>
-            <p class="review_item__price">5,000원</p>
-          </div>
-        </div>
-        <div class="review_rate">
-          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
-          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
-          <i class="fa-solid fa-star" style="color: var(--star-yellow)"></i>
-          <i class="fa-solid fa-star" style="color: var(--star-gray)"></i>
-          <i class="fa-solid fa-star" style="color: var(--star-gray)"></i>
-        </div>
-        <p class="list_review__date">2022.09.18</p>
-      </div>
-      {% include 'pagination.html' %}
+      {% endfor %} {% else %}
+      <p>등록된 상품이 없습니다.</p>
+      {% endfor %} {% include 'review_pagination.html' %}
     </main>
-  </body>
-  <script
-    src="https://kit.fontawesome.com/afee348a73.js"
-    crossorigin="anonymous"
-  ></script>
+
+</body>
+      <script src="{{ url_for('static', filename='components/base_header.js') }}"></script>
+      <script src="{{ url_for('static', filename='components/commas_to_price.js') }}"></script>
+      <script
+      src="https://kit.fontawesome.com/a1969e7b61.js"
+      crossorigin="anonymous"
+    ></script>
+
+
 </html>

@@ -102,6 +102,7 @@ class DBhandler:
                 "like_count": 0,
                 "createdAt": data['itemRegDate'],
                 "review_complete": "0",
+                #"createdAt": data['itemRegDate']
                 "completed": "0"
             }
         if data['transaction'] == "대면":
@@ -264,6 +265,8 @@ class DBhandler:
         seller_key, seller_data = self.find_user_by_id(sellerId)
         keyword_stat = seller_data.get('keyword_stat', [0]*7)
         keyword_count = seller_data.get('keyword_count')
+        price=item.get('price')
+        itemName=item.get('itemName')
 
         if 'rating' not in data:
         # 'rating' 키가 없는 경우에 대한 처리
@@ -281,7 +284,9 @@ class DBhandler:
             "review": data['reviewContent'],
             "createdAt": current_time,
             "rate": rating_value,
-            "sellerId": sellerId
+            "sellerId": sellerId,
+            "price": price,
+            "itemName": itemName,
         }
 
         keyword_values = [int(data.get(f'keywordSeller{i}', "0")) for i in range(1, 6)] + [int(data.get(f'keywordItem{i}', "0")) for i in range(1, 4)]
@@ -314,6 +319,25 @@ class DBhandler:
             return review_complete
         else:
             return None
+        
+    def get_reviews(self, user_id):
+        reviews = self.db.child("review").get().val()
+        
+        # 사용자가 받은 리뷰만 필터링
+        user_reviews = {key: value for key, value in reviews.items() if value.get('sellerId') == user_id}
+        return user_reviews
+
+    
+    def get_review_by_name(self, name):
+        reviews = self.db.child("review").get()
+        target_value=""
+        print("###########",name)
+        for res in reviews.each():
+            key_value = res.key()
+            
+            if key_value == name:
+                target_value=res.val()
+        return target_value
     
     def get_items_bytransaction(self, cate):
         items = self.db.child("item").get()
