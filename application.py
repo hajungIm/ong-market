@@ -107,19 +107,37 @@ def register_user():
     else:
         flash("user id already exist!")
         return render_template("mem_register.html")
-
+    
 @application.route("/list")
 def view_list():
     page = request.args.get("page", 1, type=int)
-    category = request.args.get("select_place", "all")
+    select_place = request.args.get("select_place", "all")
     per_page=5
     start_idx=per_page* (page - 1)
     end_idx=start_idx+per_page
-     
-    if category == "all":
+    
+    switcher = {
+        'all': '모두',
+        'mainGate': '정문',
+        'ecc': 'ECC',
+        'art': '조형예술관',
+        'asan': '아산공학관',
+        'newEng': '신공학관',
+        'edu': '교육관',
+        'library': '중앙도서관',
+        'eHouse': '기숙사(E-house)',
+        'iHouse': '기숙사(I-house)',
+        'science': '종합과학관',
+        'posco': '포스코관',
+        'student': '학관',
+    }
+    
+    category = switcher.get(select_place, '모두')
+    
+    if select_place == "all":
         data = DB.get_items()  # read the table
     else:
-        data = DB.get_items_bylocation(category)
+        data = DB.get_items_bylocation(select_place)
 
     data = dict(sorted(data.items(), key=lambda x: x[0], reverse=False))
 
@@ -127,14 +145,14 @@ def view_list():
     data_keys = list(data.keys())
 
     # 데이터가 없거나 비어있는 경우 처리
-    if not data_keys:
-        return render_template("list.html", datas=[], page=page, page_count=0, total=0)
+    # if not data_keys:
+    #     return render_template("list.html", datas=[], page=page, chat_room_ids=[], page_count=0, total=0, like_items = [], select_place=category)
     
     item_counts = len(data_keys)
     data_slice_keys = data_keys[start_idx:end_idx]
 
     # 슬라이스된 키를 사용하여 데이터 추출
-    data_slice = [data[key] for key in data_slice_keys]
+    data_slice = [data[key] for key in data_slice_keys] or []
 
     # 각 행에 대한 데이터 딕셔너리 생성
     rows = [{'data_{}'.format(i): item} for i, item in enumerate(data_slice, start=start_idx)]
@@ -145,10 +163,10 @@ def view_list():
     user_id = session.get('id')
     if user_id is None:
         user_id="no session"
-    like_items = DB.get_like_items(user_id)
+    like_items = DB.get_like_items(user_id) or []
     
     user_key, user_data = DB.find_user_by_id(user_id)
-    chat_rooms_data = DB.get_chat_rooms_for_user(user_id)
+    chat_rooms_data = DB.get_chat_rooms_for_user(user_id)  or []
     
     chat_room_ids = [chat_room['chatRoomId'] for chat_room in chat_rooms_data]
 

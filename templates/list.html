@@ -22,17 +22,17 @@
 
             <script>
             $(document).ready(function () {
-               alert("{{select_place}}");
+               //alert("{{select_place}}");
             $('#select_place option:contains("{{select_place}}")').prop("selected", true);
     });
         </script>
 <div>
         <select class="item_option__select" id="select_place" name="select_place" onchange="location = this.value;">
-          <option value="{{url_for('view_list', page=i, select_place='all')}}">all</option>
+          <option value="{{url_for('view_list', page=i, select_place='all')}}">모두</option>
           <option value="{{url_for('view_list', page=i, select_place='mainGate')}}">정문</option>
           <option value="{{url_for('view_list', page=i, select_place='ecc')}}">ECC</option>
           <option value="{{url_for('view_list', page=i, select_place='art')}}">조형예술관</option>
-          <option value="{{url_for('view_list', page=i, select_place='asan')}}">asan</option>
+          <option value="{{url_for('view_list', page=i, select_place='asan')}}">아산공학관</option>
           <option value="{{url_for('view_list', page=i, select_place='newEng')}}">신공학관</option>
           <option value="{{url_for('view_list', page=i, select_place='edu')}}">교육관</option>
           <option value="{{url_for('view_list', page=i, select_place='library')}}">중앙도서관</option>
@@ -83,6 +83,7 @@
       <!--레이아웃 배치용-->
     </header>
         <main class="list_page_box">
+            {% if rows %}
             {% for row in rows %} {% for key, value in row.items() %}
             <a href="{{ url_for('item_detail', itemId=value.itemId) }}" class="item_box_link">
                 <div class="item_box1" id="item-{{ value.itemId }}">
@@ -127,9 +128,13 @@
                     });
                 </script>
             </a>
-            {% endfor %} {% else %}
-            <p>등록된 상품이 없습니다.</p>
-            {% endfor %}
+            {% endfor %} {% endfor %}
+            {% else %}
+            
+            <div class="item_box1">
+                <p class = "item_box1__title">등록된 상품이 없습니다.</p>
+            </div>
+            {% endif %}
             
             <p>
                 [ new chat 알림 확인을 위한 임시 표기 코드 ]<br>
