@@ -1,5 +1,6 @@
 import pyrebase
 import json
+import hashlib
 from datetime import datetime
 
 class DBhandler:
@@ -212,6 +213,18 @@ class DBhandler:
             return True
         return False
     
+    def update_password(self, user_id, new_password):
+        user_key, user_data = self.find_user_by_id(user_id)
+        
+        pw_hash = hashlib.sha256(new_password.encode('utf-8')).hexdigest()
+
+        if user_data:
+            # 사용자 데이터를 찾았으면 비밀번호 업데이트
+            self.db.child("user").child(user_key).update({"pw": pw_hash})
+            return True
+        else:
+            return False
+    
     def update_chats_profile_image(self, user_id, new_image):
         chat_rooms = self.get_chat_rooms_for_user(user_id)
         for chat_room in chat_rooms:
@@ -344,5 +357,7 @@ class DBhandler:
             if key_value == name:
                 target_value=res.val()
         return target_value
+    
+
     
     
