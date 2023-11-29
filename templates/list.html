@@ -1,33 +1,67 @@
 <!DOCTYPE html>
 <html lang="kr">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-        <title>상품 전체 조회</title>
-        <script>
-            const likeItems = {{like_items|tojson|safe }};
-            const likeItemIds = likeItems.map((item) => item.itemId);
-        </script>
-    </head>
 
-    <body>
-        <script src="http://code.jquery.com/jquery-latest.js"></script> 
-        <header class="base_header">
-            <div class="item_option">
-                <button class="item_option__btn" id="item_option_btn">
-                    <i class="fa-solid fa-check" style="color: #ffffff;"></i>
-                    <p>대면</p>
-                </button>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <title>상품 전체 조회</title>
+  <script>
+    const likeItems = {{ like_items| tojson | safe }};
+    const likeItemIds = likeItems.map((item) => item.itemId);
+  </script>
+</head>
 
-            <script>
-            $(document).ready(function () {
-                
-               //alert("select_place = {{select_place}}, selected_option = {{selected_option}}");
-            $('#select_place option:contains("{{select_place}}")').prop("selected", true);
-    });
-        </script>
-<div>
+<body>
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <header class="base_header">
+    <div class="item_option">
+      <!-- select_transaction 코드 -->
+      <select class="item_option__btn" id="select_transaction" name="item_option_btn" onchange="location=this.value">
+        <i class="fa-solid fa-check" style="color: #ffffff;"></i>
+        <option value="{{ url_for('view_list', page=i, select_place='all') }}">대면</option>
+        <option value="{{ url_for('view_list', page=i, select_place='non') }}">비대면</option>
+      </select>
+      <script>
+        $(document).ready(function () {
+          var selectp = document.getElementById("select_place");
+          var selectt = document.getElementById("select_transaction");
+          var options_p = selectp.options;
+          var options_t = selectt.options;
+
+          if ('{{ selected_option }}' === 'non') {
+            selectp.setAttribute("disabled", "disabled");
+            for (var i = 0; i < options_p.length; i++) {
+              if (options_p[i].text === "모두") {
+                options_p[i].selected = true;
+                break;
+              }
+            }
+            for (var i = 0; i < options_t.length; i++) {
+              if (options_t[i].text === "비대면") {
+                options_t[i].selected = true;
+                break;
+              }
+            }
+          } else {
+            for (var i = 0; i < options_p.length; i++) {
+              if (options_p[i].text === "{{select_place}}") {
+                options_p[i].selected = true;
+                break;
+              }
+            }
+            for (var i = 0; i < options_t.length; i++) {
+              if (options_t[i].text === "대면") {
+                options_t[i].selected = true;
+                break;
+              }
+            }
+          }
+        });
+        //alert("{{ select_place }}: 한, {{ selected_option }}: 영 ");
+      </script>
+      <!-- select_place 코드 -->
+      <div>
         <select class="item_option__select" id="select_place" name="select_place" onchange="location = this.value;">
           <option value="{{url_for('view_list', page=i, select_place='all')}}">모두</option>
           <option value="{{url_for('view_list', page=i, select_place='mainGate')}}">정문</option>
@@ -43,172 +77,156 @@
           <option value="{{url_for('view_list', page=i, select_place='posco')}}">포스코관</option>
           <option value="{{url_for('view_list', page=i, select_place='student')}}">학관</option>
         </select>
+      </div>
     </div>
-      </div>
-      <div>
-        <input
-            class="login_btn"
-            id="login_btn"
-            type="button"
-            onclick="window.location.href='/login'"
-            value="로그인"
-        />
-        <input
-            class="reg_item_btn"
-            type="button"
-            onclick="window.location.href='/reg_item'"
-            value="상품등록"
-        />
-        <script>
-            //로그인 안한 상태
-            const userId = "{{user_id}}";
-            console.log(userId);
-            const loginBtn = document.getElementById("login_btn");
-            if(userId==="no session"){
-                loginBtn.value = "로그인";
-                loginBtn.addEventListener("click", ()=>{
-                    window.location.href="/login";
-                })
-            }
-            else {
-                loginBtn.value= "로그아웃";
-                loginBtn.addEventListener("click", ()=>{
-                    window.location.href="/logout";
-                })
-
-            }
-        </script>
-      </div>
-      
-
-      <!--레이아웃 배치용-->
-    </header>
-        <main class="list_page_box">
-            {% if rows %}
-            {% for row in rows %} {% for key, value in row.items() %}
-            <a href="{{ url_for('item_detail', itemId=value.itemId) }}" class="item_box_link">
-                <div class="item_box1" id="item-{{ value.itemId }}">
-                    <div class="item_selection">
-                        <div class="item_box1__img">
-                            <img
-                                src="{{ url_for('static', filename=value.img_path) }}"
-                                alt="{{ key }}"
-                            />
-                        </div>
-                        <div class="item_box1__info">
-                            <p class="item_box1__title">{{ value.itemName }}</p>
-                            <div class="item_box1__upload">
-                                <p class="item_box1__seller">{{ value.userId }}</p>
-                                <p class="item_box1__date item_reg_date">
-                                    {{ value.createdAt }}
-                                </p>
-                            </div>
-                            <p class="item_box1__price commas_price">{{ value.price }}원</p>
-                        </div>
-                    </div>
-                    <div class="item_box1__icon">
-                        <div class="item_box1_like">
-                            <div class="like_icon_box">
-                                <i class="fa-regular fa-bookmark fa-lg"></i>
-                            </div>
-                            <p class="item_like_num">{{ value.like_count }}</p>
-                        </div>
-                    </div>
-                </div>
-                <script>
-                    document.addEventListener("DOMContentLoaded", function () {
-                      const itemId = {{ value.itemId }};
-                      const bookmarkIcon = document.querySelector(
-                        `#item-${itemId} .item_box1_like .fa-bookmark`
-                      );
-                      if (likeItemIds.includes(itemId)) {
-                        bookmarkIcon.classList.remove("fa-regular");
-                        bookmarkIcon.classList.add("fa-solid");
-                        bookmarkIcon.style.color = "#242424";
-                      }
-                    });
-                </script>
-            </a>
-            {% endfor %} {% endfor %}
-            {% else %}
-            
-            <div class="item_box1">
-                <p class = "item_box1__title">등록된 상품이 없습니다.</p>
-            </div>
-            {% endif %}
-            
-            <p>
-                [ new chat 알림 확인을 위한 임시 표기 코드 ]<br>
-                {{ session['newChat'] if session['newChat'] else 'no new chat' }}
-            </p>
-            
-            {% include 'pagination.html' %}
-        </main>
-
-        {% include 'nav_bar.html' %}
-  </body>
-  <script
-    src="https://kit.fontawesome.com/afee348a73.js"
-    crossorigin="anonymous"
-  ></script>
-  <script src="{{ url_for('static', filename='screens/list.js') }}"></script>
-  <script src="{{ url_for('static', filename='components/like_press.js') }}"></script>
-  <script src="{{ url_for('static', filename='components/commas_to_price.js') }}"></script>
-  <script src="{{ url_for('static', filename='components/calcDate.js') }}"></script>
-    <!-- Firebase 스크립트와 초기화 코드 -->
-    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
-
-    <script>
-        var firebaseConfig = {
-            apiKey: 'AIzaSyDWz1_ZttmWjc1IzQRI8wMAe-IqeYDzark',
-            authDomain: 'ong-market.firebaseapp.com',
-            databaseURL: 'https://ong-market-default-rtdb.firebaseio.com',
-            projectId: 'ong-market',
-            storageBucket: 'ong-market.appspot.com',
-            messagingSenderId: '464409088344',
-            appId: '1:464409088344:web:bd00bf2f298988db2c552d',
-        };
-        firebase.initializeApp(firebaseConfig);
-
-        // 새 채팅방 생성 여부 감지
-        var userKey = '{{ user_key }}';
-        var userChatRoomsRef = firebase.database().ref("user/" + userKey + "/chatRooms");
-        userChatRoomsRef.on('child_added', function(snapshot) {
-            fetch('/notify_new_chat', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Session updated with new chat room flag');
-            })
-            .catch(error => console.error('Error:',error));
-        });
-      
-        // 기존 채팅방 새로운 메시지 감지
-        var chatRoomIds = {{ chat_room_ids|tojson }};
-        function listenToChatRoomMessage(chatRoomId) {
-            var messagesRef = firebase.database().ref("chats/" + chatRoomId + "/messages");
-            messagesRef.on('child_added', function(snapshot) {
-                fetch('/notify_new_chat', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Session updated with new chat room flag');
-            })
-            .catch(error => console.error('Error:',error));
-            });
+    <div>
+      <input class="login_btn" id="login_btn" type="button" onclick="window.location.href='/login'" value="로그인" />
+      <input class="reg_item_btn" type="button" onclick="window.location.href='/reg_item'" value="상품등록" />
+      <script>
+        //로그인 안한 상태
+        const userId = "{{user_id}}";
+        console.log(userId);
+        const loginBtn = document.getElementById("login_btn");
+        if (userId === "no session") {
+          loginBtn.value = "로그인";
+          loginBtn.addEventListener("click", () => {
+            window.location.href = "/login";
+          })
         }
-        
-        chatRoomIds.forEach(function(chatRoomId) {
-            listenToChatRoomMessage(chatRoomId);
-        });
-    </script>
+        else {
+          loginBtn.value = "로그아웃";
+          loginBtn.addEventListener("click", () => {
+            window.location.href = "/logout";
+          })
+
+        }
+      </script>
+    </div>
+
+
+    <!--레이아웃 배치용-->
+  </header>
+  <main class="list_page_box">
+    {% if rows %}
+    {% for row in rows %} {% for key, value in row.items() %}
+    <a href="{{ url_for('item_detail', itemId=value.itemId) }}" class="item_box_link">
+      <div class="item_box1" id="item-{{ value.itemId }}">
+        <div class="item_selection">
+          <div class="item_box1__img">
+            <img src="{{ url_for('static', filename=value.img_path) }}" alt="{{ key }}" />
+          </div>
+          <div class="item_box1__info">
+            <p class="item_box1__title">{{ value.itemName }}</p>
+            <div class="item_box1__upload">
+              <p class="item_box1__seller">{{ value.userId }}</p>
+              <p class="item_box1__date item_reg_date">
+                {{ value.createdAt }}
+              </p>
+            </div>
+            <p class="item_box1__price commas_price">{{ value.price }}원</p>
+          </div>
+        </div>
+        <div class="item_box1__icon">
+          <div class="item_box1_like">
+            <div class="like_icon_box">
+              <i class="fa-regular fa-bookmark fa-lg"></i>
+            </div>
+            <p class="item_like_num">{{ value.like_count }}</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const itemId = {{ value.itemId }};
+        const bookmarkIcon = document.querySelector(
+          `#item-${itemId} .item_box1_like .fa-bookmark`
+        );
+        if (likeItemIds.includes(itemId)) {
+          bookmarkIcon.classList.remove("fa-regular");
+          bookmarkIcon.classList.add("fa-solid");
+          bookmarkIcon.style.color = "#242424";
+        }
+                    });
+      </script>
+    </a>
+    {% endfor %} {% endfor %}
+    {% else %}
+
+    <div class="item_box1">
+      <p class="item_box1__title">등록된 상품이 없습니다.</p>
+    </div>
+    {% endif %}
+
+    <p>
+      [ new chat 알림 확인을 위한 임시 표기 코드 ]<br>
+      {{ session['newChat'] if session['newChat'] else 'no new chat' }}
+    </p>
+
+    {% include 'pagination.html' %}
+  </main>
+
+  {% include 'nav_bar.html' %}
+</body>
+<script src="https://kit.fontawesome.com/afee348a73.js" crossorigin="anonymous"></script>
+<script src="{{ url_for('static', filename='screens/list.js') }}"></script>
+<script src="{{ url_for('static', filename='components/like_press.js') }}"></script>
+<script src="{{ url_for('static', filename='components/commas_to_price.js') }}"></script>
+<script src="{{ url_for('static', filename='components/calcDate.js') }}"></script>
+<!-- Firebase 스크립트와 초기화 코드 -->
+<script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
+
+<script>
+  var firebaseConfig = {
+    apiKey: 'AIzaSyDWz1_ZttmWjc1IzQRI8wMAe-IqeYDzark',
+    authDomain: 'ong-market.firebaseapp.com',
+    databaseURL: 'https://ong-market-default-rtdb.firebaseio.com',
+    projectId: 'ong-market',
+    storageBucket: 'ong-market.appspot.com',
+    messagingSenderId: '464409088344',
+    appId: '1:464409088344:web:bd00bf2f298988db2c552d',
+  };
+  firebase.initializeApp(firebaseConfig);
+
+  // 새 채팅방 생성 여부 감지
+  var userKey = '{{ user_key }}';
+  var userChatRoomsRef = firebase.database().ref("user/" + userKey + "/chatRooms");
+  userChatRoomsRef.on('child_added', function (snapshot) {
+    fetch('/notify_new_chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Session updated with new chat room flag');
+      })
+      .catch(error => console.error('Error:', error));
+  });
+
+  // 기존 채팅방 새로운 메시지 감지
+  var chatRoomIds = {{ chat_room_ids| tojson }};
+  function listenToChatRoomMessage(chatRoomId) {
+    var messagesRef = firebase.database().ref("chats/" + chatRoomId + "/messages");
+    messagesRef.on('child_added', function (snapshot) {
+      fetch('/notify_new_chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Session updated with new chat room flag');
+        })
+        .catch(error => console.error('Error:', error));
+    });
+  }
+
+  chatRoomIds.forEach(function (chatRoomId) {
+    listenToChatRoomMessage(chatRoomId);
+  });
+</script>
+
 </html>
