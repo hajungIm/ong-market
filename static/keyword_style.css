@@ -90,8 +90,9 @@
 
 .keyword_num{
     position: absolute;
-    padding-left: 98.5%;
+    padding-left: 98%;
     padding-top: 15px;
+    padding-right: 1%;
 }
 
 .keyword_title {

@@ -15,11 +15,14 @@
         <div id="box">
             <div id="student_check">
                 <form action="">
-                    <br /><br />
+                    <h5>이메일로 받은 인증 번호를 입력하세요</h5>
+                    <br />
                     <input id="number" type="text" name="number" />
+                    <!--타이머-->
+                    <div style="float:right; width: 25%; text-align: right; margin-right: 10px; font-size: 15px;" id="timer">
+                        03:00</div>
                     <br />
                     <hr />
-                    <h5>이메일로 받은 인증 번호를 입력하세요</h5>
                 </form>
 
                 <script>
@@ -55,15 +58,14 @@
                     });
                 </script>
 
-                <!--타이머-->
+                
                 <div style="padding-left: 140px;">
-                    <div style="width: 30%; text-align: center;" id="timer">03:00</div>
                     <button
                         class="retx_button"
                         id="retx_button"
                         type="button"
                         onclick="retransmit()"
-                        style="margin-left: -35px; margin-top: 20px; width: 120px; height: 35px;"
+                        style="margin-left: -36px; margin-top: 20px; width: 120px; height: 35px;"
                     >
                         인증번호 재전송
                     </button>
@@ -141,4 +143,4 @@
         </div>
         <br /><br /><br />
     </body>
-</html>
+</html> 

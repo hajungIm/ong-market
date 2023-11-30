@@ -10,13 +10,15 @@ body {
     margin: 0;
     display: flex;
     flex-direction: column;
-    align-items: center; /* 가운데 정렬을 위해 추가 */
+    align-items: center; /* 가운데 정렬을 위해 추가함*/
     justify-content: space-between; /* 요소들 간의 공간을 균등하게 분배 */
     box-sizing: border-box;
 }
 #number{
     border: none;
-    padding-left: 145px;
+    width: 40px;
+    margin-left: 130px;
+    text-align: center;
 }
 
 #box{
