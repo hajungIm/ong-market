@@ -25,6 +25,7 @@
     </header>
       
       <main class="list_review__page">
+      {% if rows %}
       {% for row in rows %} {% for key, value in row.items() %}
       <div class="list_review__box">
           <a
@@ -62,6 +63,12 @@
       {% endfor %} {% else %}
 
       {% endfor %} {% include 'review_pagination.html' %}
+     {% else %}
+       
+          <div class="list_review__box">
+      <p class="list_review__title">등록된 리뷰가 없습니다.</p>
+    </div>
+    {% endif %}
     </main>
 
 </body>

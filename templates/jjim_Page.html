@@ -26,6 +26,7 @@
       </div>
     </header>
     <main class="list_page_box">
+        {% if like_items %}
       {% for item in like_items %}
       <a
         href="{{ url_for('item_detail', itemId=item.itemId) }}"
@@ -60,6 +61,12 @@
           </div>
         </div>
       {% endfor %}
+        {% else %}
+
+    <div class="item_box1">
+      <p class="item_box1__title">찜한 상품이 없습니다.</p>
+    </div>
+    {% endif %}
     </main>
       {% include 'nav_bar.html' %}  
 </body>

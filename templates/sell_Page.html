@@ -33,6 +33,7 @@
     </div>
 
     <main class="list_page_box sell_Page_main" ;>
+        {% if sold_items %}
       {% for item in sold_items %}
             <div class="item_box1">
                 <div class="item_selection">
@@ -61,6 +62,12 @@
                 </div>
             </div>
             {% endfor %}
+        {% else %}
+
+    <div class="item_box1">
+      <p class="item_box1__title">판매 완료 된 상품이 없습니다.</p>
+    </div>
+    {% endif %}
     </main>
     {% include 'nav_bar.html' %}
   </body>
