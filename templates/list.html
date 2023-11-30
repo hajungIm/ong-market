@@ -122,6 +122,11 @@
               <p class="item_box1__date item_reg_date">
                 {{ value.createdAt }}
               </p>
+              <p class="item_box1__status">
+                {% if value.complete == 1 %}
+                  <span class="complete_tag">거래완료</span>
+                {% endif %}
+              </p>
             </div>
             <p class="item_box1__price commas_price">{{ value.price }}원</p>
           </div>
