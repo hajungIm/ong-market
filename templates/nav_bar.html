@@ -24,3 +24,16 @@
   </ul>
 </nav>
 <script src="{{ url_for('static', filename='components/nav_bar.js') }}"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const newChat = {{ session.get('newChat', False) | tojson | safe }};
+    const alarmDot = document.getElementsByClassName("alarm_dot")[0];
+    
+    if (newChat) {
+      alarmDot.style.visibility = "visible";
+    }
+    else {
+      alarmDot.style.visibility = "hidden";
+    }
+  });
+</script>
