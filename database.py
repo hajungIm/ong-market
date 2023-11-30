@@ -281,7 +281,9 @@ class DBhandler:
         return selling_items
 
     def insert_review(self, review_id, data, review_img_path, userId):
-        current_time = datetime.utcnow().isoformat() + 'Z'
+        seoul_timezone = pytz.timezone('Asia/Seoul')
+        current_time = datetime.utcnow().replace(tzinfo=pytz.utc).astimezone(seoul_timezone)
+        formatted_time = current_time.strftime("%d/%m/%Y, %H:%M:%S")
 
         # userId : reviewer, sellerId: seller
         item = self.find_item_by_id(review_id)
@@ -306,7 +308,7 @@ class DBhandler:
             "title": data['reviewTitle'],
             "review_img_path": review_img_path,
             "review": data['reviewContent'],
-            "createdAt": current_time,
+            "createdAt": formatted_time,
             "rate": rating_value,
             "sellerId": sellerId,
             "price": price,
