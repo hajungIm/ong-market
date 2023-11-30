@@ -45,6 +45,9 @@
           <span class="profile_rank">
             등급
             <span class="profile_rank_eng">{{ user_info['grade'] }}</span>
+             
+              <script>
+              </script>
           </span>
         </div>
         <div class="for_layout"></div>
@@ -80,7 +83,9 @@
   <script
     src="https://kit.fontawesome.com/afee348a73.js"
     crossorigin="anonymous"
-  ></script>
+  ></script>  
+  <script src="{{ url_for('static', filename='components/grade.js') }}"></script>
+</html>
   <!-- Firebase 스크립트와 초기화 코드 -->
 <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
@@ -145,6 +150,4 @@
   } else {
     alarmDot.style.visibility = "hidden";
   }
-
 </script>
-</html>
