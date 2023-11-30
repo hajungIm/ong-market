@@ -17,7 +17,7 @@
   <header class="base_header">
     <div class="item_option">
       <!-- select_transaction 코드 -->
-      <select class="item_option__btn" id="select_transaction" name="item_option_btn" onchange="location=this.value">
+      <select class="item_option__select" id="select_transaction" name="item_option_btn" onchange="location=this.value">
         <i class="fa-solid fa-check" style="color: #ffffff;"></i>
         <option value="{{ url_for('view_list', page=i, select_place='all') }}">대면</option>
         <option value="{{ url_for('view_list', page=i, select_place='non') }}">비대면</option>
@@ -61,7 +61,6 @@
         //alert("{{ select_place }}: 한, {{ selected_option }}: 영 ");
       </script>
       <!-- select_place 코드 -->
-      <div>
         <select class="item_option__select" id="select_place" name="select_place" onchange="location = this.value;">
           <option value="{{url_for('view_list', page=i, select_place='all')}}">모두</option>
           <option value="{{url_for('view_list', page=i, select_place='mainGate')}}">정문</option>
@@ -77,11 +76,10 @@
           <option value="{{url_for('view_list', page=i, select_place='posco')}}">포스코관</option>
           <option value="{{url_for('view_list', page=i, select_place='student')}}">학관</option>
         </select>
-      </div>
     </div>
-    <div>
-      <input class="login_btn" id="login_btn" type="button" onclick="window.location.href='/login'" value="로그인" />
-      <input class="reg_item_btn" type="button" onclick="window.location.href='/reg_item'" value="상품등록" />
+    <div class="list_header__btn">
+      <input class="login_btn small_width_screen" id="login_btn" type="button" onclick="window.location.href='/login'" value="로그인" />
+      <input class="reg_item_btn small_width_screen" type="button" onclick="window.location.href='/reg_item'" value="상품등록" />
       <script>
         //로그인 안한 상태
         const userId = "{{user_id}}";
@@ -157,11 +155,6 @@
     </div>
     {% endif %}
 
-    <p>
-      [ new chat 알림 확인을 위한 임시 표기 코드 ]<br>
-      {{ session['newChat'] if session['newChat'] else 'no new chat' }}
-    </p>
-
     {% include 'pagination.html' %}
   </main>
 
@@ -172,5 +165,4 @@
 <script src="{{ url_for('static', filename='components/like_press.js') }}"></script>
 <script src="{{ url_for('static', filename='components/commas_to_price.js') }}"></script>
 <script src="{{ url_for('static', filename='components/calcDate.js') }}"></script>
-
 </html>

@@ -185,6 +185,7 @@ def view_list():
     user_id = session.get('id')
     if user_id is None:
         user_id="no session"
+
     like_items = DB.get_like_items(user_id) or []
     
     if user_id is not None:
@@ -279,7 +280,15 @@ def my_page():
         return redirect(url_for('login'))
 
     user_info = DB.get_user_info(user_id)
-    return render_template("mypage.html", user_info=user_info)
+    
+
+    #채팅 알람을 위한 데이터
+    user_key, user_data = DB.find_user_by_id(user_id)
+    chat_rooms_data = DB.get_chat_rooms_for_user(user_id)  or []
+    
+    chat_room_ids = [chat_room['chatRoomId'] for chat_room in chat_rooms_data]
+
+    return render_template("mypage.html", user_info=user_info, user_key=user_key, chat_room_ids=chat_room_ids)
 
 @application.route("/update_password", methods=["POST"])
 def update_password():
@@ -493,8 +502,13 @@ def likePage():
     
     like_items = DB.get_like_items(user_id)
     like_items = sorted(like_items, key=lambda x: x['createdAt'], reverse=True)
+
+    #채팅 알람을 위한 데이터
+    user_key, user_data = DB.find_user_by_id(user_id)
+    chat_rooms_data = DB.get_chat_rooms_for_user(user_id)  or []
     
-    return render_template("jjim_Page.html", like_items=like_items)
+    chat_room_ids = [chat_room['chatRoomId'] for chat_room in chat_rooms_data]
+    return render_template("jjim_Page.html", like_items=like_items, user_key=user_key, chat_room_ids=chat_room_ids)
 
 @application.route("/like/<item_id>", methods=['POST'])
 def update_like(item_id):
@@ -550,7 +564,12 @@ def chattingListPage():
     
     chat_rooms = DB.get_chat_rooms_for_user(user_id)
     chat_rooms = sorted(chat_rooms, key=lambda x: x['lastTimestamp'], reverse=True)
-    return render_template("chatting_list.html", chat_rooms=chat_rooms)
+    
+    #채팅 알람을 위해 추가한 데이터
+    user_key, user_data = DB.find_user_by_id(user_id)
+    chat_rooms_data = DB.get_chat_rooms_for_user(user_id)  or []
+    chat_room_ids = [chat_room['chatRoomId'] for chat_room in chat_rooms_data]
+    return render_template("chatting_list.html", chat_rooms=chat_rooms, user_key=user_key, chat_room_ids=chat_room_ids)
 
 @application.route("/chat_room/<chat_room_id>")
 def chat_room_page(chat_room_id):

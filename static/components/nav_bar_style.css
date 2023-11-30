@@ -28,5 +28,20 @@
     justify-content: center;
 }
 
+.alarm_dot {
+    background-color: tomato;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    visibility: hidden;
+}
+
+
+#nav_dm_list {
+    position: relative;
+}
 
 
