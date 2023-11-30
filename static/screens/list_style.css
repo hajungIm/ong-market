@@ -130,3 +130,11 @@ font-weight: 700;
     font-weight: 400;
 }
 
+.complete_tag {
+    background-color: rgb(0, 0, 0);
+    color: white;
+    padding: 3px;
+    border-radius: 3px;
+    font-size: 10px;
+  }
+  
