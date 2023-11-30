@@ -2,6 +2,7 @@ import pyrebase
 import json
 import hashlib
 from datetime import datetime
+import pytz
 
 class DBhandler:
     def __init__(self):
@@ -28,7 +29,6 @@ class DBhandler:
         }
         if self.user_duplicate_check(str(data['id'])):
             self.db.child("user").push(user_info)
-            print(data)
             return True
         else:
             return False
@@ -111,7 +111,6 @@ class DBhandler:
             item_info["location"] = data['location']
 
         self.db.child("item").child(current_id).set(item_info)
-        print(data, img_path)
         return True
     
     def get_items(self):
@@ -121,7 +120,6 @@ class DBhandler:
     def get_item_by_name(self, name):
         items = self.db.child("item").get()
         target_value=""
-        print("###########",name)
         for res in items.each():
             key_value = res.key()
             
@@ -160,7 +158,7 @@ class DBhandler:
                 "imgPath": item_data.get('img_path', 'no_image.png'),
                 "messages": [],
                 "lastMessageText": "",
-                "lastTimestamp": "",
+                "lastTimestamp": "01/01/1970, 00:00:00",
                 "transaction": item_data.get('transaction'),
                 "location": item_data.get('location')
             }
@@ -357,7 +355,6 @@ class DBhandler:
     def get_review_by_name(self, name):
         reviews = self.db.child("review").get()
         target_value=""
-        print("###########",name)
         for res in reviews.each():
             key_value = res.key()
             
@@ -375,7 +372,6 @@ class DBhandler:
             if value is not None and 'transaction' in value and value['transaction'] == cate:
                 target_value.append(value)
                 target_key.append(key_value)
-        print("######target_value",target_value)
         new_dict={}
         for k,v in zip(target_key,target_value):
             new_dict[k]=v
@@ -391,7 +387,6 @@ class DBhandler:
             if value is not None and 'location' in value and value['location'] == cate:
                 target_value.append(value)
                 target_key.append(key_value)
-        print("######target_value",target_value)
         new_dict={}
         for k,v in zip(target_key,target_value):
             new_dict[k]=v
@@ -405,10 +400,9 @@ class DBhandler:
         reviewCount = seller_data.get('keyword_count', 1)
         grade = seller_data.get('grade', 2.5)
         
-        newAverageGrade = ((grade * reviewCount) + float(newRating)) / (reviewCount)
+        newAverageGrade = ((grade * (reviewCount-1)) + float(newRating)) / (reviewCount)
         
         seller_data['grade'] = newAverageGrade
-        seller_data['keyword_count'] = reviewCount + 1
         
         self.db.child("user").child(seller_key).update(seller_data)
     
@@ -416,3 +410,33 @@ class DBhandler:
         user_key, user_data = self.find_user_by_id(userId)
         grade = user_data.get('grade', 2.5)
         return grade
+    
+    def update_lastCheckChatList(self, user_id):
+        user_key, user_data = self.find_user_by_id(user_id)
+        seoul_timezone = pytz.timezone('Asia/Seoul')
+        current_time = datetime.utcnow().replace(tzinfo=pytz.utc).astimezone(seoul_timezone)
+        formatted_time = current_time.strftime("%d/%m/%Y, %H:%M:%S")
+        self.db.child("user").child(user_key).update({"lastCheckChatList": formatted_time})
+        
+    def is_newChat(self, user_id):
+        user_key, user_data = self.find_user_by_id(user_id)
+        if user_data is not None:
+            last_check_time = user_data.get('lastCheckChatList', "01/01/1970, 00:00:00")
+            if isinstance(last_check_time, str):
+                last_check_time = datetime.strptime(last_check_time, "%d/%m/%Y, %H:%M:%S")
+
+            chat_rooms = self.get_chat_rooms_for_user(user_id)
+            
+            for chat_room in chat_rooms:
+                chatid = chat_room.get('chatRoomId')
+                if chatid is None:
+                    continue
+                
+                lastTimestamp = chat_room.get('lastTimestamp', "01/01/1970, 00:00:00")
+                if isinstance(lastTimestamp, str):
+                    lastTimestamp = datetime.strptime(lastTimestamp, "%d/%m/%Y, %H:%M:%S")
+                
+                print(f"Chat ID: {chatid}, Last Msg Timestamp: {lastTimestamp}, lastCheckTime: {last_check_time}")
+                if lastTimestamp > last_check_time:
+                    return True
+        return False

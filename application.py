@@ -124,6 +124,7 @@ def register_user():
     else:
         flash("user id already exist!")
         return render_template("mem_register.html")
+
 @application.route("/list")
 def view_list():
     page = request.args.get("page", 1, type=int)
@@ -186,12 +187,11 @@ def view_list():
         user_id="no session"
     like_items = DB.get_like_items(user_id) or []
     
-    user_key, user_data = DB.find_user_by_id(user_id)
-    chat_rooms_data = DB.get_chat_rooms_for_user(user_id)  or []
+    if user_id is not None:
+        if DB.is_newChat(user_id):
+            session['newChat'] = True
     
-    chat_room_ids = [chat_room['chatRoomId'] for chat_room in chat_rooms_data]
-
-    return render_template("list.html", user_id=user_id, datas=data_slice, user_key=user_key, chat_room_ids=chat_room_ids, rows=rows, page=page, page_count=page_count, total=item_counts, like_items = like_items,
+    return render_template("list.html", user_id=user_id, datas=data_slice, rows=rows, page=page, page_count=page_count, total=item_counts, like_items = like_items,
         select_place=category, selected_option = selected_option)
 
     return render_template("list.html", datas=data_slice, rows=rows, page=page, page_count=page_count, total=item_counts, like_items = like_items)
@@ -199,7 +199,6 @@ def view_list():
 
 @application.route("/review_list")
 def review_list():
-    # 현재 로그인한 사용자의 ID를 얻어옵니다.
     user_id = session.get('id')
 
     # 사용자 ID를 기반으로 리뷰를 가져옵니다.
@@ -544,10 +543,10 @@ def update_profile_image():
 def chattingListPage():
     user_id = session.get('id')
     if user_id is None:
-        # 사용자 ID가 세션에 없는 경우, 로그인 페이지나 오류 페이지로 리디렉트
         return redirect(url_for('login'))
     
     session['newChat'] = False
+    DB.update_lastCheckChatList(user_id)
     
     chat_rooms = DB.get_chat_rooms_for_user(user_id)
     chat_rooms = sorted(chat_rooms, key=lambda x: x['lastTimestamp'], reverse=True)
@@ -573,11 +572,6 @@ def chat_room_page(chat_room_id):
 def complete_chat_room(chat_room_id):
     DB.mark_chat_room_as_complete(chat_room_id)
     return jsonify({"status": "success", "message": "Chat room marked as complete"})
-
-@application.route('/notify_new_chat', methods=['POST'])
-def notify_new_chat_room():
-    session['newChat'] = True
-    return jsonify(success=True)
 
 @application.route("/keyword")
 def keywordPage():
