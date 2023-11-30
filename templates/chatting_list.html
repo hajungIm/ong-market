@@ -20,7 +20,8 @@
         <!--레이아웃 배치용-->
       </div>
     </header>
-    <main class="list_page_box">
+    <main class="list_page_box"> 
+    {% if chat_rooms %}
       {% for chat_room in chat_rooms %}
       <a
         href="{{ url_for('chat_room_page', chat_room_id=chat_room.chatRoomId) }}"
@@ -69,6 +70,12 @@
         </div>
       </a>
       {% endfor %}
+        {% else %}
+
+    <div class="item_box1">
+      <p class="item_box1__title">참여 중인 채팅이 없습니다.</p>
+    </div>
+    {% endif %}
     </main>
       
       <p>
