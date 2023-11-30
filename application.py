@@ -160,7 +160,7 @@ def view_list():
 
     category = switcher.get(selected_option)
         
-    data = dict(sorted(data.items(), key=lambda x: x[0], reverse=False))
+    data = dict(sorted(data.items(), key=lambda x: x[0], reverse=True))
 
     # OrderedDict의 키 리스트 생성
     data_keys = list(data.keys())
