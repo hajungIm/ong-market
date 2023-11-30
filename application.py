@@ -466,7 +466,11 @@ def student_check_fail():
 
 @application.route("/sell_Page")
 def sellPage():
-    return render_template("sell_Page.html")
+    user_id = session.get("id")
+    
+    sold_items = DB.get_sales_items(user_id, '1')
+    
+    return render_template("sell_Page.html", sold_items=sold_items)
 
 
 @application.route("/selling")
