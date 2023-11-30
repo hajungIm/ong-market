@@ -103,7 +103,6 @@ class DBhandler:
                 "like_count": 0,
                 "createdAt": data['itemRegDate'],
                 "review_complete": "0",
-                #"createdAt": data['itemRegDate']
                 "completed": "0"
             }
         if data['transaction'] == "대면":
@@ -267,6 +266,22 @@ class DBhandler:
             return like_items_details
 
         return []
+    
+    def get_sales_items(self, user_id, flag):
+        items = self.db.child("item").get()
+        
+        print("items:", items.val())
+        
+        selling_items = []
+        
+        for item in items.each():
+            print("Item Data:", item.val())
+            item_data = item.val()
+            if item_data is not None:
+                if item_data.get('userId') == user_id and item_data.get('completed') == flag:
+                    selling_items.append(item.val())
+        
+        return selling_items
 
     def insert_review(self, review_id, data, review_img_path, userId):
         current_time = datetime.utcnow().isoformat() + 'Z'

@@ -124,7 +124,6 @@ def register_user():
     else:
         flash("user id already exist!")
         return render_template("mem_register.html")
-    
 @application.route("/list")
 def view_list():
     page = request.args.get("page", 1, type=int)
@@ -196,6 +195,7 @@ def view_list():
         select_place=category, selected_option = selected_option)
 
     return render_template("list.html", datas=data_slice, rows=rows, page=page, page_count=page_count, total=item_counts, like_items = like_items)
+
 
 @application.route("/review_list")
 def review_list():
@@ -467,15 +467,20 @@ def student_check_fail():
 
 @application.route("/sell_Page")
 def sellPage():
-    return render_template("sell_Page.html")
+    user_id = session.get("id")
+    
+    sold_items = DB.get_sales_items(user_id, '1')
+    
+    return render_template("sell_Page.html", sold_items=sold_items)
 
 
 @application.route("/selling")
 def sellingPage():
     user_id = session.get("id")
-    data = DB.get_items()
-
-    return render_template("sell_Page_selling.html")
+    
+    selling_items = DB.get_sales_items(user_id, '0')
+    
+    return render_template("sell_Page_selling.html", selling_items=selling_items)
 
 @application.route("/like")
 def likePage():
