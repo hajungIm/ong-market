@@ -46,13 +46,13 @@
     for (let i = 0; i < starCount; i++) {
         const starIcon = document.createElement('i');
         starIcon.className = 'fa-solid fa-star fa-sm';
-        starIcon.style.color = '#BF190E'
+        starIcon.style.color = 'var(--star-yellow)'
         reviewStarContainer.appendChild(starIcon);
     }
     for (let i =starCount; i<5; i++){
         const starIcon = document.createElement('i');
-        starIcon.className = 'fa-solid fa-star fa-sm';
-        starIcon.style.color = '#d9d9d9'
+        starIcon.className = 'fa-regular fa-star fa-sm';
+        starIcon.style.color = 'var(--star-gray)'
         reviewStarContainer.appendChild(starIcon);
     }
         </script>
