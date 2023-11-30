@@ -1,171 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>재학생 인증 화면</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='student_check.css') }}">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>재학생 인증 화면</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='student_check.css') }}" />
+    </head>
+    <body>
+        <header class="header"></header>
+        <img src="../static/images/logo.png" alt="logo image" width="375px;" />
+        <h1>재학생 인증</h1>
+        <p><br /><br /></p>
 
-</head>
-<body>
-    <header class="header">
-        
-    </header>
-    <img src="../static/images/logo.png" alt="logo image" width="375px;">
-    <h1>재학생 인증</h1>
-    <p><br><br></p>
+        <div id="box">
+            <div id="student_check">
+                <form action="">
+                    <br /><br />
+                    <input id="number" type="text" name="number" />
+                    <br />
+                    <hr />
+                    <h5>이메일로 받은 인증 번호를 입력하세요</h5>
+                </form>
 
-    <div id="box">
-    <div id="student_check">
-    <form action="">
-        <br><br>
-        <input id="number" type="text" name="number" >
-        <br><hr>
-        <h5>이메일로 받은 인증 번호를 입력하세요</h5>
-    </form>
+                <script>
+                    var email = sessionStorage.getItem('email');
+                    var validateNum;
 
-    <script>
-        function sendEmail() {
-            var validateNum = localStorage.getItem('validateNum');
-            var email = localStorage.getItem('email');
-            
-            fetch('/send_email', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({validateNum: validateNum, email: email}),
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-        }
+                    function rand(min, max) {
+                        return Math.floor(Math.random() * (max - min + 1)) + min;
+                    }
 
-    </script>
+                    function sendEmail() {
+                        validateNum = rand(1000, 9999);
 
-    <!--타이머-->
-    <div style="padding-left: 140px;">
-        <div style="width:30%; text-align: center;" id="timer">01:00</div>
-        <button class="retx_button" id="retx_button" type="button" onclick="retransmit()" style="margin-left:-35px; margin-top: 20px; width:120px; height: 35px;">
-            인증번호 재전송</button>
-    </div>
-    <script>
-        // 시작 시간 (1분)
-        let remainingTime = 1 * 60;
-      
-        // 타이머 업데이트 함수
-        function updateTimer() {
-          const minutes = Math.floor(remainingTime / 60);
-          const seconds = remainingTime % 60;
-      
-          // 시간을 두 자리로 표시하기 위해 0을 추가
-          const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-      
-          // 타이머 업데이트
-          document.getElementById('timer').innerText = formattedTime;
-      
-          // 남은 시간이 0보다 크면 1초 감소
-          if (remainingTime > 0) {
-            remainingTime--;
-          } else {
-            // 타이머 종료 시 처리 (예: 메시지 표시 등)
-            clearInterval(timerInterval);
-            
-            // 인증 완료 메시지 표시 (한 번만 표시)
-            if (!localStorage.getItem('verificationComplete')) {
-                alert('인증 시간 종료!');
-                localStorage.setItem('verificationComplete', 'true');
-            }
-          }
-        }
-      
-        // 1초마다 타이머 업데이트 함수 호출
-        const timerInterval = setInterval(updateTimer, 1000);
-
-
-        //재전송 함수
-        function retransmit(){
-            // 이전 타이머가 있으면 멈춤
-            clearInterval(timerInterval);
-
-             // 남은 시간을 1분으로 초기화
-            remainingTime = 1 * 60;
-
-            //인증번호 다시 생성
-            function rand(min, max) {
-                    return Math.floor(Math.random() * (max - min + 1)) + min;
-            }
-
-            var random_num=rand(1000,9999);//랜덤 4자리 수 생성
-            alert("인증번호를 다시 전송하였습니다!");
-            localStorage.setItem('validateNum',random_num);
-            var email=localStorage.getItem('EwhaMail');
-            
-            // 이메일 재전송
-            // 서버로 POST 요청 보내기
-            fetch('/send_email', {
+                        fetch('/send_email', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
                             },
-                            body: JSON.stringify({
-                                validateNum: random_num,
-                                email: email,
-                            }),
+                            body: JSON.stringify({ validateNum: validateNum, email: email }),
                         })
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log('Success:', data);
-                        })
-                        .catch((error) => {
-                            console.error('Error:', error);
-            });
-            
+                            .then((response) => response.json())
+                            .then((data) => {
+                                console.log('Success:', data);
+                            })
+                            .catch((error) => {
+                                console.error('Error:', error);
+                            });
+                    }
 
-            // 타이머 재시작
-            timerInterval = setInterval(updateTimer, 1000);
+                    document.addEventListener('DOMContentLoaded', function () {
+                        alert('이메일로 인증번호가 발송되었습니다!');
+                        sendEmail(); // 초기 이메일 전송
+                    });
+                </script>
 
-            }
-      </script>
-      
+                <!--타이머-->
+                <div style="padding-left: 140px;">
+                    <div style="width: 30%; text-align: center;" id="timer">03:00</div>
+                    <button
+                        class="retx_button"
+                        id="retx_button"
+                        type="button"
+                        onclick="retransmit()"
+                        style="margin-left: -35px; margin-top: 20px; width: 120px; height: 35px;"
+                    >
+                        인증번호 재전송
+                    </button>
+                </div>
+                <script>
+                    let remainingTime = 3 * 60;
 
-    
+                    // 타이머 업데이트 함수
+                    function updateTimer() {
+                        const minutes = Math.floor(remainingTime / 60);
+                        const seconds = remainingTime % 60;
 
-    <br><br>
-    <button id="check_button" type="submit" onclick="check_num()"><b>인증하기</b></button>
-    <script>
-        function check_num(){
-            
-            var validateNum = localStorage.getItem('validateNum');
-            var input_num=document.getElementById("number");
-            
-            if(input_num.value!=validateNum){
-                alert("인증번호가 틀립니다!");
-            }
-            else{
-                alert("인증 완료!");
-                window.location.href = '/mem_register_final';
-            }
-        }
-    </script>
-    
-    <button id="cancel_button" onclick="cancel()"><b>cancel</b></button>
-    <script>
-        function cancel(){
-            window.history.go(-1)
-        }
-    </script>
-    
-    </div>
-    </div>
-    <br><br><br>
-    
-   
-</body>
-</html> 
-    
-    
+                        // 시간을 두 자리로 표시하기 위해 0을 추가
+                        const formattedTime = `${String(minutes).padStart(2, '0')}:${String(
+                            seconds
+                        ).padStart(2, '0')}`;
+
+                        // 타이머 업데이트
+                        document.getElementById('timer').innerText = formattedTime;
+
+                        // 남은 시간이 0보다 크면 1초 감소
+                        if (remainingTime > 0) {
+                            remainingTime--;
+                        } else {
+                            // 타이머 종료 시 처리 (예: 메시지 표시 등)
+                            clearInterval(timerInterval);
+
+                            // 인증 완료 메시지 표시 (한 번만 표시)
+                            if (!localStorage.getItem('verificationComplete')) {
+                                alert('인증 시간 종료!');
+                                localStorage.setItem('verificationComplete', 'true');
+                            }
+                        }
+                    }
+
+                    // 1초마다 타이머 업데이트 함수 호출
+                    let timerInterval = setInterval(updateTimer, 1000);
+
+                    //재전송 함수
+                    function retransmit() {
+                        sendEmail();
+                        alert('인증번호가 재발송되었습니다!');
+
+                        clearInterval(timerInterval);
+                        remainingTime = 3 * 60;
+                        timerInterval = setInterval(updateTimer, 1000);
+                    }
+                </script>
+
+                <br /><br />
+                <button id="check_button" type="submit" onclick="check_num()">
+                    <b>인증하기</b>
+                </button>
+                <script>
+                    function check_num() {
+                        var input_num = document.getElementById('number');
+
+                        if (input_num.value != validateNum) {
+                            alert('인증번호가 틀립니다!');
+                        } else {
+                            alert('이메일 인증이 완료되었습니다.');
+                            sessionStorage.setItem('rightEmail', 'true');
+                            window.location.href='mem_register';
+                        }
+                    }
+                </script>
+
+                <button id="cancel_button" onclick="cancel()"><b>cancel</b></button>
+                <script>
+                    function cancel() {
+                        window.history.go(-1);
+                    }
+                </script>
+            </div>
+        </div>
+        <br /><br /><br />
+    </body>
+</html>

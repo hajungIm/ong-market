@@ -1,179 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원가입 화면</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='mem_register.css') }}">
-    
-        
-    <script>
-        let unduplicatedId = false;
-        let rightPassword = false;
-        let rightEmail = true;
-        
-        function checkRequired() {
-            isValid = (unduplicatedId && rightPassword && rightEmail);
-            
-            if (!isValid) {
-                alert("가입 조건을 체크해주세요!")
-                return false;
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>회원가입 화면</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='mem_register.css') }}" />
+
+        <script>
+            let unduplicatedId = false;
+            let rightPassword = false;
+            let rightEmail = false;
+
+            document.addEventListener('DOMContentLoaded', function () {
+                if (sessionStorage.getItem('unduplicatedId') === 'true') {
+                    unduplicatedId = true;
+                    document.getElementById('check_id_button').style.backgroundColor = 'green';
+                }
+                if (sessionStorage.getItem('rightEmail') === 'true') {
+                    rightEmail = true;
+                    document.getElementById('check_email_button').style.backgroundColor = 'green';
+                }
+
+                var nameInput = document.getElementById('name');
+                nameInput.addEventListener('input', function () {
+                    var name = nameInput.value;
+                    sessionStorage.setItem('name', name);
+                });
+
+                document.getElementById('name').value = sessionStorage.getItem('name') || '';
+                document.getElementById('id').value = sessionStorage.getItem('id') || '';
+                document.getElementById('email').value = sessionStorage.getItem('email') || '';
+            });
+
+            function checkRequired() {
+                isValid = unduplicatedId && rightPassword && rightEmail;
+
+                if (!isValid) {
+                    alert('가입 조건을 체크해주세요!');
+                    return false;
+                }
+
+                sessionStorage.clear();
+                return ture;
             }
-            
-            return ture;
-        }
-    </script>
-</head>
-<body>
-    <header class="header">
-        
-    </header>
-    <img src="../static/images/logo.png" alt="logo image" width="375px;">
-    <h1>회원가입</h1>
-    
-    <div id="box">
-    <div id="mem_register">
-        <form action="/signup_post" method="post" onsubmit="return checkRequired()">
-            <h4>Name</h4>
-            <input id="name" type="text" name="name" style="border:none" required>
-            <hr>
+        </script>
+    </head>
+    <body>
+        <header class="header"></header>
+        <img src="../static/images/logo.png" alt="logo image" width="375px;" />
+        <h1>회원가입</h1>
 
-            <h4>Id</h4>
-            <button class="check_button" id="check_id_button" type="button" onclick="check_id()">check</button>
-            <input id="id" type="text" name="id" style="border:none;" required>
-            <script>
-                /*사용가능 아이디 확인 임시 함수*/
-                function check_id(){
-                    var id=document.getElementById("id");
-                    var btn=document.getElementById("check_id_button");
+        <div id="box">
+            <div id="mem_register">
+                <form action="/signup_post" method="post" onsubmit="return checkRequired()">
+                    <h4>Name</h4>
+                    <input id="name" type="text" name="name" style="border: none;" required />
+                    <hr />
 
-                    /*기능 확인을 위해 임의로 정한 if문*/
-                    if(id.value=="ewha"){
-                        alert("중복 아이디입니다.다른 아이디를 입력해주세요!");
-                        id.value=null;
-                    }
-                    else if(id.value==""){
-                        alert("아이디를 입력해주세요!")
-                    }
-                    else{
-                        alert("사용 가능한 아이디입니다");
-                        btn.style.backgroundColor="green";
-                        unduplicatedId = true;
-                    }
-                }
+                    <h4>Id</h4>
+                    <button
+                        class="check_button"
+                        id="check_id_button"
+                        type="button"
+                        onclick="check_id()"
+                    >
+                        check
+                    </button>
+                    <input id="id" type="text" name="id" style="border: none;" required />
+                    <script>
+                        function check_id() {
+                            var id = document.getElementById('id').value;
+                            var btn = document.getElementById('check_id_button');
+                            
+                            sessionStorage.setItem('id', id);
 
-            </script>
-            <hr>
-
-            <h4>Password</h4>
-            <input id="password" type="password" name="password" style="border:none" required>
-            <hr>
-
-            <h4>Confirm Password</h4>
-            <button class="check_button" id="check_pw_button" type="button" onclick="check_pw()">check</button>
-            <input id="confirm_password" type="password" name="Confirm Password" style="border:none" required>
-            <script>
-                /*비밀번호 일치 확인 임시 함수*/
-                function check_pw(){
-                    var pw=document.getElementById("password");
-                    var confirm_pw=document.getElementById("confirm_password");
-                    var btn=document.getElementById('check_pw_button');
-                    
-                    if(pw.value != confirm_pw.value){
-                        alert('비밀번호가 일치하지 않습니다.다시 입력해주세요!');
-                        confirm_pw.value=null;
-                        btn.style.backgroundColor="rgb(112, 111, 111)";
-                    }
-                    else if(confirm_pw.value==""){
-                        alert("비밀번호를 입력해주세요!")
-                    }
-                    else{
-                        alert("비밀번호 확인 완료")
-                        btn.style.backgroundColor="green";
-                        rightPassword = true;
-                    }
-                }
-            </script>
-            <hr>
-
-            <!--재학생 인증-->
-            <h4>Ewha Email</h4>
-            <input id="Ewha Mail" type="text" name="Ewha Mail" style="border:none" required>
-            <button class="check_button" id="check_email_button" type="button" 
-            onclick="student_check()">check</button>
-
-            <script>
-                function student_check(){
-                    var btn=document.getElementById('check_email_button');
-                    var email=document.getElementById('Ewha Mail');
-
-                    /*input 값들 저장*/
-                    var name=document.getElementById('name').value;
-                    var id=document.getElementById('id').value;
-                    var password=document.getElementById('password').value;
-                    var confirm_password=document.getElementById('confirm_password').value;
-                    var EwhaMail=document.getElementById('Ewha Mail').value;
-
-                    localStorage.setItem('name',name);
-                    localStorage.setItem('id',id);
-                    localStorage.setItem('password',password);
-                    localStorage.setItem('confirm_password',confirm_password);
-                    localStorage.setItem('EwhaMail',EwhaMail);
-                
-                    /*이화 메일 확인*/
-                    if(email.value.slice(-11) != "@ewhain.net"){
-                        alert("Ewha Mail이 아닙니다! 다시 입력해주세요");
-                        email.value=null;
-                    }
-                    else{
-                        function rand(min, max) {
-                        return Math.floor(Math.random() * (max - min + 1)) + min;
+                            fetch('/id_check', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ user_id: id }),
+                            })
+                                .then((response) => response.json())
+                                .then((data) => {
+                                    if (!data.success) {
+                                        alert('중복 아이디입니다. 다른 아이디를 입력해주세요!');
+                                        document.getElementById('id').value = null;
+                                    } else {
+                                        alert('사용 가능한 아이디입니다.');
+                                        btn.style.backgroundColor = 'green';
+                                        sessionStorage.setItem('unduplicatedId', 'true');
+                                    }
+                                })
+                                .catch((error) => {
+                                    console.error('Error:', error);
+                                });
                         }
+                    </script>
+                    <hr />
 
-                        var random_num=rand(1000,9999);//랜덤 4자리 수 생성
-                        localStorage.setItem('validateNum',random_num);
-                        localStorage.setItem('email',email);
+                    <h4>Password</h4>
+                    <input
+                        id="password"
+                        type="password"
+                        name="password"
+                        style="border: none;"
+                        required
+                    />
+                    <hr />
 
-                        alert("Email로 인증번호를 전송하였습니다!");
-                        //---추가---//
-                        // 서버로 POST 요청 보내기
-                        fetch('/send_email', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                validateNum: random_num,
-                                email: email.value,
-                            }),
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log('Success:', data);
-                        })
-                        .catch((error) => {
-                            console.error('Error:', error);
-                        });
-                        window.location.href = '/student_check'; //재학생 인증 화면으로 넘어가도록
+                    <h4>Confirm Password</h4>
+                    <button
+                        class="check_button"
+                        id="check_pw_button"
+                        type="button"
+                        onclick="check_pw()"
+                    >
+                        check
+                    </button>
+                    <input
+                        id="confirm_password"
+                        type="password"
+                        name="Confirm Password"
+                        style="border: none;"
+                        required
+                    />
+                    <script>
+                        function check_pw() {
+                            var pw = document.getElementById('password');
+                            var confirm_pw = document.getElementById('confirm_password');
+                            var btn = document.getElementById('check_pw_button');
+
+                            if (pw.value != confirm_pw.value) {
+                                alert('비밀번호가 일치하지 않습니다. 다시 입력해주세요!');
+                                confirm_pw.value = null;
+                                btn.style.backgroundColor = 'rgb(112, 111, 111)';
+                                rightPassword = false;
+                            } else if (confirm_pw.value == '') {
+                                alert('비밀번호를 입력해주세요!');
+                                rightPassword = false;
+                            } else {
+                                btn.style.backgroundColor = 'green';
+                                rightPassword = true;
+                            }
+                        }
+                    </script>
+                    <hr />
+
+                    <!--재학생 인증-->
+                    <h4>Ewha Email</h4>
+                    <input id="email" type="text" name="email" style="border: none;" required />
+                    <button
+                        class="check_button"
+                        id="check_email_button"
+                        type="button"
+                        onclick="student_check()"
+                    >
+                        check
+                    </button>
+
+                    <script>
+                        function student_check() {
+                            var btn = document.getElementById('check_email_button');
+                            var email = document.getElementById('email').value;
+
+                            sessionStorage.setItem('email', email);
+
+                            /*이화 메일 확인*/
+                            if (email.slice(-11) != '@ewhain.net') {
+                                alert('Ewha Mail이 아닙니다! 다시 입력해주세요');
+                                email.value = null;
+                            } else {
+                                sessionStorage.setItem('email', email);
+                                window.location.href = 'student_check';
+                            }
+                        }
+                    </script>
+
+                    <hr />
+                    <br /><br />
+
+                    <button id="mem_register_button" type="submit" value="Submit">
+                        <b>가입하기</b>
+                    </button>
+                </form>
+
+                <p id="question">
+                    <a>이미 계정을 가지고 계신가요?</a>
+                    <a href="/login" onclick="clearSessionStorage()"><b>로그인</b></a>
+                </p>
+                <script>
+                    function clearSessionStorage() {
+                        sessionStorage.clear();
                     }
-
-                }
-            </script>
-            
-            <hr><br><br>
-
-        
-
-        
-        
-        <button id="mem_register_button" type="submit" value="Submit"><b>가입하기</b></button>
-        
-        
-        <p id="question"><a>이미 계정을 가지고 계신가요?</a> <a href="/login"><b>로그인</b></a></p>
-    </div>
-    </div>
-    <br><br><br>
-    
-        
-</body>
+                </script>
+            </div>
+        </div>
+        <br /><br /><br />
+    </body>
 </html>

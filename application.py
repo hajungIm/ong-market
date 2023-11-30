@@ -59,6 +59,14 @@ def reset_password():
 def mem_register():
     return render_template("mem_register.html")
 
+@application.route("/id_check", methods=['POST'])
+def id_check():
+    data = request.get_json()
+    user_id = data['user_id']
+
+    is_duplicate = DB.user_duplicate_check(user_id)
+    return jsonify(success=is_duplicate)
+
 @application.route("/mem_register_final")
 def mem_register_final():
     return render_template("mem_register_final.html")
