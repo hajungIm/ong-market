@@ -269,13 +269,14 @@ def submit_review(itemId):
     
     review = DB.find_review_by_id(reviewId)
     
+    DB.update_seller_grade(itemId, reviewform['rating'])
+    
     return render_template("review_detail.html", data = item, reviewdata = review)
 
 @application.route("/mypage")
 def my_page():
     user_id = session.get('id')
     if user_id is None:
-        # 사용자 ID가 세션에 없는 경우, 로그인 페이지나 오류 페이지로 리디렉트
         return redirect(url_for('login'))
 
     user_info = DB.get_user_info(user_id)
@@ -444,7 +445,9 @@ def item_detail(itemId):
     like_items = DB.get_like_items(user_id)
     like_items = sorted(like_items, key=lambda x: x['createdAt'], reverse=True)
     
-    return render_template("item_detail.html", data=item, item_data_json=item_data_json, userId=user_id, like_items=like_items)
+    seller_grade = DB.get_seller_grade(item['userId'])
+    
+    return render_template("item_detail.html", data=item, item_data_json=item_data_json, userId=user_id, like_items=like_items, seller_grade=seller_grade)
 
 @application.route("/review_detail/<reviewId>")
 def review_detail(reviewId):

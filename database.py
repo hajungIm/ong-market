@@ -23,7 +23,8 @@ class DBhandler:
             "profile_image":default_profile_image,
             "keyword_stat": keyword_stat,
             "keyword_count": 0,
-            "email": data['email']
+            "email": data['email'],
+            "grade": 2.5
         }
         if self.user_duplicate_check(str(data['id'])):
             self.db.child("user").push(user_info)
@@ -79,7 +80,8 @@ class DBhandler:
                     "profile_image": value['profile_image'],
                     "keyword_stat": value['keyword_stat'],
                     "keyword_count": value['keyword_count'],
-                    "email": value['email']
+                    "email": value['email'],
+                    "grade": value['grade']
                 }
         return None
 
@@ -270,12 +272,9 @@ class DBhandler:
     def get_sales_items(self, user_id, flag):
         items = self.db.child("item").get()
         
-        print("items:", items.val())
-        
         selling_items = []
         
         for item in items.each():
-            print("Item Data:", item.val())
             item_data = item.val()
             if item_data is not None:
                 if item_data.get('userId') == user_id and item_data.get('completed') == flag:
@@ -397,3 +396,23 @@ class DBhandler:
         for k,v in zip(target_key,target_value):
             new_dict[k]=v
         return new_dict
+    
+    def update_seller_grade(self, itemId, newRating):
+        item = self.db.child("item").child(itemId).get().val()
+        sellerId = item.get('userId')
+        seller_key, seller_data = self.find_user_by_id(sellerId)
+        
+        reviewCount = seller_data.get('keyword_count', 1)
+        grade = seller_data.get('grade', 2.5)
+        
+        newAverageGrade = ((grade * reviewCount) + float(newRating)) / (reviewCount)
+        
+        seller_data['grade'] = newAverageGrade
+        seller_data['keyword_count'] = reviewCount + 1
+        
+        self.db.child("user").child(seller_key).update(seller_data)
+    
+    def get_seller_grade(self, userId):
+        user_key, user_data = self.find_user_by_id(userId)
+        grade = user_data.get('grade', 2.5)
+        return grade
