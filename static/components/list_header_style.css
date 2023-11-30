@@ -1,16 +1,15 @@
 .reg_item_btn, .login_btn {
     box-sizing: border-box;
     text-align: center;
-    padding: 10px 18px;
-    flex-shrink: 0;
+    padding: 10px 15px;
     background-color: var(--black);
     color: white;
     border-radius: 20px;
     border-style: none;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 400;
     letter-spacing: 0.1px;
-    margin-left: 20px;
+    margin-left: 8px;
 }
 
 .login_btn {
@@ -18,17 +17,15 @@
 }
 
 .base_header {
-    padding-left: 16px;
-    padding-right: 16px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .item_option {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: 15px;
-
-    
+    gap: 14px; 
 }
 
 
@@ -51,11 +48,12 @@
     gap: 8px;
 
 }
+
 .item_option__btn:hover, .reg_item_btn:hover, .login_btn:hover{
     cursor: pointer;
 }
 
-.item_option__select {
+.item_option__select  {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -77,3 +75,22 @@
 }
 
 
+#select_transaction{
+    width: 100px;
+}
+
+.list_header__btn {
+    display: flex;
+    justify-content: end;
+    flex-wrap: nowrap;
+}
+
+@media (max-width: 420px) {
+    .small_width_screen{
+        font-size: 10px;
+        padding: 10px 12px;
+        margin-left: 5px;
+        width: 43%;
+
+    }
+  } 
