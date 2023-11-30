@@ -70,6 +70,12 @@
       </a>
       {% endfor %}
     </main>
+      
+      <p>
+      [ new chat 알림 확인을 위한 임시 표기 코드 ]<br>
+      {{ session['newChat'] if session['newChat'] else 'no new chat' }}
+    </p>
+      
     {% include 'nav_bar.html' %}
   </body>
   <script
