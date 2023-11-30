@@ -106,7 +106,7 @@
       <div id="review_ment">
         <p class="review_ment__head">
           <span class="review_ment__title">{{ reviewdata.title }}</span>
-          <span class="review_ment__date">{{ reviewdata.createdAt }}</span>
+          <span class="review_ment__date review_reg_date">{{ reviewdata.createdAt }}</span>
         </p>
 
         <p class="review_ment__writer">{{ reviewdata.userId }}</p>
@@ -117,6 +117,8 @@
   </body>
 
   <script src="{{ url_for('static', filename='components/base_header.js') }}"></script>
+  <script src="{{ url_for('static', filename='components/calcDate.js') }}"></script>
+
 
 </html>
 

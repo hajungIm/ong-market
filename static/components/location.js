@@ -15,7 +15,7 @@ switch (locationValue.trim()) {
     value = "교육관";
     break;
   case "eHouse":
-    value = "기숙사(E-house, 한우리)";
+    value = "기숙사(E-house)";
     break;
   case "iHouse":
     value = "기숙사(I-house)";

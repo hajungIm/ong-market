@@ -261,6 +261,7 @@
             type="file"
             name="itemImg"
             accept="image/*"
+            required
             onchange="setThumbnail(event);"
           />
           <div id="image_container"></div>
@@ -321,11 +322,6 @@
       <!-- 사진 변경 가능하도록 수정-->
 
       <div id="imagePreviews"></div>
-      <div class="enroll_container">
-        <button class="enroll_btn" id="submit_btn" type="submit">
-          등록하기
-        </button>
-      </div>
       <script>
         document.addEventListener("DOMContentLoaded", function () {
           // Function to handle form submission

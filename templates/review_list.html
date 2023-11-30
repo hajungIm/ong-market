@@ -13,7 +13,7 @@
 
   <body>
     <header class="base_header">
-      <a href="javascript:location.href = document.referrer;" class="base_header__icon base_header__back">
+      <a href="/mypage" class="base_header__icon">
         <i class="fa-solid fa-chevron-left fa-xl" style="color: #242424;"></i>
       </a>
       <div>
@@ -57,7 +57,7 @@
         {% endfor %}
         {% endif %}
         </div>
-        <p class="list_review__date"> {{ value.createdAt }}</p>
+        <p class="list_review__date review_reg_date"> {{ value.createdAt }}</p>
           </a>
         </div>
       {% endfor %} {% else %}
@@ -72,8 +72,8 @@
     </main>
 
 </body>
-      <script src="{{ url_for('static', filename='components/base_header.js') }}"></script>
       <script src="{{ url_for('static', filename='components/commas_to_price.js') }}"></script>
+      <script src="{{ url_for('static', filename='components/calcDate.js') }}"></script>
       <script
       src="https://kit.fontawesome.com/a1969e7b61.js"
       crossorigin="anonymous"

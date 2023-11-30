@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
-  var dateElements = document.querySelectorAll(".item_reg_date");
+  var dateElements = document.querySelectorAll(
+    ".item_reg_date, .review_reg_date"
+  );
   dateElements.forEach(function (dateElement) {
     // HTML 요소에서 날짜 문자열 읽기
     const dateString = dateElement.textContent || dateElement.innerHTML;
