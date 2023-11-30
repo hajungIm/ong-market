@@ -32,6 +32,24 @@ def logout_user():
     session.clear()
     return redirect(url_for('hello'))
 
+@application.route("/accountdelete")
+def account_delete():
+        # 세션에서 사용자 ID 가져오기
+        user_id = session.get('id')
+
+        # 회원 탈퇴 로직 수행 (데이터베이스에서 사용자 데이터 삭제)
+        success = DB.delete_user(user_id)
+
+        if success:
+            # 회원 탈퇴 후 세션 초기화
+            session.clear()
+            flash("회원 탈퇴가 성공적으로 완료되었습니다!")
+            return render_template("login.html")
+        else:
+            flash("회원 탈퇴에 실패했습니다. 다시 시도해주세요.")
+            return render_template("mypage.html")
+
+
 @application.route("/login_confirm", methods=['POST'])
 def login_user():
     id_=request.form['id']

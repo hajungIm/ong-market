@@ -32,6 +32,30 @@ class DBhandler:
             return True
         else:
             return False
+        
+    def delete_user(self, user_id):
+        # 사용자 데이터 가져오기
+        user_key, user_data = self.find_user_by_id(user_id)
+
+        if user_data:
+            try:
+                # 사용자의 채팅 기록 삭제
+                chat_rooms = self.get_chat_rooms_for_user(user_id)
+                for chat_room in chat_rooms:
+                    chat_room_id = chat_room['chatRoomId']
+                    self.db.child("chats").child(chat_room_id).remove()
+
+                # 사용자 데이터 삭제
+                self.db.child("user").child(user_key).remove()
+
+                return True
+            except Exception as e:
+                # 에러 처리를 원하는 대로 추가
+                print(f"회원 탈퇴 중 오류 발생: {str(e)}")
+                return False
+        else:
+            return False
+        
     
     def user_duplicate_check(self, id_string):
         users=self.db.child("user").get()
@@ -348,10 +372,25 @@ class DBhandler:
         
     def get_reviews(self, user_id):
         reviews = self.db.child("review").get().val()
-        
-        # 사용자가 받은 리뷰만 필터링
-        user_reviews = {key: value for key, value in reviews.items() if value.get('sellerId') == user_id}
+
+        user_reviews = {}
+
+        for key, value in reviews.items():
+            if value.get('sellerId') == user_id:
+                # 해당 리뷰에 대응하는 상품 정보 가져오기
+                item_id = value.get('reviewId')
+                item_info = self.find_item_by_id(item_id)
+
+                if item_info:
+                    # 리뷰 정보에 상품 가격과 이름 추가
+                    value['price'] = item_info.get('price')
+                    value['itemName'] = item_info.get('itemName')
+
+                    # 사용자 리뷰 딕셔너리에 리뷰 추가
+                    user_reviews[key] = value
+
         return user_reviews
+
 
     
     def get_review_by_name(self, name):
