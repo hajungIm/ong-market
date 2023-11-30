@@ -506,7 +506,6 @@ def update_like(item_id):
 
 @application.route("/user_Page")
 def userPage():
-     # 세션에서 사용자 정보 가져오기
     user_id = session.get("id")
     if user_id:
         # 세션에 저장된 사용자 ID를 사용하여 사용자 정보 가져오기
