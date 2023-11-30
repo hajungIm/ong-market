@@ -64,7 +64,7 @@
           <span class="seller_id">{{ data.userId }}</span>
           <span class="seller_rank">
             학점
-            <span class="rank_eng">{{ seller_grade }}</span>
+            <span class="profile_rank_eng">{{ seller_grade }}</span>
           </span>
         </div>
         <p class="detail_info__date item_reg_date">{{ data.createdAt }}</p>
@@ -185,5 +185,5 @@
   <script src="{{ url_for('static', filename='components/calcDate.js') }}"></script>
   <script src="{{ url_for('static', filename='components/applyLineBreak.js') }}"></script>
   <script src="{{ url_for('static', filename='components/location.js') }}"></script>
-
+  <script src="{{ url_for('static', filename='components/grade.js') }}"></script>
 </html>
