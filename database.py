@@ -32,6 +32,30 @@ class DBhandler:
             return True
         else:
             return False
+        
+    def delete_user(self, user_id):
+        # 사용자 데이터 가져오기
+        user_key, user_data = self.find_user_by_id(user_id)
+
+        if user_data:
+            try:
+                # 사용자의 채팅 기록 삭제
+                chat_rooms = self.get_chat_rooms_for_user(user_id)
+                for chat_room in chat_rooms:
+                    chat_room_id = chat_room['chatRoomId']
+                    self.db.child("chats").child(chat_room_id).remove()
+
+                # 사용자 데이터 삭제
+                self.db.child("user").child(user_key).remove()
+
+                return True
+            except Exception as e:
+                # 에러 처리를 원하는 대로 추가
+                print(f"회원 탈퇴 중 오류 발생: {str(e)}")
+                return False
+        else:
+            return False
+        
     
     def user_duplicate_check(self, id_string):
         users=self.db.child("user").get()
