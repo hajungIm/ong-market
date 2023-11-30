@@ -372,10 +372,25 @@ class DBhandler:
         
     def get_reviews(self, user_id):
         reviews = self.db.child("review").get().val()
-        
-        # 사용자가 받은 리뷰만 필터링
-        user_reviews = {key: value for key, value in reviews.items() if value.get('sellerId') == user_id}
+
+        user_reviews = {}
+
+        for key, value in reviews.items():
+            if value.get('sellerId') == user_id:
+                # 해당 리뷰에 대응하는 상품 정보 가져오기
+                item_id = value.get('reviewId')
+                item_info = self.find_item_by_id(item_id)
+
+                if item_info:
+                    # 리뷰 정보에 상품 가격과 이름 추가
+                    value['price'] = item_info.get('price')
+                    value['itemName'] = item_info.get('itemName')
+
+                    # 사용자 리뷰 딕셔너리에 리뷰 추가
+                    user_reviews[key] = value
+
         return user_reviews
+
 
     
     def get_review_by_name(self, name):
