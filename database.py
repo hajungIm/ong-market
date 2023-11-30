@@ -373,7 +373,7 @@ class DBhandler:
         for res in items.each():
             value = res.val()
             key_value = res.key()
-            if value is not None  and 'transaction' in value and value['transaction'] == cate:
+            if value is not None and 'transaction' in value and value['transaction'] == cate:
                 target_value.append(value)
                 target_key.append(key_value)
         print("######target_value",target_value)
@@ -389,7 +389,7 @@ class DBhandler:
         for res in items.each():
             value = res.val()
             key_value = res.key()
-            if value is not None  and  'location' in value and value['location'] == cate:
+            if value is not None and 'location' in value and value['location'] == cate:
                 target_value.append(value)
                 target_key.append(key_value)
         print("######target_value",target_value)
