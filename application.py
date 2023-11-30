@@ -277,7 +277,6 @@ def submit_review(itemId):
 def my_page():
     user_id = session.get('id')
     if user_id is None:
-        # 사용자 ID가 세션에 없는 경우, 로그인 페이지나 오류 페이지로 리디렉트
         return redirect(url_for('login'))
 
     user_info = DB.get_user_info(user_id)

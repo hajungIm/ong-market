@@ -23,7 +23,8 @@ class DBhandler:
             "profile_image":default_profile_image,
             "keyword_stat": keyword_stat,
             "keyword_count": 0,
-            "email": data['email']
+            "email": data['email'],
+            "grade": 2.5
         }
         if self.user_duplicate_check(str(data['id'])):
             self.db.child("user").push(user_info)
@@ -79,7 +80,8 @@ class DBhandler:
                     "profile_image": value['profile_image'],
                     "keyword_stat": value['keyword_stat'],
                     "keyword_count": value['keyword_count'],
-                    "email": value['email']
+                    "email": value['email'],
+                    "grade": value['grade']
                 }
         return None
 
