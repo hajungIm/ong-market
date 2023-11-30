@@ -98,6 +98,39 @@
                         }
                     </script>
                     <hr />
+                    
+                    <!--재학생 인증-->
+                    <h4>Ewha Email</h4>
+                    <input id="email" type="text" name="email" style="border: none;" required />
+                    <button
+                        class="check_button"
+                        id="check_email_button"
+                        type="button"
+                        onclick="student_check()"
+                    >
+                        check
+                    </button>
+
+                    <script>
+                        function student_check() {
+                            var btn = document.getElementById('check_email_button');
+                            var email = document.getElementById('email').value;
+
+                            sessionStorage.setItem('email', email);
+
+                            /*이화 메일 확인*/
+                            if (email.slice(-11) != '@ewhain.net') {
+                                alert('Ewha Mail이 아닙니다! 다시 입력해주세요');
+                                email.value = null;
+                            } else {
+                                sessionStorage.setItem('email', email);
+                                window.location.href = 'student_check';
+                            }
+                        }
+                    </script>
+
+                    <hr />
+
 
                     <h4>Password</h4>
                     <input
@@ -147,38 +180,7 @@
                     </script>
                     <hr />
 
-                    <!--재학생 인증-->
-                    <h4>Ewha Email</h4>
-                    <input id="email" type="text" name="email" style="border: none;" required />
-                    <button
-                        class="check_button"
-                        id="check_email_button"
-                        type="button"
-                        onclick="student_check()"
-                    >
-                        check
-                    </button>
-
-                    <script>
-                        function student_check() {
-                            var btn = document.getElementById('check_email_button');
-                            var email = document.getElementById('email').value;
-
-                            sessionStorage.setItem('email', email);
-
-                            /*이화 메일 확인*/
-                            if (email.slice(-11) != '@ewhain.net') {
-                                alert('Ewha Mail이 아닙니다! 다시 입력해주세요');
-                                email.value = null;
-                            } else {
-                                sessionStorage.setItem('email', email);
-                                window.location.href = 'student_check';
-                            }
-                        }
-                    </script>
-
-                    <hr />
-                    <br /><br />
+                    <br/>
 
                     <button id="mem_register_button" type="submit" value="Submit">
                         <b>가입하기</b>
