@@ -8,7 +8,6 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='style.css') }}"
     />
-    <script src="../static/screens/reg_review.js"></script>
   </head>
   <body>
     <header class="base_header">
@@ -37,6 +36,7 @@
         <p class="review_item__price">{{ data.price }}원</p>
       </div>
     </div>
+
     <form
       id="reviewForm"
       class="reg_review_form reg_item_form"
@@ -368,6 +368,7 @@
       </div>
     </form>
   </body>
+  <script src="../static/screens/reg_review.js"></script>
   <script
     src="https://kit.fontawesome.com/afee348a73.js"
     crossorigin="anonymous"
