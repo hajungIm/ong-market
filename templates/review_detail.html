@@ -30,9 +30,14 @@
     </header>
 
     <div id="item">
-      <div class="review_detail__img">
+      <div class="review_detail__img" onclick="openPanel()">
         <img src="{{ url_for('static', filename=data.img_path) }}" alt="item image" />
       </div>
+      <!--상품 확대-->
+      <script>
+        const itemImg = document.querySelector(".review_detail__img img");
+        
+      </script>
       <p class="item">
         <span class="item__name">{{ data.itemName }}</span>
         <span class="item__price">{{ data.price }}원</span>
@@ -87,14 +92,15 @@
         // 버튼들의 ID 배열
         var buttonIds = ["time", "response", "kind", "come", "give", "condition", "detail", "resonable"];
         // 각 버튼을 순회하면서 data.keyword 값을 확인하여 표시 여부 결정
-        for (var i = 0; i < data.length; i++) {
-            if (data[i] === 0) {
-                document.getElementById(buttonIds[i]).style.display = "none";
-            }
-            else{
-                document.getElementById(buttonIds[i]).style.display = "flex";
-            }
-        }}
+          for (var i = 0; i < data.length; i++) {
+              if (data[i] === 0) {
+                  document.getElementById(buttonIds[i]).style.display = "none";
+              }
+              else{
+                  document.getElementById(buttonIds[i]).style.display = "flex";
+              }
+          }
+        }
         else{
             document.getElementById(simple_review).style.display = "none";
         }
@@ -114,10 +120,28 @@
         </p>
       </div>
     </main>
+
+    <div class="review_img__panel" style="">
+        <button class="close_btn" type="button" onclick="closePanel()">
+        <i class="fa-solid fa-xmark"></i>
+        </button>
+        <img src="{{ url_for('static', filename=data.img_path) }}" alt="리뷰 이미지">
+    </div>
+
+
   </body>
 
   <script src="{{ url_for('static', filename='components/base_header.js') }}"></script>
   <script src="{{ url_for('static', filename='components/calcDate.js') }}"></script>
+  <script>
+    const imgPanel = document.getElementsByClassName("review_img__panel")[0];
+    function closePanel() {
+        imgPanel.style.visibility = "hidden";
+    }
+    function openPanel() {
+      imgPanel.style.visibility = "visible";
+    }
+  </script>
 
 
 </html>

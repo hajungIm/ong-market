@@ -8,6 +8,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 날짜 문자열 파싱
     const [datePart, timePart] = dateString.split("T");
+    console.log(dateString);
+    console.log(datePart);
+    console.log(timePart);
     const [year, month, day] = datePart.split("-");
     const [hour, minute] = timePart.split(":");
 
