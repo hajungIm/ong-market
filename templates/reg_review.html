@@ -8,6 +8,7 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='style.css') }}"
     />
+    <script src="../static/screens/reg_review.js"></script>
   </head>
   <body>
     <header class="base_header">
@@ -36,12 +37,13 @@
         <p class="review_item__price">{{ data.price }}원</p>
       </div>
     </div>
-
     <form
+      id="reviewForm"
       class="reg_review_form reg_item_form"
       action="/submit_review_post/{{data.itemId}}"
       method="post"
-        enctype="multipart/form-data"
+      enctype="multipart/form-data"
+      onsubmit="return validateForm();"
     >
       <div class="reg_review_form_section">
         <p class="reg_item-form__label">거래가 어떠셨나요?</p>
@@ -208,12 +210,12 @@
             <p class="reg_review-form__label">키워드 없음</p>
 
             <input
-              class="checkbox_hidden checkbox_keyword"
-              type="checkbox"
-              name="keywordNo"
-              id="no_keyword"
-              value = nokeyword
-            />
+                class="checkbox_hidden checkbox_keyword"
+                type="checkbox"
+                name="keywordNo"
+                id="no_keyword"
+                value="nokeyword"
+              />
             <label for="no_keyword" class="keyword_list"
               >선택할 키워드가 없어요.</label
             >
@@ -366,7 +368,6 @@
       </div>
     </form>
   </body>
-  <script src="../static/screens/reg_review.js"></script>
   <script
     src="https://kit.fontawesome.com/afee348a73.js"
     crossorigin="anonymous"
