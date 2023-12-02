@@ -342,10 +342,10 @@
                 reviewLink.className = 'dm_info__btn';
 
                 var rc = "{{ rc }}";
-                if (rc == "1") {
+                if (rc === "1") {
                     reviewLink.href = "{{ url_for('review_detail', reviewId=chat_room.itemId) }}";
                     reviewLink.textContent = '작성한 리뷰 보기';
-                } else {
+                } else if(rc=== "0") {
                     reviewLink.href = '/reg_review/' + "{{ chat_room.itemId }}";
                     reviewLink.textContent = '리뷰 작성하기';
                 }

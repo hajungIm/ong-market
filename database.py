@@ -372,7 +372,6 @@ class DBhandler:
         
     def get_review_status_by_id(self, itemId):
         item_data = self.db.child("item").child(itemId).get().val()
-
         if item_data:
             review_complete = item_data.get('review_complete')
             return review_complete

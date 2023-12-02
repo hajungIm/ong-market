@@ -10,9 +10,14 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import config
 
+
 import sys
 
 application = Flask(__name__)
+
+
+
+
 application.config["SECRET_KEY"]="helloosp"
 application.config.from_object(config)
 
@@ -337,8 +342,10 @@ def dm_to_seller():
         buyer_img = DB.get_user_Img(buyer_id)
     
         chat_room = DB.get_chat_room(item_data, seller_id, seller_img, buyer_id, buyer_img)
+
+        review_compelte = DB.get_review_status_by_id(item_data['itemId'])
     
-        return render_template("dm.html", chat_room=chat_room, counterpartId=seller_id, counterpartImg=seller_img)
+        return render_template("dm.html", chat_room=chat_room, counterpartId=seller_id, counterpartImg=seller_img, rc=review_compelte)
 
 @application.route("/dm")
 def dm():
@@ -613,12 +620,13 @@ def chat_room_page(chat_room_id):
     
     itemID = chat_room_data['itemId']
     review_complete = DB.get_review_status_by_id(itemID)
+    print(f"Review complete: {review_complete}")
     
     return render_template('dm.html', chat_room=chat_room_data, counterpartId=counterpartId, counterpartImg=counterpartImg, rc= review_complete)
 
 @application.route('/complete/<chat_room_id>', methods=['POST'])
 def complete_chat_room(chat_room_id):
-    
+
     DB.mark_chat_room_as_complete(chat_room_id)
     return jsonify({"status": "success", "message": "Chat room marked as complete"})
 
