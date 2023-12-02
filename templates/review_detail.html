@@ -17,7 +17,28 @@
   </head>
   <body>
     <header class="base_header">
-      <div class="base_header__icon base_header__back" onclick="return_btn()">
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+        const lastUrl = document.referrer;
+        
+        console.log("last url is " + lastUrl);
+
+        function return_btn() {
+            // "reg_review"를 포함하는지 확인
+            if (lastUrl.includes("reg_review")) {
+                // 포함하면 /chatting_list로 이동
+                window.location.href = "/chatting_list";
+            } else {
+                window.location.href = lastUrl;
+            }
+        }
+
+        // 이전 버튼 클릭 시 return_btn 함수 호출
+        const backButton = document.querySelector(".base_header__back");
+        backButton.addEventListener("click", return_btn);
+        });
+      </script>
+      <div class="base_header__icon base_header__back" >
         <!--뒤로 가기 링크 추후 수정 필요(dm창으로 이동해야 함)-->
         <i class="fa-solid fa-chevron-left fa-xl" style="color: #242424"></i>
       </div>
@@ -143,24 +164,6 @@
     function openPanel() {
       imgPanel.style.visibility = "visible";
     }
-  </script>
-
-  <script>
-        const lastUrl = document.referrer;
-        const page = lastUrl.search("reg_review");
-    function return_btn() {
-        if(page!==-1){
-          window.location.href = "/chatting_list";
-          
-        }
-        else{
-          alert('뒤');
-          window.location.href = document.referrer;
-        }
-
-    }
-    console.log(lastUrl);
-    console.log(page);
   </script>
 
 
