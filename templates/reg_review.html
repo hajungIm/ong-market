@@ -42,6 +42,7 @@
         // Check if at least one checkbox is selected in the "어떤 점이 좋았나요?" section
         const checkboxes = document.querySelectorAll('.checkbox_keyword:not(#no_keyword):checked');
         const noKeywordCheckbox = document.querySelector('input[name="keywordNo"]:checked');
+        const imgInput = document.getElementById('review_imgInput');
     
         if ((checkboxes.length === 0) && !noKeywordCheckbox) {
           alert("키워드를 최소 하나 이상 선택해주세요.\n선택할 키워드가 없다면 키워드 없음을 눌러 주세요.");
@@ -49,8 +50,13 @@
         }
     
         // Continue with form submission or other actions if needed
-        else
+        else {
+           if (imgInput.files.length === 0) {
+              alert("리뷰 사진을 선택해주세요.");
+              return false;
+            }
           return true;
+        }
       }
     </script>
 
@@ -271,7 +277,7 @@
               <i class="fas fa-camera fa-2x"></i>
             </div>
             <p class="upload-container__cnt" style="margin-left: 18px">
-              제품 사진
+              리뷰 사진
             </p>
           </label>
           <input
@@ -280,7 +286,6 @@
             type="file"
             name="itemImg"
             accept="image/*"
-            required
             onchange="setThumbnail(event);"
           />
           <div id="image_container"></div>
@@ -345,17 +350,7 @@
         document.addEventListener("DOMContentLoaded", function () {
           // Function to handle form submission
           function handleSubmit(event) {
-            // Get the value of the description textarea
-            // var descriptionValue = document.getElementById("review_content").value;
-
-            // // Check if the length is less than 10
-            // if (descriptionValue.length < 10) {
-            //   // Display a warning message
-            //   alert("상품 설명은 10자 이상이어야 합니다.");
-            //   // Prevent the form submission
-            //   event.preventDefault();
-            // }
-            // Otherwise, the form will be submitted as usual
+            
           }
 
           // Attach the handleSubmit function to the form's submit event

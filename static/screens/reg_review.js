@@ -33,33 +33,6 @@ function remove() {
   }
 }
 
-// // 라디오 버튼 상태가 변경될 때 호출되는 함수
-// starInputs[0].disabled = false;
-// for (let i = 0; i < starInputs.length; i++) {
-//   starInputs[i].disabled = false;
-// }
-
-// function updateStarColors() {
-//   starInputs.forEach((input, index) => {
-//     const icon = starIcons[index];
-//     if (input.checked) {
-//       console.log("별 색상 바뀌기");
-//       // 라디오 버튼이 체크되었을 때 아이콘 색상을 빨간색으로 변경
-//       icon.style.color = "#BF190E";
-//       if (index < starInputs.length - 1) {
-//         starInputs[index + 1].disabled = false;
-//       }
-//     } else {
-//       // 라디오 버튼이 해제됐을 때 아이콘 색상을 초기 색깔로 변경 (여기서는 #d9d9d9)
-//       icon.style.color = "#d9d9d9";
-//       for (let i = index + 1; i < starInputs.length; i++) {
-//         starInputs[i].disabled = true;
-//         starInputs[i].checked = false;
-//       }
-//     }
-//   });
-// }
-
 // 키워드 선택 필수 + 선택할 키워드 없음 선택시 모두 비활성화 처리 기능 구현해야 함.
 function updateKeywordColors() {
   keywordInputs.forEach((input, index) => {
@@ -141,5 +114,4 @@ noKeywordLabel.addEventListener("change", function () {
 
     clickCount = 1;
   }
-
 });

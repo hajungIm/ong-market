@@ -434,7 +434,14 @@ class DBhandler:
             new_dict[k]=v
         return new_dict
     
-    def update_seller_grade(self, itemId, newRating):
+    def update_seller_grade(self, itemId, reviewData):
+         
+        if 'rating' not in reviewData:
+        # 'rating' 키가 없는 경우에 대한 처리
+        # 여기서는 기본값으로 0을 사용하도록 가정
+            newRating = 0
+        else:
+            newRating = reviewData['rating']
         item = self.db.child("item").child(itemId).get().val()
         sellerId = item.get('userId')
         seller_key, seller_data = self.find_user_by_id(sellerId)

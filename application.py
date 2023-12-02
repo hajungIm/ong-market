@@ -282,7 +282,9 @@ def submit_review(itemId):
     
     review = DB.find_review_by_id(reviewId)
     
-    DB.update_seller_grade(itemId, reviewform['rating'])
+    #rating 없는 경우도 있어서 수정
+    # DB.update_seller_grade(itemId, reviewform['rating'])
+    DB.update_seller_grade(itemId, reviewform)
     
     return render_template("review_detail.html", data = item, reviewdata = review)
 
@@ -494,8 +496,15 @@ def sellPage():
     user_id = session.get("id")
     
     sold_items = DB.get_sales_items(user_id, '1')
+
+    #찜한 목록 FE로 넘기기
+    user_id = session.get('id')
+    if user_id is None:
+        user_id="no session"
+
+    like_items = DB.get_like_items(user_id) or []
     
-    return render_template("sell_Page.html", sold_items=sold_items)
+    return render_template("sell_Page.html", sold_items=sold_items, like_items = like_items)
 
 
 @application.route("/selling")
