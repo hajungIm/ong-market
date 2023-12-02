@@ -222,12 +222,20 @@ class DBhandler:
         return chat_room_data
     
     def mark_chat_room_as_complete(self, chat_room_id):
-        complete_update = {"complete": True}
-        self.db.child("chats").child(chat_room_id).update(complete_update)
+        # chat_room_id에 해당하는 노드가 존재하는지 확인
+        if self.db.child("chats").child(chat_room_id).get().val() is not None:
+            complete_update = {"complete": True}
+            self.db.child("chats").child(chat_room_id).update(complete_update)
 
-        itemId = self.db.child("chats").child(chat_room_id).get('itemId')
-        self.db.child("item").child(itemId).update({"completed": "1"})
-        return True
+            # itemId를 가져올 때도 노드가 존재하는지 확인
+            itemId = self.db.child("chats").child(chat_room_id).child('itemId').get().val()
+            if itemId:
+                self.db.child("item").child(itemId).update({"completed": "1"})
+                return True
+            else:
+                return False
+        else:
+            return False
     
     def update_profile_image(self, user_id, new_image):
         user_key, user_data = self.find_user_by_id(user_id)
