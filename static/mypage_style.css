@@ -29,6 +29,7 @@ main {
     height: 120px;
     border-radius: 50%;
     margin-right: 20px;
+    object-fit: cover;
 }
 
 .profile_details__info {

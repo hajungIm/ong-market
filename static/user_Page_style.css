@@ -108,9 +108,10 @@ body{
 .image_style{
     border-radius: 50%; /*원 형태로 만들고 싶으면 border-radius를 50%로 ㅂ*/
     width: 160px;
+    height: 160px;
     align-items: center;
     margin-bottom: 35px;
-
+    object-fit: cover;
 }
 
 .make_center{
