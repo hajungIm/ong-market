@@ -142,24 +142,30 @@
         </div>
         {% endif %}
         <script>
+          if()
+          document.getElementById("dm_function_complete")
+
+
           document
             .getElementById("dm_function_complete")
             .addEventListener("click", function () {
-              var chatRoomId = "{{ chat_room.chatRoomId }}";
+              if(!{{chat_room.complete}}){
+                var chatRoomId = "{{ chat_room.chatRoomId }}";
 
-              var xhr = new XMLHttpRequest();
-              xhr.open("POST", "/complete/" + chatRoomId, true);
-              xhr.setRequestHeader("Content-Type", "application/json");
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/complete/" + chatRoomId, true);
+                xhr.setRequestHeader("Content-Type", "application/json");
 
-              xhr.onload = function () {
-                if (xhr.status === 200) {
-                  alert("거래가 완료되었습니다!");
-                } else {
-                  alert("오류가 발생했습니다: " + xhr.status);
-                }
-              };
+                xhr.onload = function () {
+                  if (xhr.status === 200) {
+                    alert("거래가 완료되었습니다!");
+                  } else {
+                    alert("오류가 발생했습니다: " + xhr.status);
+                  }
+                };
 
-              xhr.send(JSON.stringify({ chatRoomId: chatRoomId }));
+                xhr.send(JSON.stringify({ chatRoomId: chatRoomId }));
+              }
             });
         </script>
         <div class="dm_function__icon"></div>
@@ -214,6 +220,7 @@
                             if (sessionId === sellerId) {
                                 // 판매자 완료 메시지 - 리뷰 보기
                                 addCompleteMessageForSeller();
+                                document.getElementById("dm_function_complete").style.backgroundColor="gray";
                             } else {
                                 // 구매자 완료 메시지 - 리뷰 쓰기
                                 addCompleteMessageForBuyer();

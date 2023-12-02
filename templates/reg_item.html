@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>상품 등록화면</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+        
     </head>
     <body>
         <header class="base_header">
@@ -24,6 +25,7 @@
             action="/reg_item_post"
             method="post"
             enctype="multipart/form-data"
+            id="itemForm"
         >
             <input
                 type="datetime-local"
@@ -49,7 +51,6 @@
                     id="itemName"
                     name="itemName"
                     type="text"
-                    required
                     placeholder="상품 이름을 입력해주세요."
                 />
             </div>
@@ -60,18 +61,18 @@
                     id="price"
                     name="price"
                     type="number"
-                    required
                     placeholder="가격을 입력해주세요."
+                    min="0"
                 />
             </div>
             <div class="reg_item_form__section">
                 <p class="reg_item-form__label">상태</p>
                 <div class="reg_item-form__radio">
-                    <input id="good" type="radio" name="status" value="좋음" required />
+                    <input id="good" type="radio" name="status" value="좋음"/>
                     <label for="good">좋음</label>
                 </div>
                 <div class="reg_item-form__radio">
-                    <input id="common" type="radio" name="status" value="보통" required />
+                    <input id="common" type="radio" name="status" value="보통" />
                     <label for="common">보통</label>
                 </div>
                 <div class="reg_item-form__radio">
@@ -86,14 +87,13 @@
                     id="description"
                     name="description"
                     placeholder="상품 및 거래에 대한 내용을 자세히 작성해주세요. 상품 구입 시기, 사용 횟수, 상품 상태 등 구매자에게 필요한 정보를 적어주세요. (10자 이상)"
-                    required
                 ></textarea>
             </div>
             <div class="reg_item_form__section">
                 <p class="reg_item-form__label">거래방식</p>
                 <div id="reg_item-form__radio">
                     <div>
-                        <input id="f2f" type="radio" name="transaction" value="대면" required />
+                        <input id="f2f" type="radio" name="transaction" value="대면"/>
                         <label id="f2f_label" for="f2f">
                             <i class="fa-solid fa-check"></i>
                             대면</label
@@ -120,7 +120,6 @@
                     class="reg_item-form__select"
                     id="location"
                     name="location"
-                    required
                     disabled
                 >
                     <option value="" disabled selected>장소 선택</option>
@@ -221,27 +220,6 @@
                 </button>
             </div>
         </form>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                // Function to handle form submission
-                function handleSubmit(event) {
-                    // Get the value of the description textarea
-                    var descriptionValue = document.getElementById('description').value;
-
-                    // Check if the length is less than 10
-                    if (descriptionValue.length < 10) {
-                        // Display a warning message
-                        alert('상품 설명은 10자 이상이어야 합니다.');
-                        // Prevent the form submission
-                        event.preventDefault();
-                    }
-                    // Otherwise, the form will be submitted as usual
-                }
-
-                // Attach the handleSubmit function to the form's submit event
-                document.getElementById('submit_btn').addEventListener('click', handleSubmit);
-            });
-        </script>
   </body>
   <script
     src="https://kit.fontawesome.com/afee348a73.js"
@@ -249,4 +227,5 @@
   ></script>
   <script src="{{ url_for('static', filename='components/img_btn.js') }}"></script>
   <script src="{{ url_for('static', filename='screens/reg_item_select.js') }}"></script>
+  <script src="{{ url_for('static', filename='screens/reg_item_required.js') }}"></script>
 </html>
