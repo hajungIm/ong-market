@@ -148,7 +148,7 @@
                 
                 if (dmFunctionComplete) {
                     dmFunctionComplete.addEventListener("click", function () {
-                        if (!{{chat_room.complete|default('false')}}) {
+                        if (!{{chat_room.complete|default('false')}}&&"{{rc}}"!=="1") {
                             var chatRoomId = "{{ chat_room.chatRoomId }}";
 
                             var xhr = new XMLHttpRequest();
@@ -229,6 +229,10 @@
                             }
                         }
                     });
+                    //다른 사람과 거래 완료된 상품인지 감지
+                    if("{{rc}}"==="1"){
+                      document.getElementById("dm_function_complete").style.backgroundColor="gray";
+                    }
 
                     function addMessageToChatWindow(message) {
                         var chatWindow = document.getElementById('chat-window');
