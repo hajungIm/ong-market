@@ -141,33 +141,36 @@
           <span>거래완료</span>
         </div>
         {% endif %}
+        
         <script>
-          if()
-          document.getElementById("dm_function_complete")
+            document.addEventListener('DOMContentLoaded', function () {
+                var dmFunctionComplete = document.getElementById("dm_function_complete");
+                
+                if (dmFunctionComplete) {
+                    dmFunctionComplete.addEventListener("click", function () {
+                        if (!{{chat_room.complete|default('false')}}) {
+                            var chatRoomId = "{{ chat_room.chatRoomId }}";
 
+                            var xhr = new XMLHttpRequest();
+                            xhr.open("POST", "/complete/" + chatRoomId, true);
+                            xhr.setRequestHeader("Content-Type", "application/json");
 
-          document
-            .getElementById("dm_function_complete")
-            .addEventListener("click", function () {
-              if(!{{chat_room.complete}}){
-                var chatRoomId = "{{ chat_room.chatRoomId }}";
+                            xhr.onload = function () {
+                                if (xhr.status === 200) {
+                                    alert("거래가 완료되었습니다!");
+                                } else {
+                                  alert("오류가 발생했습니다: " +  alert("오류가 발생했습니다: " + xhr.status););
 
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", "/complete/" + chatRoomId, true);
-                xhr.setRequestHeader("Content-Type", "application/json");
+                                }
+                            };
 
-                xhr.onload = function () {
-                  if (xhr.status === 200) {
-                    alert("거래가 완료되었습니다!");
-                  } else {
-                    alert("오류가 발생했습니다: " + xhr.status);
-                  }
-                };
-
-                xhr.send(JSON.stringify({ chatRoomId: chatRoomId }));
-              }
+                            xhr.send(JSON.stringify({ chatRoomId: chatRoomId }));
+                        }
+                    });
+                }
             });
         </script>
+
         <div class="dm_function__icon"></div>
         <div class="dm_function__icon"></div>
         <div class="dm_function__icon"></div>
@@ -339,7 +342,7 @@
                 var reviewLink = document.createElement('a');
                 reviewLink.className = 'dm_info__btn';
 
-                var rc = {{ rc }};
+                var rc = "{{ rc }}";
                 if (rc == "1") {
                     reviewLink.href = "{{ url_for('review_detail', reviewId=chat_room.itemId) }}";
                     reviewLink.textContent = '작성한 리뷰 보기';

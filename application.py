@@ -282,7 +282,7 @@ def submit_review(itemId):
     
     review = DB.find_review_by_id(reviewId)
     
-    #rating 없는 경우도 있어서 수정
+    #rating 없는 경우도 있
     # DB.update_seller_grade(itemId, reviewform['rating'])
     DB.update_seller_grade(itemId, reviewform)
     
@@ -618,6 +618,7 @@ def chat_room_page(chat_room_id):
 
 @application.route('/complete/<chat_room_id>', methods=['POST'])
 def complete_chat_room(chat_room_id):
+    
     DB.mark_chat_room_as_complete(chat_room_id)
     return jsonify({"status": "success", "message": "Chat room marked as complete"})
 
