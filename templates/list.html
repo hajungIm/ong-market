@@ -107,7 +107,9 @@
   <main class="list_page_box">
     {% if rows %}
     {% for row in rows %} {% for key, value in row.items() %}
-    <a href="{{ url_for('item_detail', itemId=value.itemId) }}" class="item_box_link">
+    {% if value.completed != '1' %}
+      <a href="{{ url_for('item_detail', itemId=value.itemId) }}" class="item_box_link">
+    {% endif %}
       <div class="item_box1" id="item-{{ value.itemId }}">
         <div class="item_selection">
           <div class="item_box1__img">
