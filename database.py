@@ -226,7 +226,7 @@ class DBhandler:
         self.db.child("chats").child(chat_room_id).update(complete_update)
 
         itemId = self.db.child("chats").child(chat_room_id).get('itemId')
-        self.db.child("item").chile(itemId).update({"completed": "1"})
+        self.db.child("item").child(itemId).update({"completed": "1"})
         return True
     
     def update_profile_image(self, user_id, new_image):

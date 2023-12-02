@@ -159,8 +159,7 @@
                                 if (xhr.status === 200) {
                                     alert("거래가 완료되었습니다!");
                                 } else {
-                                  alert("오류가 발생했습니다: " +  alert("오류가 발생했습니다: " + xhr.status););
-
+                                  alert("오류가 발생했습니다 (상태 코드: " + xhr.status + "): " + xhr.responseText);
                                 }
                             };
 
