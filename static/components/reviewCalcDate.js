@@ -1,19 +1,16 @@
 document.addEventListener("DOMContentLoaded", function () {
-  var dateElements = document.querySelectorAll(".item_reg_date");
+  var dateElements = document.querySelectorAll(".review_reg_date");
   dateElements.forEach(function (dateElement) {
     // HTML 요소에서 날짜 문자열 읽기
     const dateString = dateElement.textContent || dateElement.innerHTML;
 
     // 날짜 문자열 파싱
-    const [datePart, timePart] = dateString.split("T");
-    console.log(dateString);
-    console.log(datePart);
-    console.log(timePart);
-    const [year, month, day] = datePart.split("-");
-    const [hour, minute] = timePart.split(":");
+    const [datePart, timePart] = dateString.split(",");
+    const [day, month, year] = datePart.trim().split("/");
+    const [hour, minute, second] = timePart.trim().split(":");
 
     // 상품 등록 날짜와 시간으로 Date 객체 생성
-    const userDate = new Date(year, month - 1, day, hour, minute);
+    const userDate = new Date(year, month - 1, day, hour, minute, second);
 
     // 현재 시간으로 Date 객체 생성
     const currentDate = new Date();

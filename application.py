@@ -259,11 +259,6 @@ def review_list():
 def reg_item():
     return render_template("reg_item.html")
 
-# @application.route("/reg_review")
-# def reg_review():
-#     return render_template("reg_review.html")
-
-
 @application.route("/reg_review/<itemId>")
 def reg_review_init(itemId):
     item = DB.find_item_by_id(itemId)
@@ -508,8 +503,15 @@ def sellingPage():
     user_id = session.get("id")
     
     selling_items = DB.get_sales_items(user_id, '0')
+
+    #찜한 목록 FE로 넘기기
+    user_id = session.get('id')
+    if user_id is None:
+        user_id="no session"
+
+    like_items = DB.get_like_items(user_id) or []
     
-    return render_template("sell_Page_selling.html", selling_items=selling_items)
+    return render_template("sell_Page_selling.html", selling_items=selling_items, like_items = like_items)
 
 @application.route("/like")
 def likePage():

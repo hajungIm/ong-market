@@ -5,6 +5,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>판매중 상품</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='sell_Page_style.css') }}" />
+          <script>
+            const likeItems = {{ like_items| tojson | safe }};
+            const likeItemIds = likeItems.map((item) => item.itemId);
+         </script>
     </head>
     <body>
         <header class="base_header">
@@ -29,32 +33,47 @@
         <main class="list_page_box sell_Page_main">
             {% if selling_items %}
             {% for item in selling_items %}
-            <div class="item_box1">
-                <div class="item_selection">
-                    <div class="item_box1__img">
-                        <img
-                            src="{{ url_for('static', filename=item.img_path) }}"
-                            alt="{{ item.itemName }}"
-                        />
-                    </div>
-                    <div class="item_box1__info">
-                        <p class="item_box1__title" name="itemName">{{ item.itemName }}</p>
-                        <div class="item_box1__upload">
-                            <p class="item_box1__seller" name="seller">{{ item.userId }}</p>
-                            <p class="item_box1__date">{{ item.createdAt }}</p>
+            <a href="{{ url_for('item_detail', itemId=item.itemId) }}" class="item_box_link">
+                <div class="item_box1" id="item-{{ item.itemId }}">
+                    <div class="item_selection">
+                        <div class="item_box1__img">
+                            <img
+                                src="{{ url_for('static', filename=item.img_path) }}"
+                                alt="{{ item.itemName }}"
+                            />
                         </div>
-                        <p class="item_box1__price" name="price">{{ item.price }}원</p>
+                        <div class="item_box1__info">
+                            <p class="item_box1__title" name="itemName">{{ item.itemName }}</p>
+                            <div class="item_box1__upload">
+                                <p class="item_box1__seller" name="seller">{{ item.userId }}</p>
+                                <p class="item_box1__date item_reg_date">{{ item.createdAt }}</p>
+                            </div>
+                            <p class="item_box1__price commas_price" name="price">{{ item.price }}원</p>
+                        </div>
+                    </div>
+                    <div class="item_box1__icon">
+                        <div class="item_box1_like">
+                            <div class="like_icon_box">
+                                <i class="fa-regular fa-bookmark fa-lg"></i>
+                            </div>
+                            <p class="item_like_num">{{ item.like_count }}</p>
+                        </div>
                     </div>
                 </div>
-                <div class="item_box1__icon">
-                    <div class="item_box1_like">
-                        <div class="like_icon_box">
-                            <i class="fa-regular fa-bookmark fa-lg"></i>
-                        </div>
-                        <p class="item_like_num">{{ item.like_count }}</p>
-                    </div>
-                </div>
-            </div>
+                 <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                    const itemId = {{ item.itemId }};
+                    const bookmarkIcon = document.querySelector(
+                    `#item-${itemId} .item_box1_like .fa-bookmark`
+                    );
+                    if (likeItemIds.includes(itemId)) {
+                    bookmarkIcon.classList.remove("fa-regular");
+                    bookmarkIcon.classList.add("fa-solid");
+                    bookmarkIcon.style.color = "#242424";
+                    }
+                    });
+                </script>
+            </a>
             {% endfor %}
             {% else %}
 
@@ -66,7 +85,9 @@
         {% include 'nav_bar.html' %}
     </body>
     <script src="https://kit.fontawesome.com/afee348a73.js" crossorigin="anonymous"></script>
+    
     <!-- <script src="{{ url_for('static', filename='screens/list.js') }}"></script> -->
-    <!-- <script src="{{ url_for('static', filename='components/like_press.js') }}"></script> -->
-    <!-- <script src="{{ url_for('static', filename='components/base_header.js') }}"></script> -->
+    <script src="{{ url_for('static', filename='components/calcDate.js') }}"></script>
+    <script src="{{ url_for('static', filename='components/commas_to_price.js') }}"></script>
+    <script src="{{ url_for('static', filename='components/like_press.js') }}"></script>
 </html>

@@ -305,11 +305,9 @@ class DBhandler:
         return selling_items
 
     def insert_review(self, review_id, data, review_img_path, userId):
-        # 채팅 시간이랑 상품, 리뷰 등록 시간이랑 저장되는 형식이 달라야 해서 이 부분 주석처리했습니다. 
-        # 채팅 작업하기 전에 이미 상품, 리뷰 등록 시간을 변화하지 않고 저장한 상태로 자바스크립트를 처리했기 때문에 어쩔 수 없이 이렇게 하겠습니다.
-        # seoul_timezone = pytz.timezone('Asia/Seoul')
-        # current_time = datetime.utcnow().replace(tzinfo=pytz.utc).astimezone(seoul_timezone)
-        # formatted_time = current_time.strftime("%d/%m/%Y, %H:%M:%S")
+        seoul_timezone = pytz.timezone('Asia/Seoul')
+        current_time = datetime.utcnow().replace(tzinfo=pytz.utc).astimezone(seoul_timezone)
+        formatted_time = current_time.strftime("%d/%m/%Y, %H:%M:%S")
 
 
         # userId : reviewer, sellerId: seller
@@ -335,7 +333,7 @@ class DBhandler:
             "title": data['reviewTitle'],
             "review_img_path": review_img_path,
             "review": data['reviewContent'],
-            "createdAt": data['reviewRegDate'],
+            "createdAt": formatted_time,
             "rate": rating_value,
             "sellerId": sellerId,
             "price": price,
