@@ -3,9 +3,14 @@ import json
 import hashlib
 from datetime import datetime
 import pytz
+import logging
 
 class DBhandler:
     def __init__(self):
+        # 로그 설정
+        logging.basicConfig(level=logging.DEBUG)
+        self.logger = logging.getLogger(__name__)
+
         with open('./authentication/firebase_auth.json') as f:
             config=json.load(f)
 
@@ -379,14 +384,22 @@ class DBhandler:
             return None
         
     def get_reviews(self, user_id):
-        reviews = self.db.child("review").get().val()
-
+        reviews_list = self.db.child("review").get().val()
+         # 추가된 디버깅 코드
+        print("Reviews List:", reviews_list)
         user_reviews = {}
+        print()
+        for key, value in enumerate(reviews_list, start=0):
+            print(f"Processing value at index {key}: {value}")
 
-        for key, value in reviews.items():
+            if value is None:
+                self.logger.warning(f"Warning: Found None value in reviews_list at index {key}")
+                continue
+
+            # 'sellerId'가 주어진 사용자 ID와 일치하는 경우
             if value.get('sellerId') == user_id:
-                # 해당 리뷰에 대응하는 상품 정보 가져오기
-                item_id = value.get('reviewId')
+                # 리뷰에 대응하는 상품 정보 가져오기
+                item_id = value.get('reviewId')  # 'reviewId'를 아이템 ID로 가정
                 item_info = self.find_item_by_id(item_id)
 
                 if item_info:
