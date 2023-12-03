@@ -35,30 +35,7 @@
         <p class="review_item__title">{{ data.itemName }}</p>
         <p class="review_item__price">{{ data.price }}원</p>
       </div>
-    </div>
-
-    <script>
-      function validateForm() {
-        // Check if at least one checkbox is selected in the "어떤 점이 좋았나요?" section
-        const checkboxes = document.querySelectorAll('.checkbox_keyword:not(#no_keyword):checked');
-        const noKeywordCheckbox = document.querySelector('input[name="keywordNo"]:checked');
-        const imgInput = document.getElementById('review_imgInput');
-    
-        if ((checkboxes.length === 0) && !noKeywordCheckbox) {
-          alert("키워드를 최소 하나 이상 선택해주세요.\n선택할 키워드가 없다면 키워드 없음을 눌러 주세요.");
-          return false;
-        }
-    
-        // Continue with form submission or other actions if needed
-        else {
-           if (imgInput.files.length === 0) {
-              alert("리뷰 사진을 선택해주세요.");
-              return false;
-            }
-          return true;
-        }
-      }
-    </script>
+    </div>    
 
     <form
       id="reviewForm"
@@ -66,7 +43,6 @@
       action="/submit_review_post/{{data.itemId}}"
       method="post"
       enctype="multipart/form-data"
-      onsubmit="return validateForm();"
     >
       <div class="reg_review_form_section">
         <p class="reg_item-form__label">거래가 어떠셨나요?</p>
@@ -247,13 +223,12 @@
       </div>
 
       <div class="reg_item_form__section">
-        <label class="reg_item-form__label" for="itemName">제목</label>
+        <label class="reg_item-form__label" for="review_title">제목</label>
         <input
           class="reg_item-form__input"
-          id="reveiw_title"
+          id="review_title"
           name="reviewTitle"
           type="text"
-          required
           placeholder="제목을 입력해주세요."
         />
       </div>
@@ -380,10 +355,11 @@
       </div>
     </form>
   </body>
-  <script src="../static/screens/reg_review.js"></script>
   <script
     src="https://kit.fontawesome.com/afee348a73.js"
     crossorigin="anonymous"
   ></script>
   <script src="{{ url_for('static', filename='components/img_btn.js') }}"></script>
+   <script src="{{ url_for('static', filename='screens/reg_review.js') }}"></script>
+    <script src="{{ url_for('static', filename='screens/reg_review_required.js') }}"></script>
 </html>

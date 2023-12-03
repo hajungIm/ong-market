@@ -229,8 +229,9 @@
                             }
                         }
                     });
-                    //다른 사람과 거래 완료된 상품인지 감지
-                    if("{{rc}}"==="1"){
+                    //다른 사람과 거래 완료된 상품인지 감지. 현재 유저가 판매자인 경우 + 거래 완료된 상품인 경우 거래 완료 버튼 비할성화
+                    if("{{rc}}"==="1"&&sessionId === sellerId){
+
                       document.getElementById("dm_function_complete").style.backgroundColor="gray";
                     }
 

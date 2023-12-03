@@ -24,7 +24,7 @@ function star(n) {
   }
 }
 
-// To remove the pre-applied styling
+// 별점 색상 제거
 function remove() {
   let i = 0;
   while (i < 5) {
@@ -59,7 +59,6 @@ keywordInputs.forEach((input) => {
 });
 
 // 초기 색상 설정
-// updateStarColors();
 updateKeywordColors();
 const noKeywordLabel = document.getElementById("no_keyword");
 const otherKeywordLabels = document.querySelectorAll(

@@ -8,6 +8,16 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='review_detail.css') }}"
     />
+    <script>
+    let itemId = {{data.itemId}};
+                let seller = "{{reviewdata.sellerId}}";
+                let buyer = "{{reviewdata.userId}}";
+                let currentUrl = window.location.href;
+                let urlObject = new URL(currentUrl);
+                let baseUrl = `${urlObject.protocol}//${urlObject.host}`;
+                let returnLink = baseUrl + "/chat_room/" + seller + "_" + buyer + "_" + itemId;
+                console.log(itemId, seller, buyer, currentUrl, urlObject, baseUrl, returnLink);
+    </script>
 
     <!--아이콘 집어넣기 위한 코드-->
     <script
@@ -26,8 +36,9 @@
         function return_btn() {
             // "reg_review"를 포함하는지 확인
             if (lastUrl.includes("reg_review")) {
-                // 포함하면 /chatting_list로 이동
-                window.location.href = "/chatting_list";
+                
+                window.location.href = returnLink;
+
             } else {
                 window.location.href = lastUrl;
             }
