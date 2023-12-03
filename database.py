@@ -384,18 +384,16 @@ class DBhandler:
             return None
         
     def get_reviews(self, user_id):
+        #reivew_list가 list로 가져와져서 오류 수정 발생 1차 수정
+
         reviews_list = self.db.child("review").get().val()
-         # 추가된 디버깅 코드
-        print("Reviews List:", reviews_list)
+        #파이어베이스에 review 번호가 1로 시작 0번 인덱스가 None이 되어 문제 발생.
+        #0번 인덱스가 none인 경우 잘라내는 방식 사용
+        if reviews_list and reviews_list[0] is None:
+            reviews_list = reviews_list[1:]
         user_reviews = {}
-        print()
-        for key, value in enumerate(reviews_list, start=0):
-            print(f"Processing value at index {key}: {value}")
 
-            if value is None:
-                self.logger.warning(f"Warning: Found None value in reviews_list at index {key}")
-                continue
-
+        for key, value in enumerate(reviews_list):
             # 'sellerId'가 주어진 사용자 ID와 일치하는 경우
             if value.get('sellerId') == user_id:
                 # 리뷰에 대응하는 상품 정보 가져오기
@@ -409,7 +407,6 @@ class DBhandler:
 
                     # 사용자 리뷰 딕셔너리에 리뷰 추가
                     user_reviews[key] = value
-
         return user_reviews
 
 
