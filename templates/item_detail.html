@@ -30,8 +30,9 @@
     <script>
       function return_btn() {
           const lastUrl = document.referrer;
-          const page = lastUrl.search("reg_item");
-          if(page!==-1){
+          const idx1 = lastUrl.search("reg_item");
+          const idx2 = lastUrl.search("keyword");
+          if(idx1!==-1||idx2 !== -1){
             window.location.href = "/list";
           }
           else{
@@ -193,4 +194,11 @@
   <script src="{{ url_for('static', filename='components/applyLineBreak.js') }}"></script>
   <script src="{{ url_for('static', filename='components/location.js') }}"></script>
   <script src="{{ url_for('static', filename='components/grade.js') }}"></script>
+  <script>
+    const seller = document.getElementsByClassName("detail_info__seller")[0];
+    seller.addEventListener("click", function () {
+      const sellerId = "{{data.userId}}";
+      window.location.href = `/keyword/${sellerId}`;
+    });
+  </script>
 </html>

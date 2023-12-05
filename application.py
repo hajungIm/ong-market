@@ -260,6 +260,44 @@ def review_list():
     return render_template("review_list.html", datas=data_slice, rows=rows, page=page, page_count=page_count, total=item_counts)
 
 
+@application.route("/review_list/<userId>")
+def seller_review_list(userId):
+
+    # 사용자 ID를 기반으로 리뷰를 가져옵니다.
+    data = DB.get_reviews(userId)
+
+    page = request.args.get("page", 1, type=int)
+    per_page = 5
+    start_idx = per_page * (page - 1)
+    end_idx = start_idx + per_page
+    
+    data_keys = []
+
+    if data is not None:
+        data_keys = list(data.keys())
+        # 'data_keys'를 사용한 코드 계속 진행
+    else:
+        # 'data'가 None인 경우를 처리합니다.
+        print("Data가 None입니다. 이 경우를 적절히 처리하세요.")
+
+    # 데이터가 없거나 비어있는 경우 처리
+    if not data_keys:
+        return render_template("review_list.html", datas=[], page=page, page_count=0, total=0)
+
+    item_counts = len(data_keys)
+    data_slice_keys = data_keys[start_idx:end_idx]
+
+    # 슬라이스된 키를 사용하여 데이터 추출
+    data_slice = [data[key] for key in data_slice_keys]
+
+    # 각 행에 대한 데이터 딕셔너리 생성
+    rows = [{'data_{}'.format(i): item} for i, item in enumerate(data_slice, start=start_idx)]
+
+    page_count = math.ceil(item_counts / per_page)
+
+    return render_template("review_list.html", datas=data_slice, rows=rows, page=page, page_count=page_count, total=item_counts)
+
+
 @application.route("/reg_item")
 def reg_item():
     return render_template("reg_item.html")
@@ -570,6 +608,7 @@ def userPage():
         user_info = DB.get_user_info(user_id)
     return render_template("user_Page.html", user_info=user_info)
 
+
 @application.route('/update_profile_image', methods=['POST'])
 def update_profile_image():
     if 'profileImg' not in request.files:
@@ -638,6 +677,15 @@ def keywordPage():
         # 세션에 저장된 사용자 ID를 사용하여 사용자 정보 가져오기
         user_info = DB.get_user_info(user_id)
     return render_template("keyword.html", user_info=user_info)
+
+
+
+@application.route("/keyword/<userId>")
+def sellerProfile(userId):
+    user_info = DB.get_user_info(userId)
+    return render_template("keyword.html", user_info=user_info)
+
+
 
 @application.route("/view_detail/<name>/")
 def view_item_detail(name):

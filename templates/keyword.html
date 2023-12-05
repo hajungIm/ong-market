@@ -8,11 +8,30 @@
       href="{{ url_for('static', filename='keyword_style.css') }}"
     />
   </head>
+  <script>
+    const userId = "{{user_info['id']}}";
+    console.log("이전 페이지", document.referrer);
+  </script>
   <body>
     <header class="base_header">
-      <a href="/mypage" class="base_header__icon">
+      <a href="#" class="base_header__icon" onclick="return_btn()">
         <i class="fa-solid fa-chevron-left fa-xl" style="color: #242424"></i>
       </a>
+       <script>
+        const lastUrl = document.referrer;
+        console.log("last url is " + lastUrl);
+        function return_btn() {
+          
+            // "item_detail"를 포함하는지 확인
+            if (lastUrl.includes("mypage")) {
+                
+                window.location.href = lastUrl;
+
+            } else {
+                history.go(-3);
+            }
+        }
+      </script>
       <div>
         <h2 class="base_header__title">프로필</h2>
       </div>
@@ -43,7 +62,8 @@
         <div class="for_layout"></div>
 
 
-        <button class="review_btn" onclick="window.location.href='/review_list'">
+        <button class="review_btn" onclick="window.location.href=`/review_list/${userId}`">
+
 
           받은 리뷰 보기
         </button>
@@ -144,7 +164,6 @@
     src="https://kit.fontawesome.com/afee348a73.js"
     crossorigin="anonymous"
   ></script>
-  <script src="{{ url_for('static', filename='components/like_press.js') }}"></script>
   <script src="{{ url_for('static', filename='screens/keyword.js') }}"></script>
   <script src="{{ url_for('static', filename='components/grade.js') }}"></script>
 

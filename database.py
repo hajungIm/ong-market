@@ -392,9 +392,11 @@ class DBhandler:
         if reviews_list and reviews_list[0] is None:
             reviews_list = reviews_list[1:]
         user_reviews = {}
-
         for key, value in enumerate(reviews_list):
-            # 'sellerId'가 주어진 사용자 ID와 일치하는 경우
+            
+            if value is None:
+                continue
+            # 'selerId'가 주어진 사용자 ID와 일치하는 경우
             if value.get('sellerId') == user_id:
                 # 리뷰에 대응하는 상품 정보 가져오기
                 item_id = value.get('reviewId')  # 'reviewId'를 아이템 ID로 가정

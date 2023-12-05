@@ -123,7 +123,7 @@ div.use i{
 
 
 .detail_info {
-    margin: 15px;
+    margin: 10px;
     display: flex;
     flex-direction: column;
     font-size: 15px;
@@ -133,7 +133,13 @@ div.use i{
 .detail_info__seller{
     font-size: 15px;
     font-weight: 700;
+    width: fit-content;
+    padding: 10px 0px;
+    cursor: pointer;
+
 }
+
+
 .seller_rank  {
     margin-left: 10px;
     font-weight: 400;
