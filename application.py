@@ -158,8 +158,11 @@ def view_list():
     
     data = DB.get_items()
     
+    print(data)
+    
     # 데이터가 없거나 비어있는 경우 처리
     if data is None:
+        print("데이터가 비어있습니다.")
         return render_template("list.html", datas=[], page=page, chat_room_ids=[], page_count=0, total=0, like_items = [])
     
     print(f"선택 된 장소값: {selected_option}")
