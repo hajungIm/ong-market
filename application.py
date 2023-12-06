@@ -302,6 +302,9 @@ def seller_review_list(userId):
 
 @application.route("/reg_item")
 def reg_item():
+    user_id = session.get('id')
+    if user_id is None:
+        return redirect(url_for('login'))
     return render_template("reg_item.html")
 
 @application.route("/reg_review/<itemId>")
