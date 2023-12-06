@@ -25,8 +25,8 @@ DB = DBhandler()
 
 @application.route("/")
 def hello():
-    #return render_template("index.html")
-    return redirect(url_for('view_list'))
+    return render_template("index.html")
+    # return redirect(url_for('view_list'))
 
 @application.route("/login")
 def login():
@@ -156,6 +156,12 @@ def view_list():
     start_idx=per_page* (page - 1)
     end_idx=start_idx+per_page
     
+    data = DB.get_items()
+    
+    # 데이터가 없거나 비어있는 경우 처리
+    if data is None:
+        return render_template("list.html", datas=[], page=page, chat_room_ids=[], page_count=0, total=0, like_items = [])
+    
     print(f"선택 된 장소값: {selected_option}")
     
     switcher = {
@@ -188,10 +194,6 @@ def view_list():
 
     # OrderedDict의 키 리스트 생성
     data_keys = list(data.keys())
-
-    # 데이터가 없거나 비어있는 경우 처리
-    # if not data_keys:
-    #     return render_template("list.html", datas=[], page=page, chat_room_ids=[], page_count=0, total=0, like_items = [], select_place=category)
     
     item_counts = len(data_keys)
     data_slice_keys = data_keys[start_idx:end_idx]
