@@ -205,7 +205,8 @@
     const seller = document.getElementsByClassName("detail_info__seller")[0];
     seller.addEventListener("click", function () {
       const sellerId = "{{data.userId}}";
-      window.location.href = `/keyword/${sellerId}`;
+      const itemId = {{data.itemId}}
+      window.location.href = `/keyword/${sellerId}/${itemId}`;
     });
   </script>
 </html>

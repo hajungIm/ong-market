@@ -265,7 +265,7 @@ def review_list():
 
     page_count = math.ceil(item_counts / per_page)
 
-    return render_template("review_list.html", datas=data_slice, rows=rows, page=page, page_count=page_count, total=item_counts)
+    return render_template("review_list.html", datas=data_slice, rows=rows, page=page, page_count=page_count, total=item_counts, userId=user_id)
 
 
 @application.route("/review_list/<userId>")
@@ -303,7 +303,7 @@ def seller_review_list(userId):
 
     page_count = math.ceil(item_counts / per_page)
 
-    return render_template("review_list.html", datas=data_slice, rows=rows, page=page, page_count=page_count, total=item_counts)
+    return render_template("review_list.html", datas=data_slice, rows=rows, page=page, page_count=page_count, total=item_counts, userId=userId)
 
 
 @application.route("/reg_item")
@@ -691,10 +691,11 @@ def keywordPage():
 
 
 
-@application.route("/keyword/<userId>")
-def sellerProfile(userId):
+@application.route("/keyword/<userId>/<itemId>")
+def sellerProfile(userId, itemId):
     user_info = DB.get_user_info(userId)
-    return render_template("keyword.html", user_info=user_info)
+    item_Id = itemId
+    return render_template("keyword.html", user_info=user_info, itemId = item_Id)
 
 
 

@@ -19,16 +19,17 @@
       </a>
        <script>
         const lastUrl = document.referrer;
+        const itemId = {{itemId}};
         console.log("last url is " + lastUrl);
         function return_btn() {
           
             // "item_detail"를 포함하는지 확인
             if (lastUrl.includes("mypage")) {
-                
                 window.location.href = lastUrl;
 
-            } else {
-                history.go(-3);
+            }
+            else if(lastUrl.includes("review_list")) {
+                window.location.href = `/item_detail/${itemId}`;
             }
         }
       </script>

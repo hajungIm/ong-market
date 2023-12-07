@@ -10,13 +10,41 @@
     />
     <title>판매 리뷰 전체 조회</title>
   </head>
+  <script>
+    const userId = "{{userId}}";
+    console.log(userId);
+    let currentUrl = window.location.href;
+    let urlObject = new URL(currentUrl);
+    let baseUrl = `${urlObject.protocol}//${urlObject.host}`;
+    let returnLink = baseUrl + "/keyword/" + userId;
+  </script>
 
   <body>
     <header class="base_header">
-      <a href="javascript:location.href = document.referrer;" class="base_header__icon">
+      <a href="#" class="base_header__icon base_header__back">
         <i class="fa-solid fa-chevron-left fa-xl" style="color: #242424;"></i>
       </a>
-     
+            <script>
+        document.addEventListener("DOMContentLoaded", function() {
+        const lastUrl = document.referrer;
+        
+        console.log("last url is " + lastUrl);
+
+        function return_btn() {
+            // "reg_review"를 포함하는지 확인
+            if (lastUrl.includes("review_detail")) {
+                window.location.href = returnLink;
+
+            } else {
+                window.location.href = lastUrl;
+            }
+        }
+
+        // 이전 버튼 클릭 시 return_btn 함수 호출
+        const backButton = document.querySelector(".base_header__back");
+        backButton.addEventListener("click", return_btn);
+      });
+      </script>
       <div>
         <h2 class="base_header__title">받은 리뷰</h2>
       </div>
@@ -73,7 +101,7 @@
     </main>
 
 </body>
-      <script src="{{ url_for('static', filename='components/commas_to_price.js') }}"></script>
+      <script src="{{ url_for('static', filename='components/commas_to_price.js') }}"></>
       <script src="{{ url_for('static', filename='components/reviewCalcDate.js') }}"></script>
       <script
       src="https://kit.fontawesome.com/a1969e7b61.js"
