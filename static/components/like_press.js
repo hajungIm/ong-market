@@ -16,6 +16,12 @@ likeElements.forEach(function (likeElement) {
 
   //찜하기 버튼 눌렀을 때 색상 변하도록
   bookmarkBox.addEventListener("click", function () {
+    if (userId === "no session") {
+      console.log("로그인 안한 사람이 찜 클릭 -> alert 띄우기");
+      alert("로그인 한 사용자만 이용가능합니다!");
+      return;
+    }
+
     // 현재 클래스를 확인하고 클래스를 변경
     var itemId = this.closest(".item_box1").id.replace("item-", "");
     let flag; // 좋아요를 증가시키려면 1, 감소시키려면 -1로 설정
