@@ -12,11 +12,15 @@
   </head>
   <script>
     const userId = "{{userId}}";
-    console.log(userId);
+    console.log(document.referrer);
     let currentUrl = window.location.href;
     let urlObject = new URL(currentUrl);
     let baseUrl = `${urlObject.protocol}//${urlObject.host}`;
-    let returnLink = baseUrl + "/keyword/" + userId;
+    let itemId = currentUrl.slice(-3,currentUrl.length);
+    console.log(itemId);
+    let returnLink = baseUrl + "/keyword/" + userId + itemId;
+    console.log(returnLink);
+
   </script>
 
   <body>
