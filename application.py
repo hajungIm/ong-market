@@ -6,6 +6,7 @@ import uuid
 import math
 import os
 import smtplib
+from datetime import datetime
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import config
@@ -148,6 +149,10 @@ def register_user():
         flash("user id already exist!")
         return render_template("mem_register.html")
 
+def parse_date(date_str):
+    # '2023-12-04T20:04' 형식의 문자열을 datetime 객체로 변환
+    return datetime.strptime(date_str, '%Y-%m-%dT%H:%M')
+
 @application.route("/list")
 def view_list():
     page = request.args.get("page", 1, type=int)
@@ -157,8 +162,6 @@ def view_list():
     end_idx=start_idx+per_page
     
     data = DB.get_items()
-    
-    print(data)
     
     # 데이터가 없거나 비어있는 경우 처리
     if data is None:
@@ -193,7 +196,7 @@ def view_list():
 
     category = switcher.get(selected_option)
         
-    data = dict(sorted(data.items(), key=lambda x: x[0], reverse=True))
+    data = dict(sorted(data.items(), key=lambda x: parse_date(x[1]['createdAt']), reverse=True))
 
     # OrderedDict의 키 리스트 생성
     data_keys = list(data.keys())
