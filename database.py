@@ -384,22 +384,14 @@ class DBhandler:
             return None
         
     def get_reviews(self, user_id):
-        #reivew_list가 list로 가져와져서 오류 수정 발생 1차 수정
+        reviews = self.db.child("review").get().val()
 
-        reviews_list = self.db.child("review").get().val()
-        #파이어베이스에 review 번호가 1로 시작 0번 인덱스가 None이 되어 문제 발생.
-        #0번 인덱스가 none인 경우 잘라내는 방식 사용
-        if reviews_list and reviews_list[0] is None:
-            reviews_list = reviews_list[1:]
         user_reviews = {}
-        for key, value in enumerate(reviews_list):
-            
-            if value is None:
-                continue
-            # 'selerId'가 주어진 사용자 ID와 일치하는 경우
+
+        for key, value in reviews.items():
             if value.get('sellerId') == user_id:
-                # 리뷰에 대응하는 상품 정보 가져오기
-                item_id = value.get('reviewId')  # 'reviewId'를 아이템 ID로 가정
+                # 해당 리뷰에 대응하는 상품 정보 가져오기
+                item_id = value.get('reviewId')
                 item_info = self.find_item_by_id(item_id)
 
                 if item_info:
@@ -409,8 +401,8 @@ class DBhandler:
 
                     # 사용자 리뷰 딕셔너리에 리뷰 추가
                     user_reviews[key] = value
-        return user_reviews
 
+        return user_reviews
 
     
     def get_review_by_name(self, name):
