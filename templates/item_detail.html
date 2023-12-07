@@ -102,10 +102,17 @@
         });
       </script>
       <script>
+        const userId = "{{userId}}";
+        console.log(userId);
         //---------찜하기 업데이트를 위한 코드----------//
         document
           .getElementById("bookmark_btn")
           .addEventListener("click", function () {
+            if (userId === "None") {
+              console.log("로그인 안한 사람이 찜 클릭 -> alert 띄우기");
+              alert("로그인 한 사용자만 이용가능합니다!");
+              return;
+            }
             console.log("click");
             var itemId = "{{ data.itemId }}";
             let flag; // 좋아요를 증가시키려면 1, 감소시키려면 -1로 설정

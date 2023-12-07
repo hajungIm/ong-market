@@ -7,6 +7,9 @@ likeElements.forEach(function (likeElement) {
   const bookmarkBox = likeElement.querySelector(".like_icon_box");
 
   bookmarkBox.addEventListener("click", function () {
+    if (userId === "None") {
+      return;
+    }
     // 현재 클래스를 확인하고 클래스를 변경
     if (bookmarkIcon.classList.contains("fa-regular")) {
       bookmarkIcon.classList.remove("fa-regular");

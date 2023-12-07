@@ -124,11 +124,9 @@
               </p>
               <p class="item_box1__status" id="status-{{ value.itemId }}"></p>
 
-              <div class="item_box1__status">
-                {% if value.completed == '1' %}
-                  <span class="complete_tag">거래완료</span>
-                {% endif %}
-              </div>              
+              {% if value.completed == '1' %}
+                <span class="complete_tag">거래완료</span>
+              {% endif %}           
 
             </div>
             <p class="item_box1__price commas_price">{{ value.price }}원</p>
