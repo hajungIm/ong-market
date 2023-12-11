@@ -42,7 +42,6 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       displayText = `${yearsDiff}년 전 이상`;
     }
-
     // 결과를 HTML 요소에 적용
     dateElement.textContent = displayText;
   });

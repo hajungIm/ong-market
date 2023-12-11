@@ -8,6 +8,10 @@
       href="{{ url_for('static', filename='mypage_style.css') }}"
     />
     <title>마이페이지</title>
+    <script>
+      const itemId = 0;
+      const userId = "{{user_info['id']}}";
+    </script>
   </head>
 
   <body>
@@ -33,7 +37,7 @@
             >
             <button
               class="profile_btn"
-              onclick="window.location.href='/keyword'"
+              onclick="window.location.href=`/keyword/${userId}/${itemId}`"
             >
               프로필 보기
             </button>

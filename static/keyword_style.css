@@ -5,6 +5,10 @@
 @import "variables.css";
 @import "mypage_style.css";
 
+main {
+    padding-bottom: 10px;
+}
+
 
 .review_btn{
     width: 100%; 
@@ -22,7 +26,7 @@
 
 .keyword_box{
     width: 100%; 
-    height: 100%; 
+    height: fit-content; 
     flex-direction: column; 
     justify-content: flex-start; 
     align-items: flex-start; 
